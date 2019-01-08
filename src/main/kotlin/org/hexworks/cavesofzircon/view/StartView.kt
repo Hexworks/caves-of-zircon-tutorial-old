@@ -1,5 +1,6 @@
 package org.hexworks.cavesofzircon.view
 
+import org.hexworks.cavesofzircon.world.Game
 import org.hexworks.zircon.api.ColorThemes
 import org.hexworks.zircon.api.Components
 import org.hexworks.zircon.api.component.ComponentAlignment
@@ -27,10 +28,10 @@ class StartView : BaseView() {
                 .wrapWithShadow()
                 .wrapWithBox()
                 .build()
-startButton.onMouseReleased {
-    replaceWith(PlayView())
-    close()
-}
+        startButton.onMouseReleased {
+            replaceWith(PlayView())
+            close()
+        }
         screen.addComponent(header)
         screen.addComponent(startButton)
     }

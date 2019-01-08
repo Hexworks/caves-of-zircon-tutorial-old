@@ -7,6 +7,9 @@ import org.hexworks.zircon.api.Sizes
 
 object GameConfig {
 
+    // game
+    const val DUNGEON_LEVELS = 2
+
     // look & feel
     val TILESET = CP437TilesetResources.rogueYun16x16()
     val THEME = ColorThemes.zenburnVanilla()
@@ -16,6 +19,8 @@ object GameConfig {
     // sizing
     const val WINDOW_WIDTH = 80
     const val WINDOW_HEIGHT = 50
+
+    val WORLD_SIZE = Sizes.create3DSize(WINDOW_WIDTH - SIDEBAR_WIDTH, WINDOW_HEIGHT - LOG_AREA_HEIGHT, DUNGEON_LEVELS)
 
     fun buildAppConfig() = AppConfigs.newConfig()
             .enableBetaFeatures()

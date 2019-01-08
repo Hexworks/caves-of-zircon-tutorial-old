@@ -3,7 +3,6 @@ package org.hexworks.cavesofzircon.view
 import org.hexworks.cavesofzircon.GameConfig
 import org.hexworks.cavesofzircon.blocks.GameBlock
 import org.hexworks.cavesofzircon.world.Game
-import org.hexworks.zircon.api.ColorThemes
 import org.hexworks.zircon.api.Components
 import org.hexworks.zircon.api.GameComponents
 import org.hexworks.zircon.api.component.ComponentAlignment
@@ -11,10 +10,9 @@ import org.hexworks.zircon.api.data.Tile
 import org.hexworks.zircon.api.game.ProjectionMode
 import org.hexworks.zircon.api.mvc.base.BaseView
 
-// TODO
-class PlayView(private val game: Game) : BaseView() {
+class PlayView(private val game: Game = Game.create()) : BaseView() {
 
-    override val theme = ColorThemes.arc()
+    override val theme = GameConfig.THEME
 
     override fun onDock() {
 
@@ -34,12 +32,13 @@ class PlayView(private val game: Game) : BaseView() {
 
         screen.addComponent(logArea)
 
-        // TODO
         val gameComponent = GameComponents.newGameComponentBuilder<Tile, GameBlock>()
                 .withGameArea(game.world)
-                .withVisibleSize(game.visibleSize)
+                .withVisibleSize(game.world.visibleSize())
                 .withProjectionMode(ProjectionMode.TOP_DOWN)
                 .withAlignmentWithin(screen, ComponentAlignment.TOP_RIGHT)
                 .build()
+
+        screen.addComponent(gameComponent)
     }
 }
