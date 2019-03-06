@@ -1,12 +1,13 @@
 package org.hexworks.cavesofzircon.view
 
-import org.hexworks.cavesofzircon.world.Game
 import org.hexworks.zircon.api.ColorThemes
 import org.hexworks.zircon.api.Components
 import org.hexworks.zircon.api.component.ComponentAlignment
+import org.hexworks.zircon.api.extensions.onComponentEvent
 import org.hexworks.zircon.api.graphics.BoxType
-import org.hexworks.zircon.api.kotlin.onMouseReleased
 import org.hexworks.zircon.api.mvc.base.BaseView
+import org.hexworks.zircon.api.uievent.ComponentEventType
+import org.hexworks.zircon.api.uievent.Processed
 
 class StartView : BaseView() {
 
@@ -28,9 +29,12 @@ class StartView : BaseView() {
                 .wrapWithShadow()
                 .wrapWithBox()
                 .build()
-        startButton.onMouseReleased {
+
+        // TODO: tutorial
+        startButton.onComponentEvent(ComponentEventType.ACTIVATED) {
             replaceWith(PlayView())
             close()
+            Processed
         }
         screen.addComponent(header)
         screen.addComponent(startButton)
