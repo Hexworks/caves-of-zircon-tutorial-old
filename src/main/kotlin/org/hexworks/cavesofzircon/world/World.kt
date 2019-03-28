@@ -17,6 +17,8 @@ import org.hexworks.zircon.api.data.Tile
 import org.hexworks.zircon.api.data.impl.Position3D
 import org.hexworks.zircon.api.data.impl.Size3D
 import org.hexworks.zircon.api.game.GameArea
+import org.hexworks.zircon.api.screen.Screen
+import org.hexworks.zircon.api.uievent.UIEvent
 
 class World(startingBlocks: Map<Position3D, GameBlock>,
             visibleSize: Size3D,
@@ -39,11 +41,14 @@ class World(startingBlocks: Map<Position3D, GameBlock>,
         }
     }
 
-    /**
-     * Adds the given [Entity] at the given [Position3D].
-     * Has no effect if this world already contains the
-     * given [Entity].
-     */
+    fun update(screen: Screen, uiEvent: UIEvent, game: Game) {
+        engine.update(GameContext(
+                world = this,
+                screen = screen,
+                uiEvent = uiEvent,
+                player = game.player))
+    }
+
     fun addEntity(entity: Entity<EntityType, GameContext>, position: Position3D) {
         entity.position = position
         engine.addEntity(entity)
@@ -51,6 +56,23 @@ class World(startingBlocks: Map<Position3D, GameBlock>,
             it.addEntity(entity)
         }
     }
+
+    fun moveEntity(entity: GameEntity<EntityType>, position: Position3D): Boolean {
+        var success = false
+        val oldBlock = fetchBlockAt(entity.position)
+        val newBlock = fetchBlockAt(position)
+
+        if (bothBlocksPresent(oldBlock, newBlock)) {
+            success = true
+            oldBlock.get().removeEntity(entity)
+            entity.position = position
+            newBlock.get().addEntity(entity)
+        }
+        return success
+    }
+
+    private fun bothBlocksPresent(oldBlock: Maybe<GameBlock>, newBlock: Maybe<GameBlock>) =
+            oldBlock.isPresent && newBlock.isPresent
 
     fun addAtEmptyPosition(entity: GameEntity<EntityType>,
                            offset: Position3D = Positions.default3DPosition(),
@@ -66,9 +88,6 @@ class World(startingBlocks: Map<Position3D, GameBlock>,
 
     }
 
-    /**
-     * Finds an empty location within the given area (offset and size) on this [World].
-     */
     fun findEmptyLocationWithin(offset: Position3D, size: Size3D): Maybe<Position3D> {
         var position = Maybe.empty<Position3D>()
         val maxTries = 10
