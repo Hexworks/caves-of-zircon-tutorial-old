@@ -11,7 +11,9 @@ import org.hexworks.cavesofzircon.commands.MoveCamera
 import org.hexworks.cavesofzircon.commands.MoveTo
 import org.hexworks.cavesofzircon.extensions.GameCommand
 import org.hexworks.cavesofzircon.extensions.position
+import org.hexworks.cavesofzircon.extensions.tryActionsOn
 import org.hexworks.cavesofzircon.world.GameContext
+import org.hexworks.cobalt.datatypes.extensions.map
 
 object Movable : BaseFacet<GameContext>() {
 
@@ -19,13 +21,20 @@ object Movable : BaseFacet<GameContext>() {
         val world = context.world
         val previousPosition = entity.position      // 1
         var result: Response = Pass
-        if (world.moveEntity(entity, position)) {
-            result = if (entity.type == Player) {   // 2
-                CommandResponse(MoveCamera(         // 3
-                        context = context,
-                        source = entity,
-                        previousPosition = previousPosition))
-            } else Consumed
+        world.fetchBlockAt(position).map { block ->
+            if (block.isOccupied) {
+                result = entity.tryActionsOn(context, block.occupier.get())
+            } else {
+                if (world.moveEntity(entity, position)) {
+                    result = Consumed
+                    if (entity.type == Player) {
+                        result = CommandResponse(MoveCamera(
+                                context = context,
+                                source = entity,
+                                previousPosition = previousPosition))
+                    }
+                }
+            }
         }
         result
     }
