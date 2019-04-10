@@ -1,5 +1,6 @@
 package org.hexworks.cavesofzircon.world
 
+import org.hexworks.amethyst.api.entity.EntityType
 import org.hexworks.cavesofzircon.GameConfig
 import org.hexworks.cavesofzircon.GameConfig.WORLD_SIZE
 import org.hexworks.cavesofzircon.attributes.types.Player
@@ -7,6 +8,7 @@ import org.hexworks.cavesofzircon.builders.EntityFactory
 import org.hexworks.cavesofzircon.extensions.GameEntity
 import org.hexworks.zircon.api.Positions
 import org.hexworks.zircon.api.Sizes
+import org.hexworks.zircon.api.data.Size
 import org.hexworks.zircon.api.data.impl.Size3D
 
 class GameBuilder(val worldSize: Size3D = WORLD_SIZE) {
@@ -25,6 +27,7 @@ class GameBuilder(val worldSize: Size3D = WORLD_SIZE) {
         prepareWorld()
 
         val player = addPlayer()
+        addFungi()
 
         return Game.create(
                 player = player,
@@ -36,11 +39,26 @@ class GameBuilder(val worldSize: Size3D = WORLD_SIZE) {
     }
 
     private fun addPlayer(): GameEntity<Player> {
-        val player = EntityFactory.newPlayer()
-        world.addAtEmptyPosition(player,
-                offset = Positions.default3DPosition().withZ(GameConfig.DUNGEON_LEVELS - 1),
-                size = world.visibleSize().copy(zLength = 0))
-        return player
+        return EntityFactory.newPlayer().addToWorld(
+                atLevel = GameConfig.DUNGEON_LEVELS - 1,
+                atArea = world.visibleSize().to2DSize())
+    }
+
+    private fun addFungi() = also {
+        repeat(world.actualSize().zLength) { level ->
+            repeat(GameConfig.FUNGI_PER_LEVEL) {
+                EntityFactory.newFungus().addToWorld(level)
+            }
+        }
+    }
+
+    private fun <T : EntityType> GameEntity<T>.addToWorld(
+            atLevel: Int,
+            atArea: Size = world.actualSize().to2DSize()): GameEntity<T> {
+        world.addAtEmptyPosition(this,
+                offset = Positions.default3DPosition().withZ(atLevel),
+                size = Size3D.from2DSize(atArea))
+        return this
     }
 
     companion object {
