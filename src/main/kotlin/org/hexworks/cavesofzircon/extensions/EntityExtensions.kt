@@ -8,6 +8,9 @@ import org.hexworks.cavesofzircon.attributes.EntityActions
 import org.hexworks.cavesofzircon.attributes.EntityPosition
 import org.hexworks.cavesofzircon.attributes.EntityTile
 import org.hexworks.cavesofzircon.attributes.flags.BlockOccupier
+import org.hexworks.cavesofzircon.attributes.types.Combatant
+import org.hexworks.cavesofzircon.attributes.types.Player
+import org.hexworks.cavesofzircon.attributes.types.combatStats
 import org.hexworks.cavesofzircon.world.GameContext
 import org.hexworks.cobalt.datatypes.extensions.map
 import org.hexworks.cobalt.datatypes.extensions.orElseThrow
@@ -27,6 +30,15 @@ val AnyGameEntity.occupiesBlock: Boolean
 
 val AnyGameEntity.tile: Tile
     get() = this.tryToFindAttribute(EntityTile::class).tile
+
+val AnyGameEntity.isPlayer: Boolean
+    get() = this.type == Player
+
+fun GameEntity<Combatant>.whenHasNoHealthLeft(fn: () -> Unit) {
+    if (combatStats.hp <= 0) {
+        fn()
+    }
+}
 
 fun <T : Attribute> AnyGameEntity.tryToFindAttribute(klass: KClass<T>): T = findAttribute(klass).orElseThrow {
     NoSuchElementException("Entity '$this' has no property with type '${klass.simpleName}'.")
