@@ -11,6 +11,8 @@ import org.hexworks.cavesofzircon.attributes.FungusSpread
 import org.hexworks.cavesofzircon.attributes.flags.BlockOccupier
 import org.hexworks.cavesofzircon.attributes.types.Fungus
 import org.hexworks.cavesofzircon.attributes.types.Player
+import org.hexworks.cavesofzircon.attributes.types.StairsDown
+import org.hexworks.cavesofzircon.attributes.types.StairsUp
 import org.hexworks.cavesofzircon.attributes.types.Wall
 import org.hexworks.cavesofzircon.commands.Attack
 import org.hexworks.cavesofzircon.commands.Dig
@@ -21,6 +23,8 @@ import org.hexworks.cavesofzircon.systems.Diggable
 import org.hexworks.cavesofzircon.systems.FungusGrowth
 import org.hexworks.cavesofzircon.systems.InputReceiver
 import org.hexworks.cavesofzircon.systems.Movable
+import org.hexworks.cavesofzircon.systems.StairClimber
+import org.hexworks.cavesofzircon.systems.StairDescender
 import org.hexworks.cavesofzircon.world.GameContext
 
 fun <T : EntityType> newGameEntityOfType(type: T, init: EntityBuilder<T, GameContext>.() -> Unit) =
@@ -36,6 +40,16 @@ object EntityFactory {
         facets(Diggable)
     }
 
+    fun newStairsDown() = newGameEntityOfType(StairsDown) {
+        attributes(EntityTile(GameTileRepository.STAIRS_DOWN),
+                EntityPosition())
+    }
+
+    fun newStairsUp() = newGameEntityOfType(StairsUp) {
+        attributes(EntityTile(GameTileRepository.STAIRS_UP),
+                EntityPosition())
+    }
+
     fun newPlayer() = newGameEntityOfType(Player) {
         attributes(
                 EntityPosition(),
@@ -46,7 +60,7 @@ object EntityFactory {
                 EntityTile(GameTileRepository.PLAYER),
                 EntityActions(Dig::class, Attack::class))
         behaviors(InputReceiver)
-        facets(Movable, CameraMover)
+        facets(Movable, CameraMover, StairClimber, StairDescender)
     }
 
     fun newFungus(fungusSpread: FungusSpread = FungusSpread()) = newGameEntityOfType(Fungus) {

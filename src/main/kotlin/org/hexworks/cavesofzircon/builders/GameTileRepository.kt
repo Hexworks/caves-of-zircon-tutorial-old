@@ -20,6 +20,18 @@ object GameTileRepository {
             .withBackgroundColor(GameColors.WALL_BACKGROUND)
             .buildCharacterTile()
 
+    val STAIRS_UP = Tiles.newBuilder()
+            .withCharacter('<')
+            .withForegroundColor(GameColors.ACCENT_COLOR)
+            .withBackgroundColor(GameColors.FLOOR_BACKGROUND)
+            .buildCharacterTile()
+
+    val STAIRS_DOWN = Tiles.newBuilder()
+            .withCharacter('>')
+            .withForegroundColor(GameColors.ACCENT_COLOR)
+            .withBackgroundColor(GameColors.FLOOR_BACKGROUND)
+            .buildCharacterTile()
+
     val PLAYER = Tiles.newBuilder()
             .withCharacter('@')
             .withBackgroundColor(GameColors.FLOOR_BACKGROUND)
