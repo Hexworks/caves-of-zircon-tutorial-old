@@ -16,3 +16,5 @@ object StairsDown : BaseEntityType(
 
 object StairsUp : BaseEntityType(
         name = "stairs up")
+
+object FogOfWarType : BaseEntityType()

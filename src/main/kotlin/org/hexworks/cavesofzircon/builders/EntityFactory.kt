@@ -8,7 +8,9 @@ import org.hexworks.cavesofzircon.attributes.EntityActions
 import org.hexworks.cavesofzircon.attributes.EntityPosition
 import org.hexworks.cavesofzircon.attributes.EntityTile
 import org.hexworks.cavesofzircon.attributes.FungusSpread
+import org.hexworks.cavesofzircon.attributes.Vision
 import org.hexworks.cavesofzircon.attributes.flags.BlockOccupier
+import org.hexworks.cavesofzircon.attributes.flags.VisionBlocker
 import org.hexworks.cavesofzircon.attributes.types.Fungus
 import org.hexworks.cavesofzircon.attributes.types.Player
 import org.hexworks.cavesofzircon.attributes.types.StairsDown
@@ -16,6 +18,7 @@ import org.hexworks.cavesofzircon.attributes.types.StairsUp
 import org.hexworks.cavesofzircon.attributes.types.Wall
 import org.hexworks.cavesofzircon.commands.Attack
 import org.hexworks.cavesofzircon.commands.Dig
+import org.hexworks.cavesofzircon.entities.FogOfWar
 import org.hexworks.cavesofzircon.systems.Attackable
 import org.hexworks.cavesofzircon.systems.CameraMover
 import org.hexworks.cavesofzircon.systems.Destructible
@@ -25,6 +28,7 @@ import org.hexworks.cavesofzircon.systems.InputReceiver
 import org.hexworks.cavesofzircon.systems.Movable
 import org.hexworks.cavesofzircon.systems.StairClimber
 import org.hexworks.cavesofzircon.systems.StairDescender
+import org.hexworks.cavesofzircon.world.Game
 import org.hexworks.cavesofzircon.world.GameContext
 
 fun <T : EntityType> newGameEntityOfType(type: T, init: EntityBuilder<T, GameContext>.() -> Unit) =
@@ -32,8 +36,11 @@ fun <T : EntityType> newGameEntityOfType(type: T, init: EntityBuilder<T, GameCon
 
 object EntityFactory {
 
+    fun newFogOfWar(game: Game) = FogOfWar(game)
+
     fun newWall() = newGameEntityOfType(Wall) {
         attributes(
+                VisionBlocker,
                 EntityPosition(),
                 BlockOccupier,
                 EntityTile(GameTileRepository.WALL))
@@ -52,6 +59,7 @@ object EntityFactory {
 
     fun newPlayer() = newGameEntityOfType(Player) {
         attributes(
+                Vision(9),
                 EntityPosition(),
                 CombatStats.create(
                         maxHp = 100,

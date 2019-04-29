@@ -8,6 +8,7 @@ import org.hexworks.cavesofzircon.attributes.EntityActions
 import org.hexworks.cavesofzircon.attributes.EntityPosition
 import org.hexworks.cavesofzircon.attributes.EntityTile
 import org.hexworks.cavesofzircon.attributes.flags.BlockOccupier
+import org.hexworks.cavesofzircon.attributes.flags.VisionBlocker
 import org.hexworks.cavesofzircon.attributes.types.Combatant
 import org.hexworks.cavesofzircon.attributes.types.Player
 import org.hexworks.cavesofzircon.attributes.types.combatStats
@@ -33,6 +34,9 @@ val AnyGameEntity.tile: Tile
 
 val AnyGameEntity.isPlayer: Boolean
     get() = this.type == Player
+
+val AnyGameEntity.blocksVision: Boolean
+    get() = this.findAttribute(VisionBlocker::class).isPresent
 
 fun GameEntity<Combatant>.whenHasNoHealthLeft(fn: () -> Unit) {
     if (combatStats.hp <= 0) {

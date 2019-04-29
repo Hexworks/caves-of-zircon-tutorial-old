@@ -4,20 +4,25 @@ import org.hexworks.amethyst.api.Engine
 import org.hexworks.amethyst.api.Engines
 import org.hexworks.amethyst.api.entity.Entity
 import org.hexworks.amethyst.api.entity.EntityType
+import org.hexworks.cavesofzircon.attributes.Vision
 import org.hexworks.cavesofzircon.blocks.GameBlock
 import org.hexworks.cavesofzircon.builders.GameBlockFactory
 import org.hexworks.cavesofzircon.extensions.GameEntity
+import org.hexworks.cavesofzircon.extensions.blocksVision
 import org.hexworks.cavesofzircon.extensions.position
 import org.hexworks.cobalt.datatypes.Maybe
 import org.hexworks.cobalt.datatypes.extensions.fold
 import org.hexworks.cobalt.datatypes.extensions.map
 import org.hexworks.zircon.api.Positions
 import org.hexworks.zircon.api.builder.game.GameAreaBuilder
+import org.hexworks.zircon.api.data.Position
 import org.hexworks.zircon.api.data.Tile
 import org.hexworks.zircon.api.data.impl.Position3D
 import org.hexworks.zircon.api.data.impl.Size3D
 import org.hexworks.zircon.api.game.GameArea
 import org.hexworks.zircon.api.screen.Screen
+import org.hexworks.zircon.api.shape.EllipseFactory
+import org.hexworks.zircon.api.shape.LineFactory
 import org.hexworks.zircon.api.uievent.UIEvent
 
 class World(startingBlocks: Map<Position3D, GameBlock>,
@@ -55,6 +60,10 @@ class World(startingBlocks: Map<Position3D, GameBlock>,
         fetchBlockAt(position).map {
             it.addEntity(entity)
         }
+    }
+
+    fun addWorldEntity(entity: Entity<EntityType, GameContext>) {
+        engine.addEntity(entity)
     }
 
     fun moveEntity(entity: GameEntity<EntityType>, position: Position3D): Boolean {
@@ -113,6 +122,32 @@ class World(startingBlocks: Map<Position3D, GameBlock>,
             currentTry++
         }
         return position
+    }
+
+    fun isVisionBlockedAt(pos: Position3D): Boolean {
+        return fetchBlockAt(pos).fold(whenEmpty = { false }, whenPresent = {
+            it.entities.any(GameEntity<EntityType>::blocksVision)
+        })
+    }
+
+    fun findVisiblePositionsFor(entity: GameEntity<EntityType>): Iterable<Position> {
+        val centerPos = entity.position.to2DPosition()
+        return entity.findAttribute(Vision::class).map { (radius) ->
+            EllipseFactory.buildEllipse(
+                    fromPosition = centerPos,
+                    toPosition = centerPos.withRelativeX(radius).withRelativeY(radius))
+                    .positions()
+                    .flatMap { ringPos ->
+                        val result = mutableListOf<Position>()
+                        val iter = LineFactory.buildLine(centerPos, ringPos).iterator()
+                        do {
+                            val next = iter.next()
+                            result.add(next)
+                        } while (iter.hasNext() &&
+                                isVisionBlockedAt(Position3D.from2DPosition(next, entity.position.z)).not())
+                        result
+                    }
+        }.orElse(listOf())
     }
 
     companion object {

@@ -43,4 +43,9 @@ object GameTileRepository {
             .withBackgroundColor(GameColors.FLOOR_BACKGROUND)
             .withForegroundColor(GameColors.FUNGUS_COLOR)
             .buildCharacterTile()
+
+    val UNREVEALED = Tiles.newBuilder()
+            .withCharacter(' ')
+            .withBackgroundColor(GameColors.UNREVEALED_COLOR)
+            .buildCharacterTile()
 }

@@ -12,4 +12,6 @@ object GameColors {
     val FUNGUS_COLOR = TileColors.fromString("#85DD1B")
 
     val ACCENT_COLOR = TileColors.fromString("#FFCD22")
+
+    val UNREVEALED_COLOR = TileColors.fromString("#000000")
 }
