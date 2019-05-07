@@ -44,6 +44,12 @@ object GameTileRepository {
             .withForegroundColor(GameColors.FUNGUS_COLOR)
             .buildCharacterTile()
 
+    val BAT = Tiles.newBuilder()
+            .withCharacter('b')
+            .withBackgroundColor(GameColors.FLOOR_BACKGROUND)
+            .withForegroundColor(GameColors.BAT_COLOR)
+            .buildCharacterTile()
+
     val UNREVEALED = Tiles.newBuilder()
             .withCharacter(' ')
             .withBackgroundColor(GameColors.UNREVEALED_COLOR)

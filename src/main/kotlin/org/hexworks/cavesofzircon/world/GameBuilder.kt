@@ -2,6 +2,7 @@ package org.hexworks.cavesofzircon.world
 
 import org.hexworks.amethyst.api.entity.EntityType
 import org.hexworks.cavesofzircon.GameConfig
+import org.hexworks.cavesofzircon.GameConfig.BATS_PER_LEVEL
 import org.hexworks.cavesofzircon.GameConfig.WORLD_SIZE
 import org.hexworks.cavesofzircon.attributes.types.Player
 import org.hexworks.cavesofzircon.builders.EntityFactory
@@ -28,6 +29,7 @@ class GameBuilder(val worldSize: Size3D = WORLD_SIZE) {
 
         val player = addPlayer()
         addFungi()
+        addBats()
 
         val game = Game.create(
                 player = player,
@@ -52,6 +54,14 @@ class GameBuilder(val worldSize: Size3D = WORLD_SIZE) {
         repeat(world.actualSize().zLength) { level ->
             repeat(GameConfig.FUNGI_PER_LEVEL) {
                 EntityFactory.newFungus().addToWorld(level)
+            }
+        }
+    }
+
+    private fun addBats() = also {
+        repeat(world.actualSize().zLength) { level ->
+            repeat(BATS_PER_LEVEL) {
+                EntityFactory.newBat().addToWorld(level)
             }
         }
     }

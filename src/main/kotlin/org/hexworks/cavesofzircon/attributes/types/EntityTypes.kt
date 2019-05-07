@@ -11,6 +11,9 @@ object Wall : BaseEntityType(
 object Fungus : BaseEntityType(
         name = "fungus"), Combatant
 
+object Bat : BaseEntityType(
+        name = "bat"), Combatant
+
 object StairsDown : BaseEntityType(
         name = "stairs down")
 

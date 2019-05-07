@@ -11,6 +11,7 @@ import org.hexworks.cavesofzircon.attributes.FungusSpread
 import org.hexworks.cavesofzircon.attributes.Vision
 import org.hexworks.cavesofzircon.attributes.flags.BlockOccupier
 import org.hexworks.cavesofzircon.attributes.flags.VisionBlocker
+import org.hexworks.cavesofzircon.attributes.types.Bat
 import org.hexworks.cavesofzircon.attributes.types.Fungus
 import org.hexworks.cavesofzircon.attributes.types.Player
 import org.hexworks.cavesofzircon.attributes.types.StairsDown
@@ -28,6 +29,7 @@ import org.hexworks.cavesofzircon.systems.InputReceiver
 import org.hexworks.cavesofzircon.systems.Movable
 import org.hexworks.cavesofzircon.systems.StairClimber
 import org.hexworks.cavesofzircon.systems.StairDescender
+import org.hexworks.cavesofzircon.systems.Wanderer
 import org.hexworks.cavesofzircon.world.Game
 import org.hexworks.cavesofzircon.world.GameContext
 
@@ -61,6 +63,7 @@ object EntityFactory {
         attributes(
                 Vision(9),
                 EntityPosition(),
+                BlockOccupier,
                 CombatStats.create(
                         maxHp = 100,
                         attackValue = 10,
@@ -68,7 +71,7 @@ object EntityFactory {
                 EntityTile(GameTileRepository.PLAYER),
                 EntityActions(Dig::class, Attack::class))
         behaviors(InputReceiver)
-        facets(Movable, CameraMover, StairClimber, StairDescender)
+        facets(Movable, CameraMover, StairClimber, StairDescender, Attackable, Destructible)
     }
 
     fun newFungus(fungusSpread: FungusSpread = FungusSpread()) = newGameEntityOfType(Fungus) {
@@ -82,6 +85,19 @@ object EntityFactory {
                 fungusSpread)
         facets(Attackable, Destructible)
         behaviors(FungusGrowth)
+    }
+
+    fun newBat() = newGameEntityOfType(Bat) {
+        attributes(BlockOccupier,
+                EntityPosition(),
+                EntityTile(GameTileRepository.BAT),
+                CombatStats.create(
+                        maxHp = 5,
+                        attackValue = 2,
+                        defenseValue = 1),
+                EntityActions(Attack::class))
+        facets(Movable, Attackable, Destructible)
+        behaviors(Wanderer)
     }
 }
 
