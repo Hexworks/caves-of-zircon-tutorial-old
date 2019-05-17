@@ -13,6 +13,7 @@ object GameColors {
     val BAT_COLOR = TileColors.fromString("#2348b2")
 
     val ACCENT_COLOR = TileColors.fromString("#FFCD22")
+    val ZIRCON_COLOR = TileColors.fromString("#dddddd")
 
     val UNREVEALED_COLOR = TileColors.fromString("#000000")
 }

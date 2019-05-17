@@ -8,6 +8,8 @@ import org.hexworks.cavesofzircon.attributes.EntityActions
 import org.hexworks.cavesofzircon.attributes.EntityPosition
 import org.hexworks.cavesofzircon.attributes.EntityTile
 import org.hexworks.cavesofzircon.attributes.FungusSpread
+import org.hexworks.cavesofzircon.attributes.Inventory
+import org.hexworks.cavesofzircon.attributes.ItemIcon
 import org.hexworks.cavesofzircon.attributes.Vision
 import org.hexworks.cavesofzircon.attributes.flags.BlockOccupier
 import org.hexworks.cavesofzircon.attributes.flags.VisionBlocker
@@ -17,6 +19,7 @@ import org.hexworks.cavesofzircon.attributes.types.Player
 import org.hexworks.cavesofzircon.attributes.types.StairsDown
 import org.hexworks.cavesofzircon.attributes.types.StairsUp
 import org.hexworks.cavesofzircon.attributes.types.Wall
+import org.hexworks.cavesofzircon.attributes.types.Zircon
 import org.hexworks.cavesofzircon.commands.Attack
 import org.hexworks.cavesofzircon.commands.Dig
 import org.hexworks.cavesofzircon.entities.FogOfWar
@@ -26,12 +29,17 @@ import org.hexworks.cavesofzircon.systems.Destructible
 import org.hexworks.cavesofzircon.systems.Diggable
 import org.hexworks.cavesofzircon.systems.FungusGrowth
 import org.hexworks.cavesofzircon.systems.InputReceiver
+import org.hexworks.cavesofzircon.systems.InventoryInspector
+import org.hexworks.cavesofzircon.systems.ItemDropper
+import org.hexworks.cavesofzircon.systems.ItemPicker
 import org.hexworks.cavesofzircon.systems.Movable
 import org.hexworks.cavesofzircon.systems.StairClimber
 import org.hexworks.cavesofzircon.systems.StairDescender
 import org.hexworks.cavesofzircon.systems.Wanderer
 import org.hexworks.cavesofzircon.world.Game
 import org.hexworks.cavesofzircon.world.GameContext
+import org.hexworks.zircon.api.GraphicalTilesetResources
+import org.hexworks.zircon.api.Tiles
 
 fun <T : EntityType> newGameEntityOfType(type: T, init: EntityBuilder<T, GameContext>.() -> Unit) =
         Entities.newEntityOfType(type, init)
@@ -69,9 +77,11 @@ object EntityFactory {
                         attackValue = 10,
                         defenseValue = 5),
                 EntityTile(GameTileRepository.PLAYER),
-                EntityActions(Dig::class, Attack::class))
+                EntityActions(Dig::class, Attack::class),
+                Inventory(10))
         behaviors(InputReceiver)
-        facets(Movable, CameraMover, StairClimber, StairDescender, Attackable, Destructible)
+        facets(Movable, CameraMover, StairClimber, StairDescender, Attackable, Destructible, ItemPicker,
+                InventoryInspector, ItemDropper)
     }
 
     fun newFungus(fungusSpread: FungusSpread = FungusSpread()) = newGameEntityOfType(Fungus) {
@@ -98,6 +108,15 @@ object EntityFactory {
                 EntityActions(Attack::class))
         facets(Movable, Attackable, Destructible)
         behaviors(Wanderer)
+    }
+
+    fun newZircon() = newGameEntityOfType(Zircon) {
+        attributes(ItemIcon(Tiles.newBuilder()
+                .withName("white gem")
+                .withTileset(GraphicalTilesetResources.nethack16x16())
+                .buildGraphicTile()),
+                EntityPosition(),
+                EntityTile(GameTileRepository.ZIRCON))
     }
 }
 

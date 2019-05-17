@@ -50,6 +50,12 @@ object GameTileRepository {
             .withForegroundColor(GameColors.BAT_COLOR)
             .buildCharacterTile()
 
+    val ZIRCON  = Tiles.newBuilder()
+            .withCharacter(',')
+            .withBackgroundColor(GameColors.FLOOR_BACKGROUND)
+            .withForegroundColor(GameColors.ZIRCON_COLOR)
+            .buildCharacterTile()
+
     val UNREVEALED = Tiles.newBuilder()
             .withCharacter(' ')
             .withBackgroundColor(GameColors.UNREVEALED_COLOR)

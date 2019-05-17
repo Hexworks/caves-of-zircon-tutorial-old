@@ -1,5 +1,8 @@
 package org.hexworks.cavesofzircon.view
 
+import org.hexworks.cavesofzircon.attributes.Inventory
+import org.hexworks.cavesofzircon.builders.EntityFactory
+import org.hexworks.cavesofzircon.view.fragment.InventoryFragment
 import org.hexworks.zircon.api.ColorThemes
 import org.hexworks.zircon.api.Components
 import org.hexworks.zircon.api.component.ComponentAlignment
@@ -36,6 +39,7 @@ class StartView : BaseView() {
             close()
             Processed
         }
+
         screen.addComponent(header)
         screen.addComponent(startButton)
     }
