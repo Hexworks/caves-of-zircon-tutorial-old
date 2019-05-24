@@ -50,6 +50,12 @@ object GameTileRepository {
             .withForegroundColor(GameColors.BAT_COLOR)
             .buildCharacterTile()
 
+    val BAT_MEAT = Tiles.newBuilder()
+            .withCharacter('m')
+            .withBackgroundColor(GameColors.FLOOR_BACKGROUND)
+            .withForegroundColor(GameColors.BAT_MEAT_COLOR)
+            .buildCharacterTile()
+
     val ZIRCON  = Tiles.newBuilder()
             .withCharacter(',')
             .withBackgroundColor(GameColors.FLOOR_BACKGROUND)

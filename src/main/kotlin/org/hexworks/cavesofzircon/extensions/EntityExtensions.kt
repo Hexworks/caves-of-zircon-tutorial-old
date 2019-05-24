@@ -14,7 +14,6 @@ import org.hexworks.cavesofzircon.attributes.EntityTile
 import org.hexworks.cavesofzircon.attributes.flags.BlockOccupier
 import org.hexworks.cavesofzircon.attributes.flags.VisionBlocker
 import org.hexworks.cavesofzircon.attributes.types.Combatant
-import org.hexworks.cavesofzircon.attributes.types.Item
 import org.hexworks.cavesofzircon.attributes.types.Player
 import org.hexworks.cavesofzircon.attributes.types.combatStats
 import org.hexworks.cavesofzircon.world.GameContext
@@ -43,6 +42,12 @@ val AnyGameEntity.isPlayer: Boolean
 
 inline fun <reified T : EntityType> Iterable<AnyGameEntity>.filterType(): List<Entity<T, GameContext>> {
     return filter { T::class.isSuperclassOf(it.type::class) }.toList() as List<Entity<T, GameContext>>
+}
+
+inline fun <reified T : EntityType> AnyGameEntity.whenTypeIs(fn: (Entity<T, GameContext>) -> Unit) {
+    if (T::class.isSuperclassOf(this.type::class)) {
+        fn(this as Entity<T, GameContext>)
+    }
 }
 
 val AnyGameEntity.blocksVision: Boolean

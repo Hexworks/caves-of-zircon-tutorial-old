@@ -4,16 +4,19 @@ import org.hexworks.amethyst.api.Entities
 import org.hexworks.amethyst.api.builder.EntityBuilder
 import org.hexworks.amethyst.api.entity.EntityType
 import org.hexworks.cavesofzircon.attributes.CombatStats
+import org.hexworks.cavesofzircon.attributes.EnergyLevel
 import org.hexworks.cavesofzircon.attributes.EntityActions
 import org.hexworks.cavesofzircon.attributes.EntityPosition
 import org.hexworks.cavesofzircon.attributes.EntityTile
 import org.hexworks.cavesofzircon.attributes.FungusSpread
 import org.hexworks.cavesofzircon.attributes.Inventory
 import org.hexworks.cavesofzircon.attributes.ItemIcon
+import org.hexworks.cavesofzircon.attributes.NutritionalValue
 import org.hexworks.cavesofzircon.attributes.Vision
 import org.hexworks.cavesofzircon.attributes.flags.BlockOccupier
 import org.hexworks.cavesofzircon.attributes.flags.VisionBlocker
 import org.hexworks.cavesofzircon.attributes.types.Bat
+import org.hexworks.cavesofzircon.attributes.types.BatMeat
 import org.hexworks.cavesofzircon.attributes.types.Fungus
 import org.hexworks.cavesofzircon.attributes.types.Player
 import org.hexworks.cavesofzircon.attributes.types.StairsDown
@@ -26,12 +29,15 @@ import org.hexworks.cavesofzircon.entities.FogOfWar
 import org.hexworks.cavesofzircon.systems.Attackable
 import org.hexworks.cavesofzircon.systems.CameraMover
 import org.hexworks.cavesofzircon.systems.Destructible
+import org.hexworks.cavesofzircon.systems.DigestiveSystem
 import org.hexworks.cavesofzircon.systems.Diggable
+import org.hexworks.cavesofzircon.systems.EnergyExpender
 import org.hexworks.cavesofzircon.systems.FungusGrowth
 import org.hexworks.cavesofzircon.systems.InputReceiver
 import org.hexworks.cavesofzircon.systems.InventoryInspector
 import org.hexworks.cavesofzircon.systems.ItemDropper
 import org.hexworks.cavesofzircon.systems.ItemPicker
+import org.hexworks.cavesofzircon.systems.LootDropper
 import org.hexworks.cavesofzircon.systems.Movable
 import org.hexworks.cavesofzircon.systems.StairClimber
 import org.hexworks.cavesofzircon.systems.StairDescender
@@ -78,10 +84,11 @@ object EntityFactory {
                         defenseValue = 5),
                 EntityTile(GameTileRepository.PLAYER),
                 EntityActions(Dig::class, Attack::class),
-                Inventory(10))
-        behaviors(InputReceiver)
-        facets(Movable, CameraMover, StairClimber, StairDescender, Attackable, Destructible, ItemPicker,
-                InventoryInspector, ItemDropper)
+                Inventory(10),
+                EnergyLevel(1000, 1000))
+        behaviors(InputReceiver, EnergyExpender)
+        facets(Movable, CameraMover, StairClimber, StairDescender, Attackable, Destructible,
+                ItemPicker, InventoryInspector, ItemDropper, EnergyExpender, DigestiveSystem)
     }
 
     fun newFungus(fungusSpread: FungusSpread = FungusSpread()) = newGameEntityOfType(Fungus) {
@@ -105,9 +112,22 @@ object EntityFactory {
                         maxHp = 5,
                         attackValue = 2,
                         defenseValue = 1),
-                EntityActions(Attack::class))
-        facets(Movable, Attackable, Destructible)
+                EntityActions(Attack::class),
+                Inventory(1).apply {
+                    addItem(newBatMeat())
+                })
+        facets(Movable, Attackable, ItemDropper, LootDropper, Destructible)
         behaviors(Wanderer)
+    }
+
+    fun newBatMeat() = newGameEntityOfType(BatMeat) {
+        attributes(ItemIcon(Tiles.newBuilder()
+                .withName("Meatball")
+                .withTileset(GraphicalTilesetResources.nethack16x16())
+                .buildGraphicTile()),
+                NutritionalValue(750),
+                EntityPosition(),
+                EntityTile(GameTileRepository.BAT_MEAT))
     }
 
     fun newZircon() = newGameEntityOfType(Zircon) {

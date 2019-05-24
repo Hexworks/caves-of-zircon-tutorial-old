@@ -31,7 +31,7 @@ object Attackable : BaseFacet<GameContext>() {
                         context = context,
                         source = attacker,
                         target = target,
-                        cause = "a blow to the head"))
+                        cause = "after receiving a blow to the head"))
             }
 
             Consumed

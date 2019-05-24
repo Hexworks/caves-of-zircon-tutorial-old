@@ -1,6 +1,7 @@
 package org.hexworks.cavesofzircon.view.fragment
 
 import org.hexworks.cavesofzircon.attributes.Inventory
+import org.hexworks.cavesofzircon.attributes.types.Food
 import org.hexworks.cavesofzircon.extensions.GameItem
 import org.hexworks.zircon.api.Components
 import org.hexworks.zircon.api.component.Fragment
@@ -10,7 +11,8 @@ import org.hexworks.zircon.api.uievent.Processed
 
 class InventoryFragment(inventory: Inventory,
                         width: Int,
-                        onDrop: (GameItem) -> Unit) : Fragment {
+                        onDrop: (GameItem) -> Unit,
+                        onEat: (GameItem) -> Unit) : Fragment {
 
     override val root = Components.vbox()
             .withSize(width, inventory.size + 1)
@@ -29,6 +31,11 @@ class InventoryFragment(inventory: Inventory,
                         dropButton.onComponentEvent(ACTIVATED) {
                             list.removeComponent(this.root)
                             onDrop(item)
+                            Processed
+                        }
+                        eatButton.onComponentEvent(ACTIVATED) {
+                            list.removeComponent(this.root)
+                            onEat(item)
                             Processed
                         }
                     })

@@ -4,10 +4,15 @@ import org.hexworks.amethyst.api.Consumed
 import org.hexworks.amethyst.api.base.BaseFacet
 import org.hexworks.amethyst.api.entity.EntityType
 import org.hexworks.cavesofzircon.GameConfig
+import org.hexworks.cavesofzircon.attributes.types.EnergyUser
+import org.hexworks.cavesofzircon.attributes.types.Food
+import org.hexworks.cavesofzircon.attributes.types.ItemHolder
 import org.hexworks.cavesofzircon.attributes.types.inventory
 import org.hexworks.cavesofzircon.commands.DropItem
+import org.hexworks.cavesofzircon.commands.Eat
 import org.hexworks.cavesofzircon.commands.InspectInventory
 import org.hexworks.cavesofzircon.extensions.GameCommand
+import org.hexworks.cavesofzircon.extensions.whenTypeIs
 import org.hexworks.cavesofzircon.view.fragment.InventoryFragment
 import org.hexworks.cavesofzircon.world.GameContext
 import org.hexworks.zircon.api.Components
@@ -28,9 +33,20 @@ object InventoryInspector : BaseFacet<GameContext>() {
 
                 val screen = context.screen
 
-                val fragment = InventoryFragment(itemHolder.inventory, DIALOG_SIZE.width - 3) { item ->
-                    itemHolder.executeCommand(DropItem(context, itemHolder, item, position))
-                }
+                val fragment = InventoryFragment(
+                        inventory = itemHolder.inventory,
+                        width = DIALOG_SIZE.width - 3,
+                        onDrop = { item ->
+                            itemHolder.executeCommand(DropItem(context, itemHolder, item, position))
+                        },
+                        onEat = { item ->
+                            itemHolder.whenTypeIs<EnergyUser> { eater ->
+                                item.whenTypeIs<Food> { food ->
+                                    itemHolder.inventory.removeItem(food)
+                                    itemHolder.executeCommand(Eat(context, eater, food))
+                                }
+                            }
+                        })
 
                 val panel = Components.panel()
                         .withSize(DIALOG_SIZE)

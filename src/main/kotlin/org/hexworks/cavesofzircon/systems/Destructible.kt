@@ -13,7 +13,7 @@ object Destructible : BaseFacet<GameContext>() {
     override fun executeCommand(command: GameCommand<out EntityType>) = command.responseWhenCommandIs(Destroy::class) { (context, attacker, target, cause) ->
         context.world.removeEntity(target)
 
-        logGameEvent("$target dies after receiving $cause.")
+        logGameEvent("$target dies $cause.")
         Consumed
     }
 }
