@@ -3,6 +3,7 @@ package org.hexworks.cavesofzircon.view
 import org.hexworks.cavesofzircon.GameConfig
 import org.hexworks.cavesofzircon.blocks.GameBlock
 import org.hexworks.cavesofzircon.events.GameLogEvent
+import org.hexworks.cavesofzircon.view.fragment.PlayerStatsFragment
 import org.hexworks.cavesofzircon.world.Game
 import org.hexworks.cavesofzircon.world.GameBuilder
 import org.hexworks.cobalt.events.api.subscribe
@@ -32,6 +33,10 @@ class PlayView(private val game: Game = GameBuilder.defaultGame()) : BaseView() 
                 .withSize(GameConfig.SIDEBAR_WIDTH, GameConfig.WINDOW_HEIGHT)
                 .wrapWithBox()
                 .build()
+
+        sidebar.addFragment(PlayerStatsFragment(
+                width = sidebar.contentSize.width,
+                player = game.player))
 
         screen.addComponent(sidebar)
 
