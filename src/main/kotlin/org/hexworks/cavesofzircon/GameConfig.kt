@@ -27,6 +27,8 @@ object GameConfig {
     const val BATS_PER_LEVEL = 10
     const val ZIRCONS_PER_LEVEL = 20
     const val MAXIMUM_FUNGUS_SPREAD = 20
+    const val WEAPONS_PER_LEVEL = 3
+    const val ARMOR_PER_LEVEL = 3
 
     fun buildAppConfig() = AppConfigs.newConfig()
             .enableBetaFeatures()

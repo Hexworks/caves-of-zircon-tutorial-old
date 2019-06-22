@@ -2,7 +2,9 @@ package org.hexworks.cavesofzircon.world
 
 import org.hexworks.amethyst.api.entity.EntityType
 import org.hexworks.cavesofzircon.GameConfig
+import org.hexworks.cavesofzircon.GameConfig.ARMOR_PER_LEVEL
 import org.hexworks.cavesofzircon.GameConfig.BATS_PER_LEVEL
+import org.hexworks.cavesofzircon.GameConfig.WEAPONS_PER_LEVEL
 import org.hexworks.cavesofzircon.GameConfig.WORLD_SIZE
 import org.hexworks.cavesofzircon.attributes.types.Player
 import org.hexworks.cavesofzircon.builders.EntityFactory
@@ -31,6 +33,8 @@ class GameBuilder(val worldSize: Size3D = WORLD_SIZE) {
         addFungi()
         addBats()
         addZircons()
+        addWeapons()
+        addArmor()
 
         val game = Game.create(
                 player = player,
@@ -71,6 +75,22 @@ class GameBuilder(val worldSize: Size3D = WORLD_SIZE) {
         repeat(world.actualSize().zLength) { level ->
             repeat(BATS_PER_LEVEL) {
                 EntityFactory.newBat().addToWorld(level)
+            }
+        }
+    }
+
+    private fun addWeapons() = also {
+        repeat(world.actualSize().zLength) { level ->
+            repeat(WEAPONS_PER_LEVEL) {
+                EntityFactory.newRandomWeapon().addToWorld(level)
+            }
+        }
+    }
+
+    private fun addArmor() = also {
+        repeat(world.actualSize().zLength) { level ->
+            repeat(ARMOR_PER_LEVEL) {
+                EntityFactory.newRandomArmor().addToWorld(level)
             }
         }
     }

@@ -17,7 +17,7 @@ class EnergyLevel(initialEnergy: Int,
     private val currentValueProperty = createPropertyFrom(initialEnergy)
 
     override fun toComponent(width: Int) = Components.vbox()
-            .withSize(width, 5)
+            .withSize(width, 2)
             .build().apply {
                 val hungerLabel = Components.label()
                         .withSize(width, 1)
@@ -28,7 +28,7 @@ class EnergyLevel(initialEnergy: Int,
 
                 addComponent(Components.textBox()
                         .withContentWidth(width)
-                        .addHeader("Hunger"))
+                        .addHeader("Hunger", false))
                 addComponent(hungerLabel)
 
             }

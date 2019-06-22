@@ -4,17 +4,21 @@ import org.hexworks.amethyst.api.Consumed
 import org.hexworks.amethyst.api.base.BaseFacet
 import org.hexworks.amethyst.api.entity.EntityType
 import org.hexworks.cavesofzircon.GameConfig
+import org.hexworks.cavesofzircon.attributes.types.CombatItem
 import org.hexworks.cavesofzircon.attributes.types.EnergyUser
+import org.hexworks.cavesofzircon.attributes.types.EquipmentHolder
 import org.hexworks.cavesofzircon.attributes.types.Food
-import org.hexworks.cavesofzircon.attributes.types.ItemHolder
+import org.hexworks.cavesofzircon.attributes.types.equip
 import org.hexworks.cavesofzircon.attributes.types.inventory
 import org.hexworks.cavesofzircon.commands.DropItem
 import org.hexworks.cavesofzircon.commands.Eat
 import org.hexworks.cavesofzircon.commands.InspectInventory
 import org.hexworks.cavesofzircon.extensions.GameCommand
+import org.hexworks.cavesofzircon.extensions.GameItem
 import org.hexworks.cavesofzircon.extensions.whenTypeIs
 import org.hexworks.cavesofzircon.view.fragment.InventoryFragment
 import org.hexworks.cavesofzircon.world.GameContext
+import org.hexworks.cobalt.datatypes.Maybe
 import org.hexworks.zircon.api.Components
 import org.hexworks.zircon.api.Sizes
 import org.hexworks.zircon.api.builder.component.ModalBuilder
@@ -46,6 +50,15 @@ object InventoryInspector : BaseFacet<GameContext>() {
                                     itemHolder.executeCommand(Eat(context, eater, food))
                                 }
                             }
+                        },
+                        onEquip = { item ->
+                            var result = Maybe.empty<GameItem>()
+                            itemHolder.whenTypeIs<EquipmentHolder> { equipmentHolder ->
+                                item.whenTypeIs<CombatItem> { combatItem ->
+                                    result = Maybe.of(equipmentHolder.equip(itemHolder.inventory, combatItem))
+                                }
+                            }
+                            result
                         })
 
                 val panel = Components.panel()

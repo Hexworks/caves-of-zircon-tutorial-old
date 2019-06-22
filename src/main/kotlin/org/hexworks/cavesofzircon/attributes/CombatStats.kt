@@ -40,7 +40,7 @@ data class CombatStats(val maxHpProperty: Property<Int>,
 
                 addComponent(Components.textBox()
                         .withContentWidth(width)
-                        .addHeader("Combat Stats"))
+                        .addHeader("Combat Stats", false))
                 addComponent(hpLabel)
                 addComponent(attackLabel)
                 addComponent(defenseLabel)
