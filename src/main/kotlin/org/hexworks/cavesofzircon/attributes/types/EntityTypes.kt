@@ -14,6 +14,9 @@ object Fungus : BaseEntityType(
 object Bat : BaseEntityType(
         name = "bat"), Combatant, ItemHolder
 
+object Zombie : BaseEntityType(
+        name = "zombie"), Combatant, ItemHolder
+
 object BatMeat : BaseEntityType(
         name = "Bat meat",
         description = "Stringy bat meat. It is edible, but not tasty."), Food

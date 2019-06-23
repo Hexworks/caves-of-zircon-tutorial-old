@@ -31,8 +31,8 @@ class Equipment(initialWeapon: GameEntity<Weapon>,
     val weaponName: String
         get() = weaponProperty.value.name
 
-    private val weapon: GameEntity<Weapon> by weaponProperty.asDelegate()
-    private val armor: GameEntity<Armor> by armorProperty.asDelegate()
+    val weapon: GameEntity<Weapon> by weaponProperty.asDelegate()
+    val armor: GameEntity<Armor> by armorProperty.asDelegate()
 
     private val weaponStats: String
         get() = " A: ${weapon.attackValue} D: ${weapon.defenseValue}"

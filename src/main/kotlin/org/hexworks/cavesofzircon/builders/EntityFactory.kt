@@ -35,6 +35,7 @@ import org.hexworks.cavesofzircon.attributes.types.Sword
 import org.hexworks.cavesofzircon.attributes.types.Wall
 import org.hexworks.cavesofzircon.attributes.types.Weapon
 import org.hexworks.cavesofzircon.attributes.types.Zircon
+import org.hexworks.cavesofzircon.attributes.types.Zombie
 import org.hexworks.cavesofzircon.commands.Attack
 import org.hexworks.cavesofzircon.commands.Dig
 import org.hexworks.cavesofzircon.entities.FogOfWar
@@ -45,8 +46,8 @@ import org.hexworks.cavesofzircon.systems.Destructible
 import org.hexworks.cavesofzircon.systems.DigestiveSystem
 import org.hexworks.cavesofzircon.systems.Diggable
 import org.hexworks.cavesofzircon.systems.EnergyExpender
-import org.hexworks.cavesofzircon.systems.EquipmentHandler
 import org.hexworks.cavesofzircon.systems.FungusGrowth
+import org.hexworks.cavesofzircon.systems.HunterSeeker
 import org.hexworks.cavesofzircon.systems.InputReceiver
 import org.hexworks.cavesofzircon.systems.InventoryInspector
 import org.hexworks.cavesofzircon.systems.ItemDropper
@@ -105,7 +106,7 @@ object EntityFactory {
                         initialWeapon = newClub(),
                         initialArmor = newJacket()))
         behaviors(InputReceiver, EnergyExpender)
-        facets(EquipmentHandler, Movable, CameraMover, StairClimber, StairDescender, Attackable, Destructible,
+        facets(Movable, CameraMover, StairClimber, StairDescender, Attackable, Destructible,
                 ItemPicker, InventoryInspector, ItemDropper, EnergyExpender, DigestiveSystem)
     }
 
@@ -136,6 +137,24 @@ object EntityFactory {
                 })
         facets(Movable, Attackable, ItemDropper, LootDropper, Destructible)
         behaviors(Wanderer)
+    }
+
+    fun newZombie() = newGameEntityOfType(Zombie) {
+        attributes(BlockOccupier,
+                EntityPosition(),
+                EntityTile(GameTileRepository.ZOMBIE),
+                Vision(10),
+                CombatStats.create(
+                        maxHp = 25,
+                        attackValue = 8,
+                        defenseValue = 4),
+                Inventory(2).apply {
+                    addItem(newRandomWeapon())
+                    addItem(newRandomArmor())
+                },
+                EntityActions(Attack::class))
+        facets(Movable, Attackable, ItemDropper, LootDropper, Destructible)
+        behaviors(HunterSeeker or Wanderer)
     }
 
     fun newBatMeat() = newGameEntityOfType(BatMeat) {
@@ -261,5 +280,7 @@ object EntityFactory {
         1 -> newMediumArmor()
         else -> newHeavyArmor()
     }
+
+
 }
 

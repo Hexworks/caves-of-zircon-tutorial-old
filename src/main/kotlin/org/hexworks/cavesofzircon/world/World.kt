@@ -24,6 +24,7 @@ import org.hexworks.zircon.api.screen.Screen
 import org.hexworks.zircon.api.shape.EllipseFactory
 import org.hexworks.zircon.api.shape.LineFactory
 import org.hexworks.zircon.api.uievent.UIEvent
+import kotlin.math.abs
 
 class World(startingBlocks: Map<Position3D, GameBlock>,
             visibleSize: Size3D,
@@ -148,6 +149,25 @@ class World(startingBlocks: Map<Position3D, GameBlock>,
                         result
                     }
         }.orElse(listOf())
+    }
+
+    fun whenCanSee(looker: GameEntity<EntityType>, target: GameEntity<EntityType>, fn: (path: List<Position>) -> Unit) {
+        looker.findAttribute(Vision::class).map { (radius) ->
+            val level = looker.position.z
+            if (looker.position.isWithinRangeOf(target.position, radius)) {
+                val path = LineFactory.buildLine(looker.position.to2DPosition(), target.position.to2DPosition())
+                if (path.none { isVisionBlockedAt(Positions.from2DTo3D(it, level)) }) {
+                    fn(path.positions().toList().drop(1))
+                }
+            }
+        }
+    }
+
+    private fun Position3D.isWithinRangeOf(other: Position3D, radius: Int): Boolean {
+        return this.isUnknown().not()
+                && other.isUnknown().not()
+                && this.z == other.z
+                && abs(x - other.x) + abs(y - other.y) <= radius
     }
 
     companion object {

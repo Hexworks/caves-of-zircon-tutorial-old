@@ -115,4 +115,10 @@ object GameTileRepository {
             .withForegroundColor(ANSITileColor.BRIGHT_WHITE)
             .withBackgroundColor(GameColors.FLOOR_BACKGROUND)
             .buildCharacterTile()
+
+    val ZOMBIE = Tiles.newBuilder()
+            .withCharacter('z')
+            .withForegroundColor(GameColors.ZOMBIE_COLOR)
+            .withBackgroundColor(GameColors.FLOOR_BACKGROUND)
+            .buildCharacterTile()
 }
