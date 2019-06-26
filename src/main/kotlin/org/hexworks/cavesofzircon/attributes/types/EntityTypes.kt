@@ -3,7 +3,7 @@ package org.hexworks.cavesofzircon.attributes.types
 import org.hexworks.amethyst.api.base.BaseEntityType
 
 object Player : BaseEntityType(
-        name = "player"), Combatant, ItemHolder, EnergyUser, EquipmentHolder
+        name = "player"), Combatant, ItemHolder, EnergyUser, EquipmentHolder, ExperienceGainer
 
 object Wall : BaseEntityType(
         name = "wall")

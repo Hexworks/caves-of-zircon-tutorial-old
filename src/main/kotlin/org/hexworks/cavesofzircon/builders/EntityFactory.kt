@@ -9,6 +9,7 @@ import org.hexworks.cavesofzircon.attributes.EntityActions
 import org.hexworks.cavesofzircon.attributes.EntityPosition
 import org.hexworks.cavesofzircon.attributes.EntityTile
 import org.hexworks.cavesofzircon.attributes.Equipment
+import org.hexworks.cavesofzircon.attributes.Experience
 import org.hexworks.cavesofzircon.attributes.FungusSpread
 import org.hexworks.cavesofzircon.attributes.Inventory
 import org.hexworks.cavesofzircon.attributes.ItemCombatStats
@@ -46,6 +47,7 @@ import org.hexworks.cavesofzircon.systems.Destructible
 import org.hexworks.cavesofzircon.systems.DigestiveSystem
 import org.hexworks.cavesofzircon.systems.Diggable
 import org.hexworks.cavesofzircon.systems.EnergyExpender
+import org.hexworks.cavesofzircon.systems.ExperienceAccumulator
 import org.hexworks.cavesofzircon.systems.FungusGrowth
 import org.hexworks.cavesofzircon.systems.HunterSeeker
 import org.hexworks.cavesofzircon.systems.InputReceiver
@@ -91,6 +93,7 @@ object EntityFactory {
 
     fun newPlayer() = newGameEntityOfType(Player) {
         attributes(
+                Experience(),
                 Vision(9),
                 EntityPosition(),
                 BlockOccupier,
@@ -106,7 +109,7 @@ object EntityFactory {
                         initialWeapon = newClub(),
                         initialArmor = newJacket()))
         behaviors(InputReceiver, EnergyExpender)
-        facets(Movable, CameraMover, StairClimber, StairDescender, Attackable, Destructible,
+        facets(Movable, CameraMover, StairClimber, StairDescender, Attackable, ExperienceAccumulator, Destructible,
                 ItemPicker, InventoryInspector, ItemDropper, EnergyExpender, DigestiveSystem)
     }
 

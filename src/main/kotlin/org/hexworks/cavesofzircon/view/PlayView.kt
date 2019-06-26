@@ -3,6 +3,8 @@ package org.hexworks.cavesofzircon.view
 import org.hexworks.cavesofzircon.GameConfig
 import org.hexworks.cavesofzircon.blocks.GameBlock
 import org.hexworks.cavesofzircon.events.GameLogEvent
+import org.hexworks.cavesofzircon.events.PlayerGainedLevel
+import org.hexworks.cavesofzircon.view.dialog.LevelUpDialog
 import org.hexworks.cavesofzircon.view.fragment.PlayerStatsFragment
 import org.hexworks.cavesofzircon.world.Game
 import org.hexworks.cavesofzircon.world.GameBuilder
@@ -54,6 +56,9 @@ class PlayView(private val game: Game = GameBuilder.defaultGame()) : BaseView() 
                     paragraph = text,
                     withNewLine = false,
                     withTypingEffectSpeedInMs = 10)
+        }
+        Zircon.eventBus.subscribe<PlayerGainedLevel> {
+            screen.openModal(LevelUpDialog(screen, game.player))
         }
 
         val gameComponent = GameComponents.newGameComponentBuilder<Tile, GameBlock>()

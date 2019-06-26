@@ -16,7 +16,7 @@ data class CombatStats(val maxHpProperty: Property<Int>,
     val defenseValue: Int by defenseValueProperty.asDelegate()
 
     override fun toComponent(width: Int) = Components.vbox()
-            .withSize(width, 5)
+            .withSize(width, 4)
             .build().apply {
                 val hpLabel = Components.label()
                         .withSize(width, 1)
