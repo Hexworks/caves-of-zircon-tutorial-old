@@ -16,7 +16,8 @@ class InventoryFragment(inventory: Inventory,
                         width: Int,
                         private val onDrop: (GameItem) -> Unit,
                         private val onEat: (GameItem) -> Unit,
-                        private val onEquip: (GameItem) -> Maybe<GameItem>) : Fragment {
+                        private val onEquip: (GameItem) -> Maybe<GameItem>,
+                        private val onExamine: (GameItem) -> Unit) : Fragment {
 
     override val root = Components.vbox()
             .withSize(width, inventory.size + 1)
@@ -40,6 +41,10 @@ class InventoryFragment(inventory: Inventory,
             dropButton.onComponentEvent(ACTIVATED) {
                 list.removeComponent(this.root)
                 onDrop(item)
+                Processed
+            }
+            examineButton.onComponentEvent(ACTIVATED) {
+                onExamine(item)
                 Processed
             }
             eatButton.onComponentEvent(ACTIVATED) {

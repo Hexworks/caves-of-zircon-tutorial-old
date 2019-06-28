@@ -16,6 +16,7 @@ import org.hexworks.cavesofzircon.commands.InspectInventory
 import org.hexworks.cavesofzircon.extensions.GameCommand
 import org.hexworks.cavesofzircon.extensions.GameItem
 import org.hexworks.cavesofzircon.extensions.whenTypeIs
+import org.hexworks.cavesofzircon.view.dialog.ExamineDialog
 import org.hexworks.cavesofzircon.view.fragment.InventoryFragment
 import org.hexworks.cavesofzircon.world.GameContext
 import org.hexworks.cobalt.datatypes.Maybe
@@ -30,7 +31,7 @@ import org.hexworks.zircon.internal.component.modal.EmptyModalResult
 
 object InventoryInspector : BaseFacet<GameContext>() {
 
-    val DIALOG_SIZE = Sizes.create(33, 14)
+    val DIALOG_SIZE = Sizes.create(40, 14)
 
     override fun executeCommand(command: GameCommand<out EntityType>) = command
             .responseWhenCommandIs(InspectInventory::class) { (context, itemHolder, position) ->
@@ -42,6 +43,9 @@ object InventoryInspector : BaseFacet<GameContext>() {
                         width = DIALOG_SIZE.width - 3,
                         onDrop = { item ->
                             itemHolder.executeCommand(DropItem(context, itemHolder, item, position))
+                        },
+                        onExamine = { item ->
+                            screen.openModal(ExamineDialog(screen, item))
                         },
                         onEat = { item ->
                             itemHolder.whenTypeIs<EnergyUser> { eater ->
