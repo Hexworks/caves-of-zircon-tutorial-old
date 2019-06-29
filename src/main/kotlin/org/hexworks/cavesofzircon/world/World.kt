@@ -5,12 +5,15 @@ import org.hexworks.amethyst.api.Engines
 import org.hexworks.amethyst.api.entity.Entity
 import org.hexworks.amethyst.api.entity.EntityType
 import org.hexworks.cavesofzircon.attributes.Vision
+import org.hexworks.cavesofzircon.attributes.types.Item
 import org.hexworks.cavesofzircon.blocks.GameBlock
 import org.hexworks.cavesofzircon.builders.GameBlockFactory
 import org.hexworks.cavesofzircon.extensions.GameEntity
 import org.hexworks.cavesofzircon.extensions.blocksVision
+import org.hexworks.cavesofzircon.extensions.filterType
 import org.hexworks.cavesofzircon.extensions.position
 import org.hexworks.cobalt.datatypes.Maybe
+import org.hexworks.cobalt.datatypes.extensions.flatMap
 import org.hexworks.cobalt.datatypes.extensions.fold
 import org.hexworks.cobalt.datatypes.extensions.map
 import org.hexworks.zircon.api.Positions
@@ -80,6 +83,11 @@ class World(startingBlocks: Map<Position3D, GameBlock>,
         }
         return success
     }
+
+    fun findTopItem(position: Position3D) =
+            fetchBlockAt(position).flatMap { block ->
+                Maybe.ofNullable(block.entities.filterType<Item>().firstOrNull())
+            }
 
     fun removeEntity(entity: Entity<EntityType, GameContext>) {
         fetchBlockAt(entity.position).map {

@@ -16,6 +16,7 @@ import org.hexworks.cavesofzircon.attributes.ItemCombatStats
 import org.hexworks.cavesofzircon.attributes.ItemIcon
 import org.hexworks.cavesofzircon.attributes.NutritionalValue
 import org.hexworks.cavesofzircon.attributes.Vision
+import org.hexworks.cavesofzircon.attributes.ZirconCounter
 import org.hexworks.cavesofzircon.attributes.flags.BlockOccupier
 import org.hexworks.cavesofzircon.attributes.flags.VisionBlocker
 import org.hexworks.cavesofzircon.attributes.types.Armor
@@ -23,6 +24,7 @@ import org.hexworks.cavesofzircon.attributes.types.Bat
 import org.hexworks.cavesofzircon.attributes.types.BatMeat
 import org.hexworks.cavesofzircon.attributes.types.Club
 import org.hexworks.cavesofzircon.attributes.types.Dagger
+import org.hexworks.cavesofzircon.attributes.types.Exit
 import org.hexworks.cavesofzircon.attributes.types.Fungus
 import org.hexworks.cavesofzircon.attributes.types.HeavyArmor
 import org.hexworks.cavesofzircon.attributes.types.Jacket
@@ -59,6 +61,7 @@ import org.hexworks.cavesofzircon.systems.Movable
 import org.hexworks.cavesofzircon.systems.StairClimber
 import org.hexworks.cavesofzircon.systems.StairDescender
 import org.hexworks.cavesofzircon.systems.Wanderer
+import org.hexworks.cavesofzircon.systems.ZirconGatherer
 import org.hexworks.cavesofzircon.world.Game
 import org.hexworks.cavesofzircon.world.GameContext
 import org.hexworks.zircon.api.GraphicalTilesetResources
@@ -91,6 +94,11 @@ object EntityFactory {
                 EntityPosition())
     }
 
+    fun newExit() = newGameEntityOfType(Exit) {
+        attributes(EntityTile(GameTileRepository.EXIT),
+                EntityPosition())
+    }
+
     fun newPlayer() = newGameEntityOfType(Player) {
         attributes(
                 Experience(),
@@ -107,10 +115,11 @@ object EntityFactory {
                 EnergyLevel(1000, 1000),
                 Equipment(
                         initialWeapon = newClub(),
-                        initialArmor = newJacket()))
+                        initialArmor = newJacket()),
+                ZirconCounter())
         behaviors(InputReceiver, EnergyExpender)
         facets(Movable, CameraMover, StairClimber, StairDescender, Attackable, ExperienceAccumulator, Destructible,
-                ItemPicker, InventoryInspector, ItemDropper, EnergyExpender, DigestiveSystem)
+                ZirconGatherer, ItemPicker, InventoryInspector, ItemDropper, EnergyExpender, DigestiveSystem)
     }
 
     fun newFungus(fungusSpread: FungusSpread = FungusSpread()) = newGameEntityOfType(Fungus) {

@@ -32,6 +32,7 @@ class GameBuilder(val worldSize: Size3D = WORLD_SIZE) {
         addBats()
         addZircons()
         addZombies()
+        addExit()
 
         val game = Game.create(
                 player = player,
@@ -82,6 +83,10 @@ class GameBuilder(val worldSize: Size3D = WORLD_SIZE) {
                 EntityFactory.newZombie().addToWorld(level)
             }
         }
+    }
+
+    private fun addExit() = also {
+        EntityFactory.newExit().addToWorld(0)
     }
 
     private fun <T : EntityType> GameEntity<T>.addToWorld(

@@ -1,6 +1,7 @@
 package org.hexworks.cavesofzircon.view
 
-import org.hexworks.zircon.api.ColorThemes
+import org.hexworks.cavesofzircon.GameConfig
+import org.hexworks.cavesofzircon.world.GameBuilder
 import org.hexworks.zircon.api.Components
 import org.hexworks.zircon.api.component.ComponentAlignment
 import org.hexworks.zircon.api.extensions.onComponentEvent
@@ -9,15 +10,18 @@ import org.hexworks.zircon.api.mvc.base.BaseView
 import org.hexworks.zircon.api.uievent.ComponentEventType
 import org.hexworks.zircon.api.uievent.Processed
 
-class WinView : BaseView() {
+class WinView(private val zircons: Int) : BaseView() {
 
-    override val theme = ColorThemes.arc()
+    override val theme = GameConfig.THEME
 
     override fun onDock() {
         val msg = "You won!"
         val header = Components.textBox()
-                .withContentWidth(30)
+                .withContentWidth(GameConfig.WINDOW_WIDTH / 2)
                 .addHeader(msg)
+                .addNewLine()
+                .addParagraph("Congratulations! You have escaped from Caves of Zircon!", withNewLine = false)
+                .addParagraph("You've managed to find $zircons Zircons.")
                 .withAlignmentWithin(screen, ComponentAlignment.CENTER)
                 .build()
         val restartButton = Components.button()
@@ -35,9 +39,9 @@ class WinView : BaseView() {
                 .withBoxType(BoxType.SINGLE)
                 .build()
 
-        // TODO: tutorial
         restartButton.onComponentEvent(ComponentEventType.ACTIVATED) {
-            replaceWith(PlayView())
+            replaceWith(PlayView(GameBuilder(
+                    worldSize = GameConfig.WORLD_SIZE).buildGame()))
             close()
             Processed
         }
@@ -52,4 +56,3 @@ class WinView : BaseView() {
         screen.addComponent(exitButton)
     }
 }
-

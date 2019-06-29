@@ -32,8 +32,4 @@ object ItemPicker : BaseFacet<GameContext>() {
         Consumed
     }
 
-    private fun World.findTopItem(position: Position3D) =
-            fetchBlockAt(position).flatMap { block ->
-                Maybe.ofNullable(block.entities.filterType<Item>().firstOrNull())
-            }
 }
