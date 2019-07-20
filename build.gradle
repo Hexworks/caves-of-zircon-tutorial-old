@@ -58,6 +58,9 @@ dependencies {
     implementation "org.hexworks.zircon:zircon.core-jvm:$zircon_version"
     implementation "org.hexworks.zircon:zircon.jvm.swing:$zircon_version"
 
+    implementation "io.javalin:javalin:$javalin_version"
+    implementation "org.json:json:$json_version"
+
     testCompile "junit:junit:$junit_version"
     testCompile "org.mockito:mockito-all:$mockito_version"
     testCompile "org.assertj:assertj-core:$assertj_version"
