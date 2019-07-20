@@ -24,23 +24,13 @@ class GameBuilder(val worldSize: Size3D = WORLD_SIZE) {
             .build(visibleSize = visibleSize)
 
     fun buildGame(): Game {
-
         prepareWorld()
-
-        val player = addPlayer()
         addFungi()
         addBats()
         addZircons()
         addZombies()
         addExit()
-
-        val game = Game.create(
-                player = player,
-                world = world)
-
-        world.addWorldEntity(EntityFactory.newFogOfWar(game))
-
-        return game
+        return Game.create(world)
     }
 
     private fun prepareWorld() = also {

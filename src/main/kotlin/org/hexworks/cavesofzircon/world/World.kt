@@ -6,6 +6,7 @@ import org.hexworks.amethyst.api.entity.Entity
 import org.hexworks.amethyst.api.entity.EntityType
 import org.hexworks.cavesofzircon.attributes.Vision
 import org.hexworks.cavesofzircon.attributes.types.Item
+import org.hexworks.cavesofzircon.attributes.types.Player
 import org.hexworks.cavesofzircon.blocks.GameBlock
 import org.hexworks.cavesofzircon.builders.GameBlockFactory
 import org.hexworks.cavesofzircon.extensions.GameEntity
@@ -50,12 +51,18 @@ class World(startingBlocks: Map<Position3D, GameBlock>,
         }
     }
 
-    fun update(screen: Screen, uiEvent: UIEvent, game: Game) {
+    fun update(
+        screen: Screen,
+        uiEvent: UIEvent,
+        game: Game,
+        player: Entity<Player, GameContext>
+    ) {
         engine.update(GameContext(
                 world = this,
                 screen = screen,
                 uiEvent = uiEvent,
-                player = game.player))
+                player = player
+        ))
     }
 
     fun addEntity(entity: Entity<EntityType, GameContext>, position: Position3D) {

@@ -1,6 +1,8 @@
 package org.hexworks.cavesofzircon.view
 
+import org.hexworks.amethyst.api.entity.Entity
 import org.hexworks.cavesofzircon.GameConfig
+import org.hexworks.cavesofzircon.attributes.types.Player
 import org.hexworks.cavesofzircon.blocks.GameBlock
 import org.hexworks.cavesofzircon.events.GameLogEvent
 import org.hexworks.cavesofzircon.events.PlayerDied
@@ -10,6 +12,7 @@ import org.hexworks.cavesofzircon.view.dialog.LevelUpDialog
 import org.hexworks.cavesofzircon.view.fragment.PlayerStatsFragment
 import org.hexworks.cavesofzircon.world.Game
 import org.hexworks.cavesofzircon.world.GameBuilder
+import org.hexworks.cavesofzircon.world.GameContext
 import org.hexworks.cobalt.events.api.subscribe
 import org.hexworks.zircon.api.Components
 import org.hexworks.zircon.api.GameComponents
@@ -22,14 +25,17 @@ import org.hexworks.zircon.api.uievent.KeyboardEventType
 import org.hexworks.zircon.api.uievent.Processed
 import org.hexworks.zircon.internal.Zircon
 
-class PlayView(private val game: Game = GameBuilder.defaultGame()) : BaseView() {
+class PlayView(
+    private val player: Entity<Player, GameContext>,
+    private val game: Game = GameBuilder.defaultGame()
+) : BaseView() {
 
     override val theme = GameConfig.THEME
 
     override fun onDock() {
 
         screen.onKeyboardEvent(KeyboardEventType.KEY_PRESSED) { event, _ ->
-            game.world.update(screen, event, game)
+            game.world.update(screen, event, game, player)
             Processed
         }
 
@@ -38,9 +44,12 @@ class PlayView(private val game: Game = GameBuilder.defaultGame()) : BaseView() 
                 .wrapWithBox()
                 .build()
 
-        sidebar.addFragment(PlayerStatsFragment(
+        sidebar.addFragment(
+            PlayerStatsFragment(
                 width = sidebar.contentSize.width,
-                player = game.player))
+                player = player
+            )
+        )
 
         screen.addComponent(sidebar)
 
@@ -60,14 +69,14 @@ class PlayView(private val game: Game = GameBuilder.defaultGame()) : BaseView() 
                     withTypingEffectSpeedInMs = 10)
         }
         Zircon.eventBus.subscribe<PlayerGainedLevel> {
-            screen.openModal(LevelUpDialog(screen, game.player))
+            screen.openModal(LevelUpDialog(screen, player))
         }
         Zircon.eventBus.subscribe<PlayerWonTheGame> {
-            replaceWith(WinView(it.zircons))
+            replaceWith(WinView(player, it.zircons))
             close()
         }
         Zircon.eventBus.subscribe<PlayerDied> {
-            replaceWith(LoseView(it.cause))
+            replaceWith(LoseView(player, it.cause))
             close()
         }
         val gameComponent = GameComponents.newGameComponentBuilder<Tile, GameBlock>()

@@ -2,6 +2,7 @@ package org.hexworks.cavesofzircon.builders
 
 import org.hexworks.amethyst.api.Entities
 import org.hexworks.amethyst.api.builder.EntityBuilder
+import org.hexworks.amethyst.api.entity.Entity
 import org.hexworks.amethyst.api.entity.EntityType
 import org.hexworks.cavesofzircon.attributes.CombatStats
 import org.hexworks.cavesofzircon.attributes.EnergyLevel
@@ -42,6 +43,7 @@ import org.hexworks.cavesofzircon.attributes.types.Zombie
 import org.hexworks.cavesofzircon.commands.Attack
 import org.hexworks.cavesofzircon.commands.Dig
 import org.hexworks.cavesofzircon.entities.FogOfWar
+import org.hexworks.cavesofzircon.entities.FogOfWarMultiPlayer
 import org.hexworks.cavesofzircon.extensions.GameEntity
 import org.hexworks.cavesofzircon.systems.Attackable
 import org.hexworks.cavesofzircon.systems.CameraMover
@@ -64,6 +66,7 @@ import org.hexworks.cavesofzircon.systems.Wanderer
 import org.hexworks.cavesofzircon.systems.ZirconGatherer
 import org.hexworks.cavesofzircon.world.Game
 import org.hexworks.cavesofzircon.world.GameContext
+import org.hexworks.cavesofzircon.world.PlayerDTO
 import org.hexworks.zircon.api.GraphicalTilesetResources
 import org.hexworks.zircon.api.Tiles
 import kotlin.random.Random
@@ -74,6 +77,10 @@ fun <T : EntityType> newGameEntityOfType(type: T, init: EntityBuilder<T, GameCon
 object EntityFactory {
 
     fun newFogOfWar(game: Game) = FogOfWar(game)
+    fun newFogOfWarMulti(
+        game: Game,
+        player: Entity<Player, GameContext>
+    ) = FogOfWarMultiPlayer(game, player)
 
     fun newWall() = newGameEntityOfType(Wall) {
         attributes(
@@ -97,6 +104,30 @@ object EntityFactory {
     fun newExit() = newGameEntityOfType(Exit) {
         attributes(EntityTile(GameTileRepository.EXIT),
                 EntityPosition())
+    }
+
+    fun newPlayer(playerDTO: PlayerDTO) = newGameEntityOfType(Player) {
+        attributes(
+                Experience(playerDTO.currentXP, playerDTO.currentLevel),
+                Vision(playerDTO.visionRadius),
+                EntityPosition(),
+                BlockOccupier,
+                CombatStats.create(
+                        maxHp = playerDTO.combatStats.maxHp,
+                        attackValue = playerDTO.combatStats.attackValue,
+                        defenseValue = playerDTO.combatStats.defenseValue),
+                EntityTile(GameTileRepository.PLAYER),
+                EntityActions(Dig::class, Attack::class),
+                Inventory(playerDTO.inventorySize),
+                EnergyLevel(playerDTO.energyLevel, playerDTO.energyLevel),
+                Equipment(
+                        initialWeapon = newClub(),
+                        initialArmor = newJacket()),
+                ZirconCounter()
+        )
+        behaviors(InputReceiver, EnergyExpender)
+        facets(Movable, CameraMover, StairClimber, StairDescender, Attackable, ExperienceAccumulator, Destructible,
+                ZirconGatherer, ItemPicker, InventoryInspector, ItemDropper, EnergyExpender, DigestiveSystem)
     }
 
     fun newPlayer() = newGameEntityOfType(Player) {

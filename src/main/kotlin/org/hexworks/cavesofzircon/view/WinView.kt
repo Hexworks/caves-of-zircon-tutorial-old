@@ -1,7 +1,10 @@
 package org.hexworks.cavesofzircon.view
 
+import org.hexworks.amethyst.api.entity.Entity
 import org.hexworks.cavesofzircon.GameConfig
+import org.hexworks.cavesofzircon.attributes.types.Player
 import org.hexworks.cavesofzircon.world.GameBuilder
+import org.hexworks.cavesofzircon.world.GameContext
 import org.hexworks.zircon.api.Components
 import org.hexworks.zircon.api.component.ComponentAlignment
 import org.hexworks.zircon.api.extensions.onComponentEvent
@@ -10,7 +13,10 @@ import org.hexworks.zircon.api.mvc.base.BaseView
 import org.hexworks.zircon.api.uievent.ComponentEventType
 import org.hexworks.zircon.api.uievent.Processed
 
-class WinView(private val zircons: Int) : BaseView() {
+class WinView(
+    private val player: Entity<Player, GameContext>,
+    private val zircons: Int
+) : BaseView() {
 
     override val theme = GameConfig.THEME
 
@@ -40,8 +46,14 @@ class WinView(private val zircons: Int) : BaseView() {
                 .build()
 
         restartButton.onComponentEvent(ComponentEventType.ACTIVATED) {
-            replaceWith(PlayView(GameBuilder(
-                    worldSize = GameConfig.WORLD_SIZE).buildGame()))
+            replaceWith(
+                PlayView(
+                    player,
+                    GameBuilder(
+                        worldSize = GameConfig.WORLD_SIZE
+                    ).buildGame()
+                )
+            )
             close()
             Processed
         }

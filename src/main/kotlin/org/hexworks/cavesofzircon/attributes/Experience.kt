@@ -11,6 +11,14 @@ data class Experience(val currentXPProperty: Property<Int> = createPropertyFrom(
     var currentXP: Int by currentXPProperty.asDelegate()
     var currentLevel: Int by currentLevelProperty.asDelegate()
 
+    constructor(
+        currentXP: Int,
+        currentLevel: Int
+    ): this(
+        createPropertyFrom(currentXP),
+        createPropertyFrom(currentLevel)
+    )
+
     override fun toComponent(width: Int) = Components.vbox()
             .withSize(width, 3)
             .build().apply {
