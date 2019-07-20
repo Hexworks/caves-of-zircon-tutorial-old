@@ -1,0 +1,21 @@
+@import 'colors';
+
+// Font Names
+$font-name--roboto: 'Roboto';
+$font-name--helvetica-neue: 'Helvetica Neue';
+$font-name--sans-serif: 'sans-serif';
+
+// Font Weights
+$font-weight--light: 300;
+$font-weight--normal: 400;
+$font-weight--medium: 500;
+$font-weight--bold: 600;
+
+// Base Typography
+$base--html--font-size: 10px;
+$base--body--line-height: 1.2;
+$base--body--background-color: #fafafa;
+$base--body--font-family: $font-name--roboto, $font-name--helvetica-neue, $font-name--sans-serif;
+$base--body--font-size: 1.6rem;
+$base--body--font-weight: $font-weight--normal;
+$base--body--color: #333;

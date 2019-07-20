@@ -1,0 +1,62 @@
+.koj-text {
+  margin: 1.5rem 0;
+
+  &-1 {
+    font-size: 2rem;
+  }
+
+  &-2 {
+    font-size: 1.8rem;
+  }
+
+  &-3 {
+    font-size: 1.6rem;
+  }
+
+  &-4 {
+    font-size: 1.4rem;
+  }
+
+  &-normal {
+    font-weight: $font-weight--normal;
+  }
+
+  &-bolded {
+    font-weight: $font-weight--bold;
+  }
+
+  &-no-wrap {
+    white-space: nowrap;
+  }
+
+  &-left {
+    &#{&} {
+      text-align: left;
+    }
+  }
+
+  &-right {
+    &#{&} {
+      text-align: right;
+    }
+  }
+
+  &-capitalize {
+    &,
+    & * {
+      text-transform: lowercase;
+
+      &::first-letter {
+        text-transform: uppercase;
+      }
+    }
+  }
+
+  &-uppercase {
+    text-transform: uppercase;
+  }
+
+  &-muted {
+    color: #6c757d;
+  }
+}

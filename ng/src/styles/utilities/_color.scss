@@ -1,0 +1,27 @@
+@import '../global';
+
+.koj-color {
+  &-white {
+    color: $white-color;
+  }
+
+  &-black {
+    color: $black-color;
+  }
+
+  &-primary {
+    color: $primary;
+
+    &-10 {
+      color: darken($primary, 10);
+    }
+  }
+
+  &-success {
+    color: $koj-color-success;
+
+    &-dark {
+      color: $koj-color-success-dark;
+    }
+  }
+}

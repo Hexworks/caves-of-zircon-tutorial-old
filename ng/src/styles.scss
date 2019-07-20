@@ -1,0 +1,38 @@
+/* You can add global styles to this file, and also import other style files */
+
+// Helpers: Global
+@import 'styles/global';
+
+// Libs: Material
+@import 'styles/libs/material';
+
+// Base: General
+@import 'styles/base/general';
+@import 'styles/base/scrollbar';
+
+// Typography: Headings & Paragraphs & Texts
+@import 'styles/typography/headings';
+@import 'styles/typography/paragraphs';
+@import 'styles/typography/texts';
+
+// Components: Section & Table & Dialog & List & Counter & Button & Link & Icon && Separator
+@import 'styles/components/section';
+@import 'styles/components/table';
+@import 'styles/components/dialog';
+@import 'styles/components/list';
+@import 'styles/components/counter';
+@import 'styles/components/button';
+@import 'styles/components/link';
+@import 'styles/components/icon';
+@import 'styles/components/separator';
+
+// Utilities: Background-color & Background-image & Box-shadow & Display & Cursor & Color & Opacity & Padding & Margin
+@import 'styles/utilities/background-color';
+@import 'styles/utilities/background-image';
+@import 'styles/utilities/box-shadow';
+@import 'styles/utilities/display';
+@import 'styles/utilities/cursor';
+@import 'styles/utilities/color';
+@import 'styles/utilities/opacity';
+@import 'styles/utilities/padding';
+@import 'styles/utilities/margin';

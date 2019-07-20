@@ -1,0 +1,27 @@
+.no-margin {
+  &#{&} {
+    margin: 0;
+  }
+
+  &-top {
+    &#{&} {
+      margin-top: 0;
+    }
+  }
+
+  &-v {
+    &#{&}#{&} {
+      margin-top: 0;
+      margin-bottom: 0;
+    }
+  }
+}
+
+.koj-margin {
+  &-h {
+    &--24 {
+      margin-left: -2.4rem;
+      margin-right: -2.4rem;
+    }
+  }
+}

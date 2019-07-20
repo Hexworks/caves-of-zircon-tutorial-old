@@ -1,0 +1,32 @@
+<koj-app-navbar>
+  <button aria-label="Otwórz boczną nawigację"
+          mat-icon-button
+          (click)="sidenav.toggle()">
+    <mat-icon>menu</mat-icon>
+  </button>
+</koj-app-navbar>
+
+<mat-sidenav-container class="koj-sidenav-container">
+  <mat-sidenav #sidenav>
+    <div fxLayout="column"
+         class="koj-sidenav-buttons">
+      <button mat-button
+              class="koj-text-left"
+              routerLink="/dashboard"
+              routerLinkActive="mat-primary">
+        <mat-icon color="primary">home</mat-icon>
+        Dashboard
+      </button>
+      <button mat-button
+              class="koj-text-left"
+              routerLink="/reports"
+              routerLinkActive="mat-primary">
+        <mat-icon color="primary">archive</mat-icon>
+        Reports
+      </button>
+    </div>
+  </mat-sidenav>
+  <mat-sidenav-content>
+    <router-outlet></router-outlet>
+  </mat-sidenav-content>
+</mat-sidenav-container>

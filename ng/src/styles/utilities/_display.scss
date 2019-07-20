@@ -1,0 +1,11 @@
+.koj-display {
+  &-block {
+    display: block;
+  }
+
+  &-none {
+    &#{&} {
+      display: none;
+    }
+  }
+}

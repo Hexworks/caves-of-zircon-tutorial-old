@@ -1,0 +1,11 @@
+.koj-separator {
+  &-line {
+    border: 0;
+    border-bottom: .1rem solid rgba(0, 0 ,0, .1);
+    margin: 1rem 0;
+
+    &-8 {
+      margin: .8rem 0;
+    }
+  }
+}

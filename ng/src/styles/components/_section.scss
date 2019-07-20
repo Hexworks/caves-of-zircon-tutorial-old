@@ -1,0 +1,27 @@
+.koj-section {
+  &-w {
+    padding: 1.6rem;
+  }
+
+  &-wh {
+    padding: 0 1.6rem;
+  }
+
+  &-wv {
+    padding: 1.6rem 0;
+  }
+
+  &-sb {
+    margin-bottom: 1.6rem;
+  }
+
+  &-f {
+    &w {
+      width: 100%;
+    }
+
+    &h {
+      height: 100%;
+    }
+  }
+}

@@ -1,0 +1,49 @@
+.koj-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 1.4rem;
+
+  &:not([first-last-padding]) {
+    tr {
+      th:first-child,
+      td:first-child {
+        padding-left: 0;
+      }
+
+      th:last-child,
+      td:last-child {
+        padding-right: 0;
+      }
+    }
+  }
+
+  tr {
+    border-bottom: .1rem solid rgba(0, 0, 0, 0.12);
+  }
+
+  th {
+    text-align: left;
+    color: rgba(0, 0, 0, 0.54);
+  }
+
+  th,
+  td {
+    height: 5.6rem;
+    font-weight: $font-weight--normal;
+    padding: 1rem .8rem;
+  }
+
+  &-hover {
+    tbody > tr {
+      &:hover {
+        background-color: rgba(0, 0, 0, .05);
+      }
+    }
+  }
+
+  &-pointer {
+    tbody > tr {
+      cursor: pointer;
+    }
+  }
+}

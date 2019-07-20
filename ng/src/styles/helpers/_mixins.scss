@@ -1,0 +1,61 @@
+@mixin koj-font-face($name, $path, $style: null, $weight: null, $exts: eot svg ttf woff woff2) {
+  $src: null;
+
+  $extmods: (
+    eot: '?',
+    svg: '#' + koj-str-replace($name, ' ', '_')
+  );
+
+  $formats: (
+    otf: 'opentype',
+    ttf: 'truetype'
+  );
+
+  @each $ext in $exts {
+    $extmod: if(map-has-key($extmods, $ext), $ext + map-get($extmods, $ext), $ext);
+    $format: if(map-has-key($formats, $ext), map-get($formats, $ext), $ext);
+    $src: append($src, url(quote($path + '.' + $extmod)) format(quote($format)), comma);
+  }
+
+  @font-face {
+    font-family: quote($name);
+    font-style: $style;
+    font-weight: $weight;
+    src: $src;
+  }
+}
+
+@mixin koj-no-padding-margin() {
+  padding: 0;
+  margin: 0;
+}
+
+@mixin koj-normalize-button() {
+  @include koj-no-padding-margin();
+  background: 0;
+  border: 0;
+  cursor: pointer;
+  display: inline-block;
+  font-family: inherit;
+  font-size: inherit;
+  margin: 0;
+  outline: 0;
+  padding: 0;
+
+  > span { // To fix button jumping effect on IE
+    position: relative;
+  }
+}
+
+@mixin koj-opacity($value) {
+  $ie-value: $value * 100;
+  opacity: $value;
+  -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity="+$ie-value+")";
+  filter: alpha(opacity=$ie-value);
+}
+
+@mixin koj-keyframes($name) {
+  @keyframes #{$name} {
+    @content;
+  }
+}

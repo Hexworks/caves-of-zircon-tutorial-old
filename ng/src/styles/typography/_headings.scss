@@ -1,0 +1,27 @@
+.koj-heading {
+  font-size: 1.6rem;
+  font-weight: $font-weight--normal;
+  margin: 1.6rem 0;
+
+  &-1 {
+    font-size: 4.5rem;
+  }
+
+  &-2 {
+    font-size: 3.5rem;
+  }
+
+  &-3 {
+    font-size: 1.8rem;
+  }
+
+  &-4 {
+    font-size: 1.4rem;
+  }
+
+  &-icon {
+    position: relative;
+    top: .4rem;
+    margin-left: .35rem;
+  }
+}

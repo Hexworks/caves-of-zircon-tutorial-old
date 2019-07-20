@@ -1,0 +1,9 @@
+options:
+  merge-default-rules: false
+files:
+  ignore:
+  - 'node_modules/**/*'
+rules:
+  indentation:
+  - 2
+  - size: 2

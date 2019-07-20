@@ -1,0 +1,15 @@
+{
+  "extends": "../tsconfig.json",
+  "compilerOptions": {
+    "outDir": "../out-tsc/app",
+    "types": [
+      "node"
+    ]
+  },
+  "exclude": [
+    "test.ts",
+    "**/*.spec.ts",
+    "app/unit-tests/configuration.ts",
+    "app/unit-tests/create-router-navigation-event.fn.ts.ts"
+  ]
+}

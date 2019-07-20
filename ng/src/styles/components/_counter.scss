@@ -1,0 +1,11 @@
+.koj-counter {
+  counter-reset: koj-item-counter;
+  list-style: none;
+
+  &-item {
+    &::before {
+      counter-increment: koj-item-counter;
+      content: counter(koj-item-counter) ". ";
+    }
+  }
+}

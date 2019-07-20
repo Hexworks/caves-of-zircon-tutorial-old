@@ -1,0 +1,9 @@
+.koj-dialog {
+  &--panel {
+    position: relative !important;
+
+    > .mat-dialog-container {
+      overflow: visible;
+    }
+  }
+}

@@ -1,0 +1,24 @@
+:host {
+  min-height: 6.4rem;
+  display: block;
+  position: relative;
+  z-index: 55;
+}
+
+.koj-app {
+  &-navbar {
+    &-wrapper {
+      position: fixed;
+      left: 0;
+      right: 0;
+      top: 0;
+    }
+
+    &-logo {
+      width: 5.5rem;
+      cursor: pointer;
+      outline: 0;
+      margin: -.25rem 1.5rem 0 0;
+    }
+  }
+}

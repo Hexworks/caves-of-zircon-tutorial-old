@@ -1,0 +1,84 @@
+@import '../global';
+
+.list {
+  &-item {
+    padding: 1.6rem;
+  }
+}
+
+.koj {
+  &-no-list,
+  &-list {
+    list-style: none;
+
+    &,
+    > li,
+    &-item {
+      @include koj-no-padding-margin();
+    }
+  }
+
+  &-list {
+    line-height: 1.3;
+    margin-bottom: 2rem;
+
+    &-title {
+      margin: 1rem 0 .8rem;
+    }
+
+    > li,
+    &-item {
+      padding-left: 1.5rem;
+      margin: .55rem 0;
+
+      &:last-child {
+        margin-bottom: 0;
+      }
+    }
+
+    &.with-bullets li,
+    &.with-bullets &-item {
+      position: relative;
+      padding-left: 1.8rem;
+
+      &::before {
+        content: '';
+        width: .7rem;
+        height: .7rem;
+        display: block;
+        background-color: $primary;
+        position: absolute;
+        left: 0;
+        top: .65rem;
+        border-radius: 50%;
+      }
+    }
+
+    &.with-bullets-small li,
+    &.with-bullets-small &-item {
+      &::before {
+        width: .5rem;
+        height: .5rem;
+        top: .7rem;
+      }
+    }
+
+    &.with-counter {
+      counter-reset: koj-item-counter;
+    }
+
+    &.with-counter li,
+    &.with-counter &-item {
+      display: flex;
+      padding-left: 0;
+
+      &::before {
+        counter-increment: koj-item-counter;
+        content: counter(koj-item-counter) ") ";
+        min-width: 2rem;
+        color: $primary;
+        margin-right: .55rem;
+      }
+    }
+  }
+}

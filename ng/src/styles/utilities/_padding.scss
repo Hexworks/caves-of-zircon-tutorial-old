@@ -1,0 +1,25 @@
+.no-padding {
+  &#{&} {
+    padding: 0;
+  }
+
+  &-top {
+    &#{&} {
+      padding-top: 0;
+    }
+  }
+
+  &-h {
+    &#{&} {
+      padding-left: 0;
+      padding-right: 0;
+    }
+  }
+
+  &-v {
+    &#{&} {
+      padding-top: 0;
+      padding-bottom: 0;
+    }
+  }
+}
