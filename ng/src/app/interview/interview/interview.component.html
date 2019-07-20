@@ -1,0 +1,5 @@
+<ul>
+  <li *ngFor="let question of (questions$ | async); trackBy: trackByFn">
+    {{ question | json }}
+  </li>
+</ul>
