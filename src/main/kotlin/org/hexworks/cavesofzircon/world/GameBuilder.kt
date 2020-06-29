@@ -8,6 +8,10 @@ import org.hexworks.cavesofzircon.extensions.GameEntity
 import org.hexworks.zircon.api.Positions
 import org.hexworks.zircon.api.Sizes
 import org.hexworks.zircon.api.data.impl.Size3D
+import org.hexworks.amethyst.api.entity.EntityType
+import org.hexworks.cavesofzircon.GameConfig.BATS_PER_LEVEL
+import org.hexworks.cavesofzircon.GameConfig.FUNGI_PER_LEVEL
+import org.hexworks.zircon.api.data.Size
 
 class GameBuilder(val worldSize: Size3D = WORLD_SIZE) {
 
@@ -25,10 +29,17 @@ class GameBuilder(val worldSize: Size3D = WORLD_SIZE) {
         prepareWorld()
 
         val player = addPlayer()
+        addFungi()
+        addBats()
+        addZircons()
 
-        return Game.create(
+        val game = Game.create(
                 player = player,
                 world = world)
+
+        world.addWorldEntity(EntityFactory.newFogOfWar(game))
+
+        return game
     }
 
     private fun prepareWorld() = also {
@@ -36,11 +47,42 @@ class GameBuilder(val worldSize: Size3D = WORLD_SIZE) {
     }
 
     private fun addPlayer(): GameEntity<Player> {
-        val player = EntityFactory.newPlayer()
-        world.addAtEmptyPosition(player,
-                offset = Positions.default3DPosition().withZ(GameConfig.DUNGEON_LEVELS - 1),
-                size = world.visibleSize().copy(zLength = 0))
-        return player
+        return EntityFactory.newPlayer().addToWorld(
+                atLevel = GameConfig.DUNGEON_LEVELS - 1,
+                atArea = world.visibleSize().to2DSize())
+    }
+
+    private fun addFungi() = also {
+        repeat(world.actualSize().zLength) { level ->
+            repeat(FUNGI_PER_LEVEL) {
+                EntityFactory.newFungus().addToWorld(level)
+            }
+        }
+    }
+
+    private fun addBats() = also {
+        repeat(world.actualSize().zLength) { level ->
+            repeat(BATS_PER_LEVEL) {
+                EntityFactory.newBat().addToWorld(level)
+            }
+        }
+    }
+
+    private fun <T : EntityType> GameEntity<T>.addToWorld(
+            atLevel: Int,
+            atArea: Size = world.actualSize().to2DSize()): GameEntity<T> {
+        world.addAtEmptyPosition(this,
+                offset = Positions.default3DPosition().withZ(atLevel),
+                size = Size3D.from2DSize(atArea))
+        return this
+    }
+
+    private fun addZircons() = also {
+        repeat(world.actualSize().zLength) { level ->
+            repeat(GameConfig.ZIRCONS_PER_LEVEL) {
+                EntityFactory.newZircon().addToWorld(level)
+            }
+        }
     }
 
     companion object {

@@ -19,6 +19,11 @@ import org.hexworks.zircon.api.data.impl.Size3D
 import org.hexworks.zircon.api.game.GameArea
 import org.hexworks.zircon.api.screen.Screen
 import org.hexworks.zircon.api.uievent.UIEvent
+import org.hexworks.cavesofzircon.attributes.Vision
+import org.hexworks.cavesofzircon.extensions.blocksVision
+import org.hexworks.zircon.api.data.Position
+import org.hexworks.zircon.api.shape.EllipseFactory
+import org.hexworks.zircon.api.shape.LineFactory
 
 class World(startingBlocks: Map<Position3D, GameBlock>,
             visibleSize: Size3D,
@@ -105,6 +110,44 @@ class World(startingBlocks: Map<Position3D, GameBlock>,
             currentTry++
         }
         return position
+    }
+
+    fun removeEntity(entity: Entity<EntityType, GameContext>) {
+        fetchBlockAt(entity.position).map {
+            it.removeEntity(entity)
+        }
+        engine.removeEntity(entity)
+        entity.position = Position3D.unknown()
+    }
+
+    fun isVisionBlockedAt(pos: Position3D): Boolean {
+        return fetchBlockAt(pos).fold(whenEmpty = { false }, whenPresent = {
+            it.entities.any(GameEntity<EntityType>::blocksVision)
+        })
+    }
+
+    fun findVisiblePositionsFor(entity: GameEntity<EntityType>): Iterable<Position> {
+        val centerPos = entity.position.to2DPosition()
+        return entity.findAttribute(Vision::class).map { (radius) ->
+            EllipseFactory.buildEllipse(
+                    fromPosition = centerPos,
+                    toPosition = centerPos.withRelativeX(radius).withRelativeY(radius))
+                    .positions()
+                    .flatMap { ringPos ->
+                        val result = mutableListOf<Position>()
+                        val iter = LineFactory.buildLine(centerPos, ringPos).iterator()
+                        do {
+                            val next = iter.next()
+                            result.add(next)
+                        } while (iter.hasNext() &&
+                                isVisionBlockedAt(Position3D.from2DPosition(next, entity.position.z)).not())
+                        result
+                    }
+        }.orElse(listOf())
+    }
+
+    fun addWorldEntity(entity: Entity<EntityType, GameContext>) {
+        engine.addEntity(entity)
     }
 
     companion object {

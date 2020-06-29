@@ -4,8 +4,8 @@ import org.hexworks.amethyst.api.Attribute
 import org.hexworks.cobalt.databinding.api.createPropertyFrom
 import org.hexworks.zircon.api.data.impl.Position3D
 
-class EntityPosition(initialPosition: Position3D = Position3D.unknown()) : Attribute { // 1
-    private val positionProperty = createPropertyFrom(initialPosition) // 2
+class EntityPosition(initialPosition: Position3D = Position3D.unknown()) : Attribute {
+    private val positionProperty = createPropertyFrom(initialPosition)
 
-    var position: Position3D by positionProperty.asDelegate() // 3
+    var position: Position3D by positionProperty.asDelegate()
 }

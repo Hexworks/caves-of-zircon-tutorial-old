@@ -12,20 +12,29 @@ import org.hexworks.cavesofzircon.commands.MoveTo
 import org.hexworks.cavesofzircon.extensions.GameCommand
 import org.hexworks.cavesofzircon.extensions.position
 import org.hexworks.cavesofzircon.world.GameContext
+import org.hexworks.cavesofzircon.extensions.tryActionsOn
+import org.hexworks.cobalt.datatypes.extensions.map
 
 object Movable : BaseFacet<GameContext>() {
 
     override fun executeCommand(command: GameCommand<out EntityType>) = command.responseWhenCommandIs(MoveTo::class) { (context, entity, position) ->
         val world = context.world
-        val previousPosition = entity.position      // 1
+        val previousPosition = entity.position
         var result: Response = Pass
-        if (world.moveEntity(entity, position)) {
-            result = if (entity.type == Player) {   // 2
-                CommandResponse(MoveCamera(         // 3
-                        context = context,
-                        source = entity,
-                        previousPosition = previousPosition))
-            } else Consumed
+        world.fetchBlockAt(position).map { block ->
+            if (block.isOccupied) {
+                result = entity.tryActionsOn(context, block.occupier.get())
+            } else {
+                if (world.moveEntity(entity, position)) {
+                    result = Consumed
+                    if (entity.type == Player) {
+                        result = CommandResponse(MoveCamera(
+                                context = context,
+                                source = entity,
+                                previousPosition = previousPosition))
+                    }
+                }
+            }
         }
         result
     }
