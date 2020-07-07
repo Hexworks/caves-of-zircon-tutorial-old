@@ -1,17 +1,23 @@
 package org.hexworks.cavesofzircon.view.fragment
 
+import org.hexworks.cavesofzircon.GameConfig
 import org.hexworks.cavesofzircon.attributes.Inventory
 import org.hexworks.cavesofzircon.extensions.GameItem
+import org.hexworks.cobalt.datatypes.Maybe
+import org.hexworks.cobalt.datatypes.extensions.map
 import org.hexworks.zircon.api.Components
 import org.hexworks.zircon.api.component.Fragment
+import org.hexworks.zircon.api.component.VBox
 import org.hexworks.zircon.api.extensions.onComponentEvent
 import org.hexworks.zircon.api.uievent.ComponentEventType.ACTIVATED
 import org.hexworks.zircon.api.uievent.Processed
 
 class InventoryFragment(inventory: Inventory,
                         width: Int,
-                        onDrop: (GameItem) -> Unit,
-                        onEat: (GameItem) -> Unit) : Fragment {
+                        private val onDrop: (GameItem) -> Unit,
+                        private val onEat: (GameItem) -> Unit,
+                        private val onEquip: (GameItem) -> Maybe<GameItem>,
+                        private val onExamine: (GameItem) -> Unit) : Fragment {
 
     override val root = Components.vbox()
             .withSize(width, inventory.size + 1)
@@ -26,20 +32,36 @@ class InventoryFragment(inventory: Inventory,
                             addComponent(Components.header().withText("Actions").withSize(ACTIONS_COLUMN_WIDTH, 1))
                         })
                 inventory.items.forEach { item ->
-                    addFragment(InventoryRowFragment(width, item).apply {
-                        dropButton.onComponentEvent(ACTIVATED) {
-                            list.removeComponent(this.root)
-                            onDrop(item)
-                            Processed
-                        }
-                        eatButton.onComponentEvent(ACTIVATED) {
-                            list.removeComponent(this.root)
-                            onEat(item)
-                            Processed
-                        }
-                    })
+                    addRow(width, item, list)
                 }
             }
+
+    private fun addRow(width: Int, item: GameItem, list: VBox) {
+        list.addFragment(InventoryRowFragment(width, item).apply {
+            dropButton.onComponentEvent(ACTIVATED) {
+                list.removeComponent(this.root)
+                onDrop(item)
+                Processed
+            }
+            eatButton.onComponentEvent(ACTIVATED) {
+                list.removeComponent(this.root)
+                onEat(item)
+                Processed
+            }
+            equipButton.onComponentEvent(ACTIVATED) {
+                onEquip(item).map { oldItem ->
+                    list.removeComponent(this.root)
+                    addRow(width, oldItem, list)
+                }
+                Processed
+            }
+            examineButton.onComponentEvent(ACTIVATED) {
+                onExamine(item)
+                Processed
+            }
+        })
+        list.applyColorTheme(GameConfig.THEME)
+    }
 
     companion object {
         const val NAME_COLUMN_WIDTH = 15

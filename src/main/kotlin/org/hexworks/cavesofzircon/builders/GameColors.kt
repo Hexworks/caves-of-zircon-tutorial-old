@@ -21,4 +21,5 @@ object GameColors {
 
     val BAT_MEAT_COLOR = TileColors.fromString("#EA4861")
 
+    val ZOMBIE_COLOR = TileColors.fromString("#618358")
 }

@@ -3,9 +3,7 @@ package org.hexworks.cavesofzircon.extensions
 import org.hexworks.amethyst.api.*
 import org.hexworks.amethyst.api.entity.Entity
 import org.hexworks.amethyst.api.entity.EntityType
-import org.hexworks.cavesofzircon.attributes.EntityActions
-import org.hexworks.cavesofzircon.attributes.EntityPosition
-import org.hexworks.cavesofzircon.attributes.EntityTile
+import org.hexworks.cavesofzircon.attributes.*
 import org.hexworks.cavesofzircon.attributes.flags.BlockOccupier
 import org.hexworks.cavesofzircon.attributes.flags.VisionBlocker
 import org.hexworks.cavesofzircon.attributes.types.Combatant
@@ -62,6 +60,22 @@ fun AnyGameEntity.tryActionsOn(context: GameContext, target: AnyGameEntity): Res
 
 val AnyGameEntity.blocksVision: Boolean
     get() = this.findAttribute(VisionBlocker::class).isPresent
+
+val AnyGameEntity.attackValue: Int
+    get() {
+        val combat = findAttribute(CombatStats::class).map { it.attackValue }.orElse(0)
+        val equipment = findAttribute(Equipment::class).map { it.attackValue }.orElse(0)
+        val item = findAttribute(ItemCombatStats::class).map { it.attackValue }.orElse(0)
+        return combat + equipment + item
+    }
+
+val AnyGameEntity.defenseValue: Int
+    get() {
+        val combat = findAttribute(CombatStats::class).map { it.defenseValue }.orElse(0)
+        val equipment = findAttribute(Equipment::class).map { it.defenseValue }.orElse(0)
+        val item = findAttribute(ItemCombatStats::class).map { it.defenseValue }.orElse(0)
+        return combat + equipment + item
+    }
 
 inline fun <reified T : EntityType> Iterable<AnyGameEntity>.filterType(): List<Entity<T, GameContext>> {
     return filter { T::class.isSuperclassOf(it.type::class) }.toList() as List<Entity<T, GameContext>>

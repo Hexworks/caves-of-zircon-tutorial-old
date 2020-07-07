@@ -11,6 +11,7 @@ import org.hexworks.zircon.api.data.impl.Size3D
 import org.hexworks.amethyst.api.entity.EntityType
 import org.hexworks.cavesofzircon.GameConfig.BATS_PER_LEVEL
 import org.hexworks.cavesofzircon.GameConfig.FUNGI_PER_LEVEL
+import org.hexworks.cavesofzircon.GameConfig.ZOMBIES_PER_LEVEL
 import org.hexworks.zircon.api.data.Size
 
 class GameBuilder(val worldSize: Size3D = WORLD_SIZE) {
@@ -32,6 +33,8 @@ class GameBuilder(val worldSize: Size3D = WORLD_SIZE) {
         addFungi()
         addBats()
         addZircons()
+        addZombies()
+        addExit()
 
         val game = Game.create(
                 player = player,
@@ -83,6 +86,36 @@ class GameBuilder(val worldSize: Size3D = WORLD_SIZE) {
                 EntityFactory.newZircon().addToWorld(level)
             }
         }
+    }
+
+    /* dropping from zombies instead
+    private fun addWeapons() = also {
+        repeat(world.actualSize().zLength) { level ->
+            repeat(WEAPONS_PER_LEVEL) {
+                EntityFactory.newRandomWeapon().addToWorld(level)
+            }
+        }
+    }
+
+    private fun addArmor() = also {
+        repeat(world.actualSize().zLength) { level ->
+            repeat(ARMOR_PER_LEVEL) {
+                EntityFactory.newRandomArmor().addToWorld(level)
+            }
+        }
+    }
+     */
+
+    private fun addZombies() = also {
+        repeat(world.actualSize().zLength) { level ->
+            repeat(ZOMBIES_PER_LEVEL) {
+                EntityFactory.newZombie().addToWorld(level)
+            }
+        }
+    }
+
+    private fun addExit() = also {
+        EntityFactory.newExit().addToWorld(0)
     }
 
     companion object {

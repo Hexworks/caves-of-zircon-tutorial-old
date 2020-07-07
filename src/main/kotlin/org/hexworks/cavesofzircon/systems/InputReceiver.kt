@@ -9,8 +9,10 @@ import org.hexworks.zircon.api.uievent.KeyCode
 import org.hexworks.zircon.api.uievent.KeyboardEvent
 import org.hexworks.cavesofzircon.attributes.types.Player
 import org.hexworks.cavesofzircon.commands.*
+import org.hexworks.cavesofzircon.view.dialog.HelpDialog
 import org.hexworks.cobalt.logging.api.LoggerFactory
 import org.hexworks.zircon.api.data.impl.Position3D
+import org.hexworks.zircon.api.screen.Screen
 
 object InputReceiver : BaseBehavior<GameContext>() {
 
@@ -29,6 +31,7 @@ object InputReceiver : BaseBehavior<GameContext>() {
                 KeyCode.KEY_F -> player.moveDown(context)
                 KeyCode.KEY_P -> player.pickItemUp(currentPos, context)
                 KeyCode.KEY_I -> player.inspectInventory(currentPos, context)
+                KeyCode.KEY_H -> showHelp(context.screen)
                 else -> {
                     logger.debug("UI Event ($uiEvent) does not have a corresponding command, it is ignored.")
                 }
@@ -55,5 +58,9 @@ object InputReceiver : BaseBehavior<GameContext>() {
 
     private fun GameEntity<Player>.inspectInventory(position: Position3D, context: GameContext) {
         executeCommand(InspectInventory(context, this, position))
+    }
+
+    private fun showHelp(screen: Screen) {
+        screen.openModal(HelpDialog(screen))
     }
 }

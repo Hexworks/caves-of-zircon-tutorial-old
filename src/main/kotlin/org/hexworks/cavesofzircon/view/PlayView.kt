@@ -3,6 +3,10 @@ package org.hexworks.cavesofzircon.view
 import org.hexworks.cavesofzircon.GameConfig
 import org.hexworks.cavesofzircon.blocks.GameBlock
 import org.hexworks.cavesofzircon.events.GameLogEvent
+import org.hexworks.cavesofzircon.events.PlayerDied
+import org.hexworks.cavesofzircon.events.PlayerGainedLevel
+import org.hexworks.cavesofzircon.events.PlayerWonTheGame
+import org.hexworks.cavesofzircon.view.dialog.LevelUpDialog
 import org.hexworks.cavesofzircon.view.fragment.PlayerStatsFragment
 import org.hexworks.cavesofzircon.world.Game
 import org.hexworks.cavesofzircon.world.GameBuilder
@@ -17,6 +21,7 @@ import org.hexworks.zircon.api.mvc.base.BaseView
 import org.hexworks.zircon.api.uievent.KeyboardEventType
 import org.hexworks.zircon.api.uievent.Processed
 import org.hexworks.zircon.internal.Zircon
+import java.util.logging.Level
 
 class PlayView(private val game: Game = GameBuilder.defaultGame()) : BaseView() {
 
@@ -53,6 +58,20 @@ class PlayView(private val game: Game = GameBuilder.defaultGame()) : BaseView() 
                     paragraph = text,
                     withNewLine = false,
                     withTypingEffectSpeedInMs = 10)
+        }
+
+        Zircon.eventBus.subscribe<PlayerGainedLevel> {
+            screen.openModal(LevelUpDialog(screen, game.player))
+        }
+
+        Zircon.eventBus.subscribe<PlayerWonTheGame> {
+            replaceWith(WinView(it.zircons))
+            close()
+        }
+
+        Zircon.eventBus.subscribe<PlayerDied> {
+            replaceWith(LoseView(it.cause))
+            close()
         }
 
         val gameComponent = GameComponents.newGameComponentBuilder<Tile, GameBlock>()
