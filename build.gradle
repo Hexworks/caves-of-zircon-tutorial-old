@@ -38,7 +38,7 @@ artifacts {
 
 jar {
     manifest {
-        attributes 'Main-Class': "org.hexworks.cavesofzircon.MainKt"
+        attributes 'Main-Class': "norn.MainKt"
     }
 }
 
