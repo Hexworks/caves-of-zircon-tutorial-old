@@ -7,6 +7,9 @@ import org.hexworks.zircon.api.Sizes
 
 object GameConfig {
 
+    // mode defaults to player, but can be set in main.kt via args
+    var runMode: RunMode = RunMode.PLAYER
+
     // game
     const val DUNGEON_LEVELS = 2
 

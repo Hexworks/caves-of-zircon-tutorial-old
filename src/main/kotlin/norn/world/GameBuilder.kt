@@ -12,6 +12,7 @@ import org.hexworks.amethyst.api.entity.EntityType
 import norn.GameConfig.BATS_PER_LEVEL
 import norn.GameConfig.FUNGI_PER_LEVEL
 import norn.GameConfig.ZOMBIES_PER_LEVEL
+import norn.RunMode
 import org.hexworks.zircon.api.data.Size
 
 class GameBuilder(val worldSize: Size3D = WORLD_SIZE) {
@@ -40,8 +41,9 @@ class GameBuilder(val worldSize: Size3D = WORLD_SIZE) {
                 player = player,
                 world = world)
 
-        world.addWorldEntity(EntityFactory.newFogOfWar(game))
-
+        if (GameConfig.runMode == RunMode.PLAYER) {
+            world.addWorldEntity(EntityFactory.newFogOfWar(game))
+        }
         return game
     }
 
