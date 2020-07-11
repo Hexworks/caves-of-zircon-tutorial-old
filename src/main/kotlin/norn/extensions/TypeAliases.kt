@@ -1,12 +1,9 @@
 package norn.extensions
 
+import norn.attributes.types.*
 import org.hexworks.amethyst.api.Command
 import org.hexworks.amethyst.api.entity.Entity
 import org.hexworks.amethyst.api.entity.EntityType
-import norn.attributes.types.CombatItem
-import norn.attributes.types.EquipmentHolder
-import norn.attributes.types.Item
-import norn.attributes.types.ItemHolder
 import norn.world.GameContext
 
 /**
@@ -27,6 +24,8 @@ typealias GameCommand<T> = Command<T, GameContext>
 typealias GameItem = GameEntity<Item>
 
 typealias GameItemHolder = GameEntity<ItemHolder>
+
+typealias GameSpellbookHolder = GameEntity<SpellbookHolder>
 
 typealias GameCombatItem = GameEntity<CombatItem>
 

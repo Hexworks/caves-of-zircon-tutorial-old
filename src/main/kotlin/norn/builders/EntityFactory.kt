@@ -37,6 +37,7 @@ object EntityFactory {
                 EntityTile(GameTileRepository.PLAYER),
                 EntityActions(Dig::class, Attack::class),
                 Inventory(10),
+                SpellBook(10),
                 EnergyLevel(1000, 1000),
                 Experience(),
                 ZirconCounter(),

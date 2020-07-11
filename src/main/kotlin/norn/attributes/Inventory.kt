@@ -5,7 +5,7 @@ import norn.extensions.GameItem
 import org.hexworks.cobalt.datatypes.Identifier
 import org.hexworks.cobalt.datatypes.Maybe
 
-class Inventory(val size: Int) : Attribute {
+open class Inventory(val size: Int) : Attribute {
 
     private val currentItems = mutableListOf<GameItem>()
 
