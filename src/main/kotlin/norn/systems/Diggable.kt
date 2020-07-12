@@ -6,6 +6,7 @@ import org.hexworks.amethyst.api.entity.EntityType
 import norn.commands.Dig
 import norn.extensions.GameCommand
 import norn.world.GameContext
+import org.hexworks.amethyst.api.entity.Entity
 
 object Diggable : BaseFacet<GameContext>() {
 

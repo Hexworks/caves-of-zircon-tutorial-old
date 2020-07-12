@@ -8,6 +8,6 @@ fun logGameEvent(text: String) {
 }
 
 // TODO: update this with a debug log event and add listener
-fun debugGameEvent(text: String) {
-    Zircon.eventBus.publish(GameLogEvent(text))
+fun logDebugGameEvent(text: String) {
+    println(text)
 }

@@ -1,17 +1,13 @@
 package norn.systems
 
+import norn.extensions.*
 import org.hexworks.amethyst.api.base.BaseBehavior
 import org.hexworks.amethyst.api.entity.EntityType
-import norn.extensions.GameEntity
-import norn.extensions.position
 import norn.world.GameContext
 import org.hexworks.zircon.api.uievent.KeyCode
 import org.hexworks.zircon.api.uievent.KeyboardEvent
-import norn.attributes.types.Player
-import norn.commands.*
 import norn.view.dialog.HelpDialog
 import org.hexworks.cobalt.logging.api.LoggerFactory
-import org.hexworks.zircon.api.data.impl.Position3D
 import org.hexworks.zircon.api.screen.Screen
 
 object InputReceiver : BaseBehavior<GameContext>() {
@@ -32,32 +28,13 @@ object InputReceiver : BaseBehavior<GameContext>() {
                 KeyCode.KEY_P -> player.pickItemUp(currentPos, context)
                 KeyCode.KEY_I -> player.inspectInventory(currentPos, context)
                 KeyCode.KEY_H -> showHelp(context.screen)
+                KeyCode.KEY_G -> player.healSelf(context)// player, player, 10)
                 else -> {
                     logger.debug("UI Event ($uiEvent) does not have a corresponding command, it is ignored.")
                 }
             }
         }
         return true
-    }
-
-    private fun GameEntity<Player>.moveTo(position: Position3D, context: GameContext) {
-        executeCommand(MoveTo(context, this, position))
-    }
-
-    private fun GameEntity<Player>.moveUp(context: GameContext) {
-        executeCommand(MoveUp(context, this))
-    }
-
-    private fun GameEntity<Player>.moveDown(context: GameContext) {
-        executeCommand(MoveDown(context, this))
-    }
-
-    private fun GameEntity<Player>.pickItemUp(position: Position3D, context: GameContext) {
-        executeCommand(PickItemUp(context, this, position))
-    }
-
-    private fun GameEntity<Player>.inspectInventory(position: Position3D, context: GameContext) {
-        executeCommand(InspectInventory(context, this, position))
     }
 
     private fun showHelp(screen: Screen) {

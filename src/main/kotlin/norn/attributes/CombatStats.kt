@@ -1,6 +1,5 @@
 package norn.attributes
 
-import org.hexworks.amethyst.api.Attribute
 import norn.extensions.toStringProperty
 import org.hexworks.cobalt.databinding.api.createPropertyFrom
 import org.hexworks.cobalt.databinding.api.expression.concat
