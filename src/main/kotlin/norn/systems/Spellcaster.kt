@@ -6,7 +6,6 @@ import norn.attributes.types.acceptVisitor
 import norn.commands.spells.CombatantTargetedSpellAction
 import norn.extensions.GameCommand
 import norn.extensions.GameEntity
-import norn.functions.logDebugGameEvent
 import norn.world.GameContext
 import org.hexworks.amethyst.api.Response
 import org.hexworks.amethyst.api.base.BaseFacet

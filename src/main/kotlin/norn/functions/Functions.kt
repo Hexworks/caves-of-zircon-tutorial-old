@@ -1,5 +1,7 @@
 package norn.functions
 
+import norn.GameConfig
+import norn.RunMode
 import norn.events.GameLogEvent
 import org.hexworks.zircon.internal.Zircon
 
@@ -7,7 +9,13 @@ fun logGameEvent(text: String) {
     Zircon.eventBus.publish(GameLogEvent(text))
 }
 
-// TODO: update this with a debug log event and add listener
-fun logDebugGameEvent(text: String) {
+
+fun logDevGameEvent(text: String) {
     println(text)
+}
+
+fun logDebugGameEvent(text: String) {
+    if (GameConfig.runMode == RunMode.DEBUG) {
+        Zircon.eventBus.publish(GameLogEvent(text))
+    }
 }

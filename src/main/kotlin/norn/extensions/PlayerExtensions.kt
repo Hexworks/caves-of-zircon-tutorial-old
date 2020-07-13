@@ -1,9 +1,11 @@
 package norn.extensions
 
+import norn.attributes.types.Combatant
 import norn.attributes.types.Player
 import norn.commands.*
 import norn.commands.spells.Heal
-import norn.functions.logDebugGameEvent
+import norn.commands.spells.Zap
+import norn.functions.logDevGameEvent
 import norn.world.GameContext
 import org.hexworks.zircon.api.data.impl.Position3D
 
@@ -31,6 +33,11 @@ fun GameEntity<Player>.healSelf(context: GameContext
         //source: GameEntity<EnergyUser>,
         //target: GameEntity<Combatant>,
                                         ) {
-    logDebugGameEvent("Firing heal executeCommand")
+    logDevGameEvent("Firing heal executeCommand")
     executeCommand(Heal(context, this, this))
+}
+
+fun GameEntity<Player>.zap(context: GameContext, target: GameEntity<Combatant>) {
+    logDevGameEvent("Firing zap executeCommand")
+    executeCommand(Zap(context, this, target))
 }

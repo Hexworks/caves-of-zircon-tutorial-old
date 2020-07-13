@@ -29,6 +29,7 @@ object InputReceiver : BaseBehavior<GameContext>() {
                 KeyCode.KEY_I -> player.inspectInventory(currentPos, context)
                 KeyCode.KEY_H -> showHelp(context.screen)
                 KeyCode.KEY_G -> player.healSelf(context)// player, player, 10)
+                KeyCode.KEY_Z -> player.zap(context, player) // probably shouldn't zap self
                 else -> {
                     logger.debug("UI Event ($uiEvent) does not have a corresponding command, it is ignored.")
                 }
