@@ -6,6 +6,7 @@ import norn.attributes.types.heal
 import norn.extensions.GameEntity
 import norn.world.GameContext
 
+// TODO calculate heal amount
 class Heal(override val context: GameContext,
                override val source: GameEntity<EnergyUser>,
                override val target: GameEntity<Combatant>) : CombatantTargetedSpellAction<EnergyUser, Combatant>(context, source, target) {

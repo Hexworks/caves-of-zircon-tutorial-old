@@ -2,6 +2,7 @@ package norn.attributes.types
 
 import org.hexworks.amethyst.api.base.BaseEntityType
 
+// TODO revamp stats
 object Player : BaseEntityType(
         name = "player"), Combatant, ItemHolder, EnergyUser, EquipmentHolder, ExperienceGainer, ZirconHolder
 

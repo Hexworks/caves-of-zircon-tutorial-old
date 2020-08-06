@@ -44,7 +44,7 @@ object EntityFactory {
                 Equipment(initialWeapon = newClub(), initialArmor = newJacket()))
         behaviors(InputReceiver, EnergyExpender)
         facets(Movable, CameraMover, StairClimber, StairDescender, Attackable, Spellcaster, Destructible, ZirconGatherer,
-                ItemPicker, InventoryInspector, ItemDropper, EnergyExpender, DigestiveSystem, ExperienceAccumulator)
+                ItemPicker, InventoryInspector, ItemDropper, EnergyExpender, DigestiveSystem, ExperienceAccumulator, Waiting)
     }
 
     fun newWall() = newGameEntityOfType(Wall) {

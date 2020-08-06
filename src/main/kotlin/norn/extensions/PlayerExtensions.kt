@@ -7,6 +7,8 @@ import norn.commands.spells.Heal
 import norn.commands.spells.Zap
 import norn.functions.logDevGameEvent
 import norn.world.GameContext
+import norn.world.GameState
+import norn.world.MetaContext
 import org.hexworks.zircon.api.data.impl.Position3D
 
 fun GameEntity<Player>.moveTo(position: Position3D, context: GameContext) {
@@ -37,7 +39,9 @@ fun GameEntity<Player>.healSelf(context: GameContext
     executeCommand(Heal(context, this, this))
 }
 
-fun GameEntity<Player>.zap(context: GameContext, target: GameEntity<Combatant>) {
+fun GameEntity<Player>.zap(context: GameContext) {
     logDevGameEvent("Firing zap executeCommand")
-    executeCommand(Zap(context, this, target))
+    // set context, then let inputreceiver handle the click and cancelling
+    MetaContext.gameState = GameState.TARGETING
+    MetaContext.suspendedAction = Zap(context, this)
 }

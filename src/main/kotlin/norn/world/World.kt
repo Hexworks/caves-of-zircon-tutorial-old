@@ -23,6 +23,7 @@ import norn.attributes.Vision
 import norn.attributes.types.Item
 import norn.extensions.blocksVision
 import norn.extensions.filterType
+import norn.functions.logDevGameEvent
 import org.hexworks.cobalt.datatypes.extensions.flatMap
 import org.hexworks.zircon.api.data.Position
 import org.hexworks.zircon.api.shape.EllipseFactory
@@ -51,6 +52,7 @@ class World(startingBlocks: Map<Position3D, GameBlock>,
     }
 
     fun update(screen: Screen, uiEvent: UIEvent, game: Game) {
+        logDevGameEvent("world update $uiEvent")
         engine.update(GameContext(
                 world = this,
                 screen = screen,

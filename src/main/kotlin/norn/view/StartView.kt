@@ -1,5 +1,10 @@
 package norn.view
 
+import norn.GameConfig.runMode
+import norn.functions.logDevGameEvent
+import norn.world.Game
+import norn.world.GameState
+import norn.world.MetaContext
 import org.hexworks.zircon.api.ColorThemes
 import org.hexworks.zircon.api.Components
 import org.hexworks.zircon.api.component.ComponentAlignment
@@ -14,6 +19,7 @@ class StartView : BaseView() {
     override val theme = ColorThemes.arc()
 
     override fun onDock() {
+        MetaContext.gameState = GameState.PREGAME
         val msg = "Welcome to Caves of Zircon."
         val header = Components.textBox()
                 .withContentWidth(msg.length)

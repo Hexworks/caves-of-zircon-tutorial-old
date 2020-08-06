@@ -12,6 +12,8 @@ import org.hexworks.zircon.api.extensions.onComponentEvent
 import org.hexworks.zircon.api.uievent.ComponentEventType.ACTIVATED
 import org.hexworks.zircon.api.uievent.Processed
 
+// TODO: close button doesn't click?
+// TODO: put in game states for menus
 class InventoryFragment(inventory: Inventory,
                         width: Int,
                         private val onDrop: (GameItem) -> Unit,

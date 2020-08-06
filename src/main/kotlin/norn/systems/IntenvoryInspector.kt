@@ -11,6 +11,7 @@ import norn.commands.InspectInventory
 import norn.extensions.GameCommand
 import norn.extensions.GameItem
 import norn.extensions.whenTypeIs
+import norn.functions.logDevGameEvent
 import norn.view.dialog.ExamineDialog
 import norn.view.fragment.InventoryFragment
 import norn.world.GameContext
@@ -74,11 +75,13 @@ object InventoryInspector : BaseFacet<GameContext>() {
                         .withComponent(panel)
                         .build()
 
+                // TODO this doesn't respond to clicks...?
                 panel.addComponent(Components.button()
                         .withText("Close")
                         .withAlignmentWithin(panel, BOTTOM_LEFT)
                         .build().apply {
                             onComponentEvent(ACTIVATED) {
+                                logDevGameEvent("handling inventory inspector close")
                                 modal.close(EmptyModalResult)
                                 Processed
                             }

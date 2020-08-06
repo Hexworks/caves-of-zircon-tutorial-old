@@ -7,6 +7,8 @@ import norn.extensions.GameEntity
 import norn.world.GameContext
 import org.hexworks.amethyst.api.entity.EntityType
 
+// TODO: these need energy costs
+// TODO: mana system in general Q.Q
 abstract class CombatantTargetedSpellAction<S: EntityType, T: EntityType>(context: GameContext,
                 source: GameEntity<EnergyUser>, target: GameEntity<Combatant>) : EntityAction<S, T> {
 

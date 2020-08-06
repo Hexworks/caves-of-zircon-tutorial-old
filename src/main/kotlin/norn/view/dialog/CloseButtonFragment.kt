@@ -1,5 +1,6 @@
 package norn.view.dialog
 
+import norn.functions.logDevGameEvent
 import org.hexworks.zircon.api.Components
 import org.hexworks.zircon.api.component.ComponentAlignment
 import org.hexworks.zircon.api.component.Container
@@ -16,6 +17,7 @@ class CloseButtonFragment(modal: Modal<EmptyModalResult>, parent: Container) : F
             .withAlignmentWithin(parent, ComponentAlignment.BOTTOM_RIGHT)
             .build().apply {
                 onComponentEvent(ComponentEventType.ACTIVATED) {
+                    logDevGameEvent("handling close button activated")
                     modal.close(EmptyModalResult)
                     Processed
                 }

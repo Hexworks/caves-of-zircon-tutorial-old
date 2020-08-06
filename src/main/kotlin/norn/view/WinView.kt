@@ -2,6 +2,8 @@ package norn.view
 
 import norn.GameConfig
 import norn.world.GameBuilder
+import norn.world.GameState
+import norn.world.MetaContext
 import org.hexworks.zircon.api.Components
 import org.hexworks.zircon.api.component.ComponentAlignment
 import org.hexworks.zircon.api.extensions.onComponentEvent
@@ -16,6 +18,7 @@ class WinView(private val zircons: Int) : BaseView() {
     override val theme =  GameConfig.THEME
 
     override fun onDock() {
+        MetaContext.gameState = GameState.LOSE
         val msg = "You won!"
         val header = Components.textBox()
                 .withContentWidth( GameConfig.WINDOW_WIDTH / 2)

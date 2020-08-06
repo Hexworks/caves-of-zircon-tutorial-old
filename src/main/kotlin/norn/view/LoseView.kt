@@ -3,6 +3,8 @@ package norn.view
 import norn.GameConfig
 import norn.GameConfig.WORLD_SIZE
 import norn.world.GameBuilder
+import norn.world.GameState
+import norn.world.MetaContext
 import org.hexworks.zircon.api.Components
 import org.hexworks.zircon.api.component.ComponentAlignment
 import org.hexworks.zircon.api.component.ComponentAlignment.BOTTOM_LEFT
@@ -18,6 +20,7 @@ class LoseView(private val causeOfDeath: String) : BaseView() {
     override val theme = GameConfig.THEME
 
     override fun onDock() {
+        MetaContext.gameState = GameState.LOSE
         val msg = "Game Over"
         val header = Components.textBox()
                 .withContentWidth(30)
