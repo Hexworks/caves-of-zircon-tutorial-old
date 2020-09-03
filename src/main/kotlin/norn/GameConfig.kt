@@ -16,7 +16,7 @@ object GameConfig {
     // look & feel
     val TILESET = CP437TilesetResources.rogueYun16x16()
     val THEME = ColorThemes.zenburnVanilla()
-    const val SIDEBAR_WIDTH = 18
+    const val SIDEBAR_WIDTH = 20
     const val LOG_AREA_HEIGHT = 8
 
     // sizing

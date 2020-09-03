@@ -8,6 +8,7 @@ Upcoming TODOs:
 * spells UI
 * energy system
 * removing Caves of Zircon systems not being used
+* NPC actions only during their turn / entity isYourTurn() functionality in general
 
 Useful notes:
 * Event subscription happens in Views
