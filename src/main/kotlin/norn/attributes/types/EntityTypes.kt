@@ -6,6 +6,8 @@ import org.hexworks.amethyst.api.base.BaseEntityType
 object Player : BaseEntityType(
         name = "player"), Combatant, ItemHolder, EnergyUser, EquipmentHolder, ExperienceGainer, ZirconHolder
 
+object Placeholder : BaseEntityType(name="Placeholder"), Combatant
+
 object Wall : BaseEntityType(
         name = "wall")
 

@@ -15,7 +15,9 @@ import norn.world.Game
 import norn.world.GameContext
 import norn.attributes.types.Bat
 import norn.extensions.GameEntity
-import norn.systems.Wanderer
+import norn.systems.npc.Wanderer
+import norn.systems.npc.FungusGrowth
+import norn.systems.npc.HunterSeeker
 import org.hexworks.zircon.api.GraphicalTilesetResources
 import org.hexworks.zircon.api.Tiles
 import kotlin.random.Random
@@ -45,6 +47,12 @@ object EntityFactory {
         behaviors(InputReceiver, EnergyExpender)
         facets(Movable, CameraMover, StairClimber, StairDescender, Attackable, Spellcaster, Destructible, ZirconGatherer,
                 ItemPicker, InventoryInspector, ItemDropper, EnergyExpender, DigestiveSystem, ExperienceAccumulator, Waiting)
+    }
+
+    fun newPlaceholder() = newGameEntityOfType(Placeholder) {
+        attributes()
+        behaviors()
+        facets()
     }
 
     fun newWall() = newGameEntityOfType(Wall) {

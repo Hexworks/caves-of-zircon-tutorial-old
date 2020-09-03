@@ -9,8 +9,11 @@ import org.hexworks.amethyst.api.entity.EntityType
 
 // TODO: these need energy costs
 // TODO: mana system in general Q.Q
-abstract class CombatantTargetedSpellAction<S: EntityType, T: EntityType>(context: GameContext,
-                source: GameEntity<EnergyUser>, target: GameEntity<Combatant>) : EntityAction<S, T> {
+abstract class CombatantTargetedSpellAction<S : EnergyUser, T : Combatant>(
+        context: GameContext,
+        override val source: GameEntity<S>,
+        override val target: GameEntity<T>
+) : EntityAction<S, T> {
 
     open fun visitCombatant(combatant: GameEntity<Combatant>) {}
 }

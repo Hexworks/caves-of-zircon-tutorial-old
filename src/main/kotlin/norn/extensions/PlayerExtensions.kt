@@ -1,7 +1,7 @@
 package norn.extensions
 
-import norn.attributes.types.Combatant
 import norn.attributes.types.Player
+import norn.builders.EntityFactory.newPlaceholder
 import norn.commands.*
 import norn.commands.spells.Heal
 import norn.commands.spells.Zap
@@ -43,5 +43,10 @@ fun GameEntity<Player>.zap(context: GameContext) {
     logDevGameEvent("Firing zap executeCommand")
     // set context, then let inputreceiver handle the click and cancelling
     MetaContext.gameState = GameState.TARGETING
-    MetaContext.suspendedAction = Zap(context, this)
+    MetaContext.suspendedAction = Zap(context, this, newPlaceholder())
+}
+
+fun GameEntity<Player>.doTargetedAction(context: GameContext, action: EntityAction<GameEntity, GameEntity>) {
+    logDevGameEvent("Firing heal executeCommand")
+    executeCommand(Heal(context, this, this))
 }

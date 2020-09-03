@@ -1,4 +1,4 @@
-package norn.systems
+package norn.systems.npc
 
 import org.hexworks.amethyst.api.base.BaseBehavior
 import org.hexworks.amethyst.api.entity.EntityType

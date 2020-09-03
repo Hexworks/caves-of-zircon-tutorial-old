@@ -58,6 +58,10 @@ class World(startingBlocks: Map<Position3D, GameBlock>,
                 screen = screen,
                 uiEvent = uiEvent,
                 player = game.player))
+        if (MetaContext.gameState != GameState.TARGETING) {
+            logDevGameEvent("Reseting to player turn")
+            MetaContext.gameState = GameState.PLAYER_TURN
+        }
     }
 
     fun addEntity(entity: Entity<EntityType, GameContext>, position: Position3D) {
