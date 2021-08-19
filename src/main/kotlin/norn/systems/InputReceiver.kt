@@ -4,17 +4,17 @@ import norn.GameConfig
 import norn.extensions.*
 import norn.functions.logDevGameEvent
 import norn.functions.logGameEvent
-import org.hexworks.amethyst.api.base.BaseBehavior
-import org.hexworks.amethyst.api.entity.EntityType
-import norn.world.GameContext
-import org.hexworks.zircon.api.uievent.KeyCode
-import org.hexworks.zircon.api.uievent.KeyboardEvent
 import norn.view.dialog.HelpDialog
+import norn.world.GameContext
 import norn.world.GameState
 import norn.world.MetaContext
+import org.hexworks.amethyst.api.base.BaseBehavior
+import org.hexworks.amethyst.api.entity.EntityType
 import org.hexworks.cobalt.logging.api.LoggerFactory
 import org.hexworks.zircon.api.data.impl.Position3D
 import org.hexworks.zircon.api.screen.Screen
+import org.hexworks.zircon.api.uievent.KeyCode
+import org.hexworks.zircon.api.uievent.KeyboardEvent
 import org.hexworks.zircon.api.uievent.MouseEvent
 import org.hexworks.zircon.api.uievent.MouseEventType
 
@@ -57,20 +57,24 @@ object InputReceiver : BaseBehavior<GameContext>() {
                 logGameEvent("ui mouse event while targeting: $uiEvent")
                 logGameEvent("player position is $currentPos")
                 logGameEvent("click position ${uiEvent.position}")
-                var maybeCombatant = world.findTopCombatant(Position3D.create(uiEvent.position.x - GameConfig.SIDEBAR_WIDTH,
-                    uiEvent.position.y, currentPos.z))
+                var maybeCombatant = world.findTopCombatant(
+                    Position3D.create(
+                        uiEvent.position.x - GameConfig.SIDEBAR_WIDTH,
+                        uiEvent.position.y, currentPos.z
+                    )
+                )
                 if (maybeCombatant.isEmpty()) {
                     logGameEvent("There isn't a valid target there.")
                     return true
                 }
                 var combatantEntity = maybeCombatant.get()
                 logDevGameEvent("found combatant: $combatantEntity")
-                MetaContext.suspendedAction?.target ?: combatantEntity
-                player.executeCommand(MetaContext.suspendedAction)
+                //MetaContext.suspendedAction?.target ?: combatantEntity
+                //player.executeCommand(MetaContext.suspendedAction)
 
-                when (uiEvent.code) {
-                    // add handling for each targeting button
-                }
+                //when (uiEvent.code) {
+                // add handling for each targeting button? probably not needed if I get the above "executCommand" to work
+                //}
             }
             if (uiEvent is KeyboardEvent) {
                 when (uiEvent.code) {

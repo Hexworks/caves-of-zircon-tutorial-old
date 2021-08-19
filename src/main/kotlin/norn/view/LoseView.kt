@@ -23,30 +23,35 @@ class LoseView(private val causeOfDeath: String) : BaseView() {
         MetaContext.gameState = GameState.LOSE
         val msg = "Game Over"
         val header = Components.textBox()
-                .withContentWidth(30)
-                .addHeader(msg)
-                .addParagraph(causeOfDeath)
-                .addNewLine()
-                .withAlignmentWithin(screen, ComponentAlignment.CENTER)
-                .build()
+            .withContentWidth(30)
+            .addHeader(msg)
+            .addParagraph(causeOfDeath)
+            .addNewLine()
+            .withAlignmentWithin(screen, ComponentAlignment.CENTER)
+            .build()
         val restartButton = Components.button()
-                .withAlignmentAround(header, BOTTOM_LEFT)
-                .withText("Restart")
-                .wrapSides(false)
-                .wrapWithBox()
-                .withBoxType(BoxType.SINGLE)
-                .build()
+            .withAlignmentAround(header, BOTTOM_LEFT)
+            .withText("Restart")
+            .wrapSides(false)
+            .wrapWithBox()
+            .withBoxType(BoxType.SINGLE)
+            .build()
         val exitButton = Components.button()
-                .withAlignmentAround(header, BOTTOM_RIGHT)
-                .withText("Quit")
-                .wrapSides(false)
-                .wrapWithBox()
-                .withBoxType(BoxType.SINGLE)
-                .build()
+            .withAlignmentAround(header, BOTTOM_RIGHT)
+            .withText("Quit")
+            .wrapSides(false)
+            .wrapWithBox()
+            .withBoxType(BoxType.SINGLE)
+            .build()
 
         restartButton.onComponentEvent(ComponentEventType.ACTIVATED) {
-            replaceWith(PlayView(GameBuilder(
-                    worldSize = WORLD_SIZE).buildGame()))
+            replaceWith(
+                PlayView(
+                    GameBuilder(
+                        worldSize = WORLD_SIZE
+                    ).buildGame()
+                )
+            )
             close()
             Processed
         }

@@ -1,7 +1,7 @@
 package norn.attributes
 
-import org.hexworks.amethyst.api.Attribute
 import norn.extensions.GameItem
+import org.hexworks.amethyst.api.Attribute
 import org.hexworks.cobalt.datatypes.Identifier
 import org.hexworks.cobalt.datatypes.Maybe
 

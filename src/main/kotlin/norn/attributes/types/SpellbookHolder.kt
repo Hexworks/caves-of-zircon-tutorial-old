@@ -1,8 +1,8 @@
 package norn.attributes.types
 
 import norn.attributes.SpellBook
-import org.hexworks.amethyst.api.entity.EntityType
 import norn.extensions.GameSpellbookHolder
+import org.hexworks.amethyst.api.entity.EntityType
 
 interface SpellbookHolder : EntityType
 

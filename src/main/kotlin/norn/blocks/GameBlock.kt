@@ -1,18 +1,19 @@
 package norn.blocks
 
-import org.hexworks.amethyst.api.entity.EntityType
 import norn.builders.GameTileRepository
 import norn.extensions.GameEntity
 import norn.extensions.occupiesBlock
 import norn.extensions.tile
+import org.hexworks.amethyst.api.entity.EntityType
 import org.hexworks.cobalt.datatypes.Maybe
 import org.hexworks.zircon.api.data.BlockSide
 import org.hexworks.zircon.api.data.Tile
 import org.hexworks.zircon.api.data.base.BlockBase
 
-class GameBlock(private var defaultTile: Tile = GameTileRepository.FLOOR,
-                private val currentEntities: MutableList<GameEntity<EntityType>> = mutableListOf())
-    : BlockBase<Tile>() {
+class GameBlock(
+    private var defaultTile: Tile = GameTileRepository.FLOOR,
+    private val currentEntities: MutableList<GameEntity<EntityType>> = mutableListOf()
+) : BlockBase<Tile>() {
 
     val isFloor: Boolean
         get() = defaultTile == GameTileRepository.FLOOR
@@ -57,7 +58,7 @@ class GameBlock(private var defaultTile: Tile = GameTileRepository.FLOOR,
 
     companion object {
         fun createWith(entity: GameEntity<EntityType>) = GameBlock(
-                currentEntities = mutableListOf(entity)
+            currentEntities = mutableListOf(entity)
         )
     }
 }

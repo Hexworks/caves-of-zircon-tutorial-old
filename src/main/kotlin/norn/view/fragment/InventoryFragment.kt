@@ -14,29 +14,31 @@ import org.hexworks.zircon.api.uievent.Processed
 
 // TODO: close button doesn't click?
 // TODO: put in game states for menus
-class InventoryFragment(inventory: Inventory,
-                        width: Int,
-                        private val onDrop: (GameItem) -> Unit,
-                        private val onEat: (GameItem) -> Unit,
-                        private val onEquip: (GameItem) -> Maybe<GameItem>,
-                        private val onExamine: (GameItem) -> Unit) : Fragment {
+class InventoryFragment(
+    inventory: Inventory,
+    width: Int,
+    private val onDrop: (GameItem) -> Unit,
+    private val onEat: (GameItem) -> Unit,
+    private val onEquip: (GameItem) -> Maybe<GameItem>,
+    private val onExamine: (GameItem) -> Unit
+) : Fragment {
 
     override val root = Components.vbox()
-            .withSize(width, inventory.size + 1)
-            .build().apply {
-                val list = this
-                addComponent(Components.hbox()
-                        .withSpacing(1)
-                        .withSize(width, 1)
-                        .build().apply {
-                            addComponent(Components.label().withText("").withSize(1, 1))
-                            addComponent(Components.header().withText("Name").withSize(NAME_COLUMN_WIDTH, 1))
-                            addComponent(Components.header().withText("Actions").withSize(ACTIONS_COLUMN_WIDTH, 1))
-                        })
-                inventory.items.forEach { item ->
-                    addRow(width, item, list)
-                }
+        .withSize(width, inventory.size + 1)
+        .build().apply {
+            val list = this
+            addComponent(Components.hbox()
+                .withSpacing(1)
+                .withSize(width, 1)
+                .build().apply {
+                    addComponent(Components.label().withText("").withSize(1, 1))
+                    addComponent(Components.header().withText("Name").withSize(NAME_COLUMN_WIDTH, 1))
+                    addComponent(Components.header().withText("Actions").withSize(ACTIONS_COLUMN_WIDTH, 1))
+                })
+            inventory.items.forEach { item ->
+                addRow(width, item, list)
             }
+        }
 
     private fun addRow(width: Int, item: GameItem, list: VBox) {
         list.addFragment(InventoryRowFragment(width, item).apply {

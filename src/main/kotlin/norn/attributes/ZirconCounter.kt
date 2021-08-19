@@ -6,18 +6,19 @@ import org.hexworks.cobalt.databinding.api.property.Property
 import org.hexworks.zircon.api.Components
 import org.hexworks.zircon.api.component.Component
 
-data class ZirconCounter(private val zirconCountProperty: Property<Int> = createPropertyFrom(0)) : DisplayableAttribute {
+data class ZirconCounter(private val zirconCountProperty: Property<Int> = createPropertyFrom(0)) :
+    DisplayableAttribute {
 
     var zirconCount: Int by zirconCountProperty.asDelegate()
 
     override fun toComponent(width: Int): Component {
         val zirconProp = createPropertyFrom("Zircons: ")
-                .concat(zirconCountProperty) { it.value.toString() }
+            .concat(zirconCountProperty) { it.value.toString() }
         return Components.header()
-                .withText(zirconProp.value)
-                .withSize(width, 1)
-                .build().apply {
-                    textProperty.updateFrom(zirconProp)
-                }
+            .withText(zirconProp.value)
+            .withSize(width, 1)
+            .build().apply {
+                textProperty.updateFrom(zirconProp)
+            }
     }
 }

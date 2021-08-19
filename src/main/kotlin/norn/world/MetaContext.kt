@@ -1,9 +1,6 @@
 package norn.world
 
 import norn.RunMode
-import norn.attributes.types.Combatant
-import norn.attributes.types.EnergyUser
-import norn.commands.EntityAction
 import org.hexworks.amethyst.api.Command
 import org.hexworks.amethyst.api.entity.EntityType
 import org.hexworks.cobalt.databinding.api.createPropertyFrom

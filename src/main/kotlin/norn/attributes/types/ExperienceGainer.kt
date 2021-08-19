@@ -1,9 +1,9 @@
 package norn.attributes.types
 
-import org.hexworks.amethyst.api.entity.EntityType
 import norn.attributes.CombatStats
 import norn.attributes.Experience
 import norn.extensions.GameEntity
+import org.hexworks.amethyst.api.entity.EntityType
 
 interface ExperienceGainer : EntityType
 

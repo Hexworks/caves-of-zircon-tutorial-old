@@ -1,9 +1,9 @@
 package norn.attributes.types
 
-import org.hexworks.amethyst.api.entity.EntityType
 import norn.attributes.Inventory
 import norn.extensions.GameItem
 import norn.extensions.GameItemHolder
+import org.hexworks.amethyst.api.entity.EntityType
 
 interface ItemHolder : EntityType
 

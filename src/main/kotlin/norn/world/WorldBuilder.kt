@@ -18,8 +18,8 @@ class WorldBuilder(private val worldSize: Size3D) {
 
     fun makeCaves(): WorldBuilder {
         return randomizeTiles()
-                .smooth(8)
-                .connectLevels()
+            .smooth(8)
+            .connectLevels()
     }
 
     fun build(visibleSize: Size3D): World = World(blocks, visibleSize, worldSize)
@@ -47,7 +47,8 @@ class WorldBuilder(private val worldSize: Size3D) {
                         } else rocks++
                     }
                 }
-                newBlocks[Positions.create3DPosition(x, y, z)] = if (floors >= rocks) GameBlockFactory.floor() else GameBlockFactory.wall()
+                newBlocks[Positions.create3DPosition(x, y, z)] =
+                    if (floors >= rocks) GameBlockFactory.floor() else GameBlockFactory.wall()
             }
             blocks = newBlocks
         }
@@ -72,9 +73,10 @@ class WorldBuilder(private val worldSize: Size3D) {
             var pos = Position3D.unknown()
             while (pos.isUnknown()) {
                 val candidate = Positions.create3DPosition(
-                        x = Random.nextInt(width - 1),
-                        y = Random.nextInt(depth - 1),
-                        z = level)
+                    x = Random.nextInt(width - 1),
+                    y = Random.nextInt(depth - 1),
+                    z = level
+                )
                 if (blocks[candidate].isEmptyFloor()) {
                     pos = candidate
                 }
@@ -89,9 +91,9 @@ class WorldBuilder(private val worldSize: Size3D) {
 
     private fun connectRegionDown(currentLevel: Int) {
         val posToConnect = generateRandomFloorPositionsOn(currentLevel)
-                .first { pos ->
-                    blocks[pos].isEmptyFloor() && blocks[pos.below()].isEmptyFloor()
-                }
+            .first { pos ->
+                blocks[pos].isEmptyFloor() && blocks[pos.below()].isEmptyFloor()
+            }
         blocks[posToConnect] = GameBlockFactory.stairsDown()
         blocks[posToConnect.below()] = GameBlockFactory.stairsUp()
 

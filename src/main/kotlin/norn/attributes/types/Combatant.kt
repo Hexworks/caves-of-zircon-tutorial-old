@@ -1,10 +1,10 @@
 package norn.attributes.types
 
-import org.hexworks.amethyst.api.entity.EntityType
 import norn.attributes.CombatStats
 import norn.commands.spells.CombatantTargetedSpellAction
 import norn.extensions.GameEntity
 import norn.functions.logDevGameEvent
+import org.hexworks.amethyst.api.entity.EntityType
 
 interface Combatant : EntityType
 
@@ -18,7 +18,7 @@ fun GameEntity<Combatant>.heal(amount: Int) {
         combatStats.hp += amount
     }
 
-    }
+}
 
 fun GameEntity<Combatant>.acceptVisitor(visitor: CombatantTargetedSpellAction<EnergyUser, Combatant>) {
     visitor.visitCombatant(this)

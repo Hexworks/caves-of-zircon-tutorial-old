@@ -1,8 +1,8 @@
 package norn.attributes.types
 
-import org.hexworks.amethyst.api.entity.EntityType
 import norn.attributes.ZirconCounter
 import norn.extensions.GameEntity
+import org.hexworks.amethyst.api.entity.EntityType
 
 interface ZirconHolder : EntityType
 

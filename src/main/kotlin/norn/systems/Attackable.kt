@@ -1,15 +1,15 @@
 package norn.systems
 
-import org.hexworks.amethyst.api.Consumed
-import org.hexworks.amethyst.api.Pass
-import org.hexworks.amethyst.api.base.BaseFacet
-import org.hexworks.amethyst.api.entity.EntityType
 import norn.attributes.types.combatStats
 import norn.commands.Attack
 import norn.commands.Destroy
 import norn.extensions.*
 import norn.functions.logGameEvent
 import norn.world.GameContext
+import org.hexworks.amethyst.api.Consumed
+import org.hexworks.amethyst.api.Pass
+import org.hexworks.amethyst.api.base.BaseFacet
+import org.hexworks.amethyst.api.entity.EntityType
 
 object Attackable : BaseFacet<GameContext>() {
 
@@ -26,11 +26,14 @@ object Attackable : BaseFacet<GameContext>() {
 
             target.whenHasNoHealthLeft {
 
-                target.executeCommand(Destroy(
+                target.executeCommand(
+                    Destroy(
                         context = context,
                         source = attacker,
                         target = target,
-                        cause = "after receiving a blow to the head"))
+                        cause = "after receiving a blow to the head"
+                    )
+                )
             }
 
             Consumed

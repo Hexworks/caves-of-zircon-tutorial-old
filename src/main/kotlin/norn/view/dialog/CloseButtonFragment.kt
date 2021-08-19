@@ -14,12 +14,12 @@ import org.hexworks.zircon.internal.component.modal.EmptyModalResult
 class CloseButtonFragment(modal: Modal<EmptyModalResult>, parent: Container) : Fragment {
 
     override val root = Components.button().withText("Close")
-            .withAlignmentWithin(parent, ComponentAlignment.BOTTOM_RIGHT)
-            .build().apply {
-                onComponentEvent(ComponentEventType.ACTIVATED) {
-                    logDevGameEvent("handling close button activated")
-                    modal.close(EmptyModalResult)
-                    Processed
-                }
+        .withAlignmentWithin(parent, ComponentAlignment.BOTTOM_RIGHT)
+        .build().apply {
+            onComponentEvent(ComponentEventType.ACTIVATED) {
+                logDevGameEvent("handling close button activated")
+                modal.close(EmptyModalResult)
+                Processed
             }
+        }
 }

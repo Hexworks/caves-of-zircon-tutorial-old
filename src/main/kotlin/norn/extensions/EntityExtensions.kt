@@ -1,20 +1,22 @@
 package norn.extensions
 
-import org.hexworks.amethyst.api.*
-import org.hexworks.amethyst.api.entity.Entity
-import org.hexworks.amethyst.api.entity.EntityType
 import norn.attributes.*
 import norn.attributes.flags.BlockOccupier
 import norn.attributes.flags.VisionBlocker
 import norn.attributes.types.Combatant
 import norn.attributes.types.Player
 import norn.attributes.types.combatStats
+import norn.world.GameContext
+import org.hexworks.amethyst.api.Attribute
+import org.hexworks.amethyst.api.Consumed
+import org.hexworks.amethyst.api.Pass
+import org.hexworks.amethyst.api.Response
+import org.hexworks.amethyst.api.entity.Entity
+import org.hexworks.amethyst.api.entity.EntityType
 import org.hexworks.cobalt.datatypes.extensions.map
 import org.hexworks.cobalt.datatypes.extensions.orElseThrow
-import org.hexworks.zircon.api.data.Block
 import org.hexworks.zircon.api.data.Tile
 import kotlin.reflect.KClass
-import norn.world.GameContext
 import kotlin.reflect.full.isSubclassOf
 import kotlin.reflect.full.isSuperclassOf
 

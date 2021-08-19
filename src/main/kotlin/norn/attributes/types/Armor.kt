@@ -1,8 +1,8 @@
 package norn.attributes.types
 
-import org.hexworks.amethyst.api.entity.Entity
 import norn.attributes.ItemCombatStats
 import norn.world.GameContext
+import org.hexworks.amethyst.api.entity.Entity
 
 interface Armor : CombatItem
 

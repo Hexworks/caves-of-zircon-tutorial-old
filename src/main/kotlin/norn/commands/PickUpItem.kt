@@ -6,6 +6,8 @@ import norn.extensions.GameItemHolder
 import norn.world.GameContext
 import org.hexworks.zircon.api.data.impl.Position3D
 
-data class PickItemUp(override val context: GameContext,
-                      override val source: GameItemHolder,
-                      val position: Position3D) : GameCommand<ItemHolder>
+data class PickItemUp(
+    override val context: GameContext,
+    override val source: GameItemHolder,
+    val position: Position3D
+) : GameCommand<ItemHolder>

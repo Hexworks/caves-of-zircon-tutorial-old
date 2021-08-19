@@ -1,8 +1,8 @@
 package norn.attributes.types
 
-import org.hexworks.amethyst.api.entity.EntityType
 import norn.attributes.EnergyLevel
 import norn.extensions.GameEntity
+import org.hexworks.amethyst.api.entity.EntityType
 
 interface EnergyUser : EntityType
 

@@ -1,10 +1,10 @@
 package norn.extensions
 
 import norn.attributes.types.*
+import norn.world.GameContext
 import org.hexworks.amethyst.api.Command
 import org.hexworks.amethyst.api.entity.Entity
 import org.hexworks.amethyst.api.entity.EntityType
-import norn.world.GameContext
 
 /**
  * Fits any [Entity] type we use.

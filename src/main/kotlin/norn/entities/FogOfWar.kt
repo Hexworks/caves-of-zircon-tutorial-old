@@ -1,11 +1,11 @@
 package norn.entities
 
-import org.hexworks.amethyst.api.base.BaseEntity
 import norn.attributes.types.FogOfWarType
 import norn.builders.GameTileRepository
 import norn.extensions.position
 import norn.world.Game
 import norn.world.GameContext
+import org.hexworks.amethyst.api.base.BaseEntity
 import org.hexworks.zircon.api.Layers
 import org.hexworks.zircon.api.graphics.Layer
 import java.util.concurrent.ConcurrentHashMap
@@ -19,9 +19,9 @@ class FogOfWar(game: Game) : BaseEntity<FogOfWarType, GameContext>(FogOfWarType)
     private val fowPerLevel = ConcurrentHashMap<Int, Layer>().also { fows ->
         repeat(size.zLength) { level ->
             val fow = Layers.newBuilder()
-                    .withSize(size.to2DSize())
-                    .build()
-                    .fill(GameTileRepository.UNREVEALED)
+                .withSize(size.to2DSize())
+                .build()
+                .fill(GameTileRepository.UNREVEALED)
             fows[level] = fow
             world.pushOverlayAt(fow, level)
         }

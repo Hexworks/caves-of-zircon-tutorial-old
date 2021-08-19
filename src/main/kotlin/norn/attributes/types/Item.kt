@@ -1,9 +1,9 @@
 package norn.attributes.types
 
-import org.hexworks.amethyst.api.entity.EntityType
 import norn.attributes.EntityTile
 import norn.attributes.ItemIcon
 import norn.extensions.GameEntity
+import org.hexworks.amethyst.api.entity.EntityType
 import org.hexworks.zircon.api.data.GraphicalTile
 import org.hexworks.zircon.api.data.Tile
 

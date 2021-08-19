@@ -23,7 +23,7 @@ object GameConfig {
     const val WINDOW_WIDTH = 80
     const val WINDOW_HEIGHT = 50
 
-    val WORLD_SIZE = Sizes.create3DSize( WINDOW_WIDTH * 2,  WINDOW_HEIGHT * 2 ,  DUNGEON_LEVELS)
+    val WORLD_SIZE = Sizes.create3DSize(WINDOW_WIDTH * 2, WINDOW_HEIGHT * 2, DUNGEON_LEVELS)
 
     // entities
     const val FUNGI_PER_LEVEL = 15
@@ -33,9 +33,9 @@ object GameConfig {
     const val ZOMBIES_PER_LEVEL = 10
 
     fun buildAppConfig() = AppConfigs.newConfig()
-            .enableBetaFeatures()
-            .withDefaultTileset( TILESET)
-            .withSize(Sizes.create( WINDOW_WIDTH,  WINDOW_HEIGHT))
-            .build()
+        .enableBetaFeatures()
+        .withDefaultTileset(TILESET)
+        .withSize(Sizes.create(WINDOW_WIDTH, WINDOW_HEIGHT))
+        .build()
 
 }

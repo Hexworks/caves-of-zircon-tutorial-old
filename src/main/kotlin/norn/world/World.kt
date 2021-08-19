@@ -1,45 +1,47 @@
 package norn.world
 
+import norn.attributes.Vision
+import norn.attributes.types.Combatant
+import norn.attributes.types.Item
+import norn.blocks.GameBlock
+import norn.builders.GameBlockFactory
+import norn.extensions.GameEntity
+import norn.extensions.blocksVision
+import norn.extensions.filterType
+import norn.extensions.position
+import norn.functions.logDevGameEvent
+import norn.functions.logGameEvent
 import org.hexworks.amethyst.api.Engine
 import org.hexworks.amethyst.api.Engines
 import org.hexworks.amethyst.api.entity.Entity
 import org.hexworks.amethyst.api.entity.EntityType
-import norn.blocks.GameBlock
-import norn.builders.GameBlockFactory
-import norn.extensions.GameEntity
-import norn.extensions.position
 import org.hexworks.cobalt.datatypes.Maybe
+import org.hexworks.cobalt.datatypes.extensions.flatMap
 import org.hexworks.cobalt.datatypes.extensions.fold
 import org.hexworks.cobalt.datatypes.extensions.map
 import org.hexworks.zircon.api.Positions
 import org.hexworks.zircon.api.builder.game.GameAreaBuilder
+import org.hexworks.zircon.api.data.Position
 import org.hexworks.zircon.api.data.Tile
 import org.hexworks.zircon.api.data.impl.Position3D
 import org.hexworks.zircon.api.data.impl.Size3D
 import org.hexworks.zircon.api.game.GameArea
 import org.hexworks.zircon.api.screen.Screen
-import org.hexworks.zircon.api.uievent.UIEvent
-import norn.attributes.Vision
-import norn.attributes.types.Combatant
-import norn.attributes.types.Item
-import norn.extensions.blocksVision
-import norn.extensions.filterType
-import norn.functions.logDevGameEvent
-import norn.functions.logGameEvent
-import org.hexworks.cobalt.datatypes.extensions.flatMap
-import org.hexworks.zircon.api.data.Position
 import org.hexworks.zircon.api.shape.EllipseFactory
 import org.hexworks.zircon.api.shape.LineFactory
+import org.hexworks.zircon.api.uievent.UIEvent
 import kotlin.math.abs
 
-class World(startingBlocks: Map<Position3D, GameBlock>,
-            visibleSize: Size3D,
-            actualSize: Size3D) : GameArea<Tile, GameBlock> by GameAreaBuilder.newBuilder<Tile, GameBlock>()
-        .withVisibleSize(visibleSize)
-        .withActualSize(actualSize)
-        .withDefaultBlock(DEFAULT_BLOCK)
-        .withLayersPerBlock(1)
-        .build() {
+class World(
+    startingBlocks: Map<Position3D, GameBlock>,
+    visibleSize: Size3D,
+    actualSize: Size3D
+) : GameArea<Tile, GameBlock> by GameAreaBuilder.newBuilder<Tile, GameBlock>()
+    .withVisibleSize(visibleSize)
+    .withActualSize(actualSize)
+    .withDefaultBlock(DEFAULT_BLOCK)
+    .withLayersPerBlock(1)
+    .build() {
 
     private val engine: Engine<GameContext> = Engines.newEngine()
 
@@ -55,11 +57,14 @@ class World(startingBlocks: Map<Position3D, GameBlock>,
 
     fun update(screen: Screen, uiEvent: UIEvent, game: Game) {
         logDevGameEvent("world update $uiEvent")
-        engine.update(GameContext(
+        engine.update(
+            GameContext(
                 world = this,
                 screen = screen,
                 uiEvent = uiEvent,
-                player = game.player))
+                player = game.player
+            )
+        )
         if (MetaContext.gameState != GameState.TARGETING) {
             logDevGameEvent("Reseting to player turn")
             MetaContext.gameState = GameState.PLAYER_TURN
@@ -89,19 +94,21 @@ class World(startingBlocks: Map<Position3D, GameBlock>,
     }
 
     private fun bothBlocksPresent(oldBlock: Maybe<GameBlock>, newBlock: Maybe<GameBlock>) =
-            oldBlock.isPresent && newBlock.isPresent
+        oldBlock.isPresent && newBlock.isPresent
 
-    fun addAtEmptyPosition(entity: GameEntity<EntityType>,
-                           offset: Position3D = Positions.default3DPosition(),
-                           size: Size3D = actualSize()): Boolean {
+    fun addAtEmptyPosition(
+        entity: GameEntity<EntityType>,
+        offset: Position3D = Positions.default3DPosition(),
+        size: Size3D = actualSize()
+    ): Boolean {
         return findEmptyLocationWithin(offset, size).fold(
-                whenEmpty = {
-                    false
-                },
-                whenPresent = { location ->
-                    addEntity(entity, location)
-                    true
-                })
+            whenEmpty = {
+                false
+            },
+            whenPresent = { location ->
+                addEntity(entity, location)
+                true
+            })
 
     }
 
@@ -111,9 +118,10 @@ class World(startingBlocks: Map<Position3D, GameBlock>,
         var currentTry = 0
         while (position.isPresent.not() && currentTry < maxTries) {
             val pos = Positions.create3DPosition(
-                    x = (Math.random() * size.xLength).toInt() + offset.x,
-                    y = (Math.random() * size.yLength).toInt() + offset.y,
-                    z = (Math.random() * size.zLength).toInt() + offset.z)
+                x = (Math.random() * size.xLength).toInt() + offset.x,
+                y = (Math.random() * size.yLength).toInt() + offset.y,
+                z = (Math.random() * size.zLength).toInt() + offset.z
+            )
             fetchBlockAt(pos).map {
                 if (it.isEmptyFloor) {
                     position = Maybe.of(pos)
@@ -161,19 +169,21 @@ class World(startingBlocks: Map<Position3D, GameBlock>,
         val centerPos = entity.position.to2DPosition()
         return entity.findAttribute(Vision::class).map { (radius) ->
             EllipseFactory.buildEllipse(
-                    fromPosition = centerPos,
-                    toPosition = centerPos.withRelativeX(radius).withRelativeY(radius))
-                    .positions()
-                    .flatMap { ringPos ->
-                        val result = mutableListOf<Position>()
-                        val iter = LineFactory.buildLine(centerPos, ringPos).iterator()
-                        do {
-                            val next = iter.next()
-                            result.add(next)
-                        } while (iter.hasNext() &&
-                                isVisionBlockedAt(Position3D.from2DPosition(next, entity.position.z)).not())
-                        result
-                    }
+                fromPosition = centerPos,
+                toPosition = centerPos.withRelativeX(radius).withRelativeY(radius)
+            )
+                .positions()
+                .flatMap { ringPos ->
+                    val result = mutableListOf<Position>()
+                    val iter = LineFactory.buildLine(centerPos, ringPos).iterator()
+                    do {
+                        val next = iter.next()
+                        result.add(next)
+                    } while (iter.hasNext() &&
+                        isVisionBlockedAt(Position3D.from2DPosition(next, entity.position.z)).not()
+                    )
+                    result
+                }
         }.orElse(listOf())
     }
 
@@ -182,12 +192,12 @@ class World(startingBlocks: Map<Position3D, GameBlock>,
     }
 
     // TODO: abstract these to take a type to look for, if possible
-     fun findTopItem(position: Position3D) =
-            fetchBlockAt(position).flatMap { block ->
-                Maybe.ofNullable(block.entities.filterType<Item>().firstOrNull())
-            }
+    fun findTopItem(position: Position3D) =
+        fetchBlockAt(position).flatMap { block ->
+            Maybe.ofNullable(block.entities.filterType<Item>().firstOrNull())
+        }
 
-    fun findTopCombatant(position: Position3D) : Maybe<Entity<Combatant, GameContext>> {
+    fun findTopCombatant(position: Position3D): Maybe<Entity<Combatant, GameContext>> {
         logGameEvent("Finding at position $position")
         return fetchBlockAt(position).flatMap { block ->
             Maybe.ofNullable(block.entities.filterType<Combatant>().firstOrNull())

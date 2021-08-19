@@ -1,8 +1,8 @@
 package norn.commands
 
-import org.hexworks.amethyst.api.entity.EntityType
 import norn.extensions.GameCommand
 import norn.extensions.GameEntity
+import org.hexworks.amethyst.api.entity.EntityType
 
 interface EntityAction<S : EntityType, T : EntityType> : GameCommand<S> {
 

@@ -1,8 +1,5 @@
 package norn.view
 
-import norn.GameConfig.runMode
-import norn.functions.logDevGameEvent
-import norn.world.Game
 import norn.world.GameState
 import norn.world.MetaContext
 import org.hexworks.zircon.api.ColorThemes
@@ -22,19 +19,19 @@ class StartView : BaseView() {
         MetaContext.gameState = GameState.PREGAME
         val msg = "Welcome to Caves of Zircon."
         val header = Components.textBox()
-                .withContentWidth(msg.length)
-                .addHeader(msg)
-                .addNewLine()
-                .withAlignmentWithin(screen, ComponentAlignment.CENTER)
-                .build()
+            .withContentWidth(msg.length)
+            .addHeader(msg)
+            .addNewLine()
+            .withAlignmentWithin(screen, ComponentAlignment.CENTER)
+            .build()
         val startButton = Components.button()
-                .withAlignmentAround(header, ComponentAlignment.BOTTOM_CENTER)
-                .withText("Start!")
-                .wrapSides(false)
-                .withBoxType(BoxType.SINGLE)
-                .wrapWithShadow()
-                .wrapWithBox()
-                .build()
+            .withAlignmentAround(header, ComponentAlignment.BOTTOM_CENTER)
+            .withText("Start!")
+            .wrapSides(false)
+            .withBoxType(BoxType.SINGLE)
+            .wrapWithShadow()
+            .wrapWithBox()
+            .build()
 
         startButton.onComponentEvent(ComponentEventType.ACTIVATED) {
             replaceWith(PlayView())

@@ -26,11 +26,10 @@ import org.hexworks.zircon.api.uievent.KeyboardEventType
 import org.hexworks.zircon.api.uievent.MouseEventType
 import org.hexworks.zircon.api.uievent.Processed
 import org.hexworks.zircon.internal.Zircon
-import java.util.logging.Level
 
 class PlayView(private val game: Game = GameBuilder.defaultGame()) : BaseView() {
 
-    override val theme =  GameConfig.THEME
+    override val theme = GameConfig.THEME
 
     override fun onDock() {
         // I think this has to be right? Can we ever load this view when it isn't player turn?
@@ -54,29 +53,33 @@ class PlayView(private val game: Game = GameBuilder.defaultGame()) : BaseView() 
         }
 
         val sidebar = Components.panel()
-                .withSize( GameConfig.SIDEBAR_WIDTH,  GameConfig.WINDOW_HEIGHT)
-                .wrapWithBox()
-                .build()
-        sidebar.addFragment(PlayerStatsFragment(
+            .withSize(GameConfig.SIDEBAR_WIDTH, GameConfig.WINDOW_HEIGHT)
+            .wrapWithBox()
+            .build()
+        sidebar.addFragment(
+            PlayerStatsFragment(
                 width = sidebar.contentSize.width,
-                player = game.player))
+                player = game.player
+            )
+        )
 
         screen.addComponent(sidebar)
 
         val logArea = Components.logArea()
-                .withTitle("Log")
-                .wrapWithBox()
-                .withSize( GameConfig.WINDOW_WIDTH -  GameConfig.SIDEBAR_WIDTH,  GameConfig.LOG_AREA_HEIGHT)
-                .withAlignmentWithin(screen, ComponentAlignment.BOTTOM_RIGHT)
-                .build()
+            .withTitle("Log")
+            .wrapWithBox()
+            .withSize(GameConfig.WINDOW_WIDTH - GameConfig.SIDEBAR_WIDTH, GameConfig.LOG_AREA_HEIGHT)
+            .withAlignmentWithin(screen, ComponentAlignment.BOTTOM_RIGHT)
+            .build()
 
         screen.addComponent(logArea)
 
         Zircon.eventBus.subscribe<GameLogEvent> { (text) ->
             logArea.addParagraph(
-                    paragraph = text,
-                    withNewLine = false,
-                    withTypingEffectSpeedInMs = 10)
+                paragraph = text,
+                withNewLine = false,
+                withTypingEffectSpeedInMs = 10
+            )
         }
 
         Zircon.eventBus.subscribe<PlayerGainedLevel> {
@@ -94,11 +97,11 @@ class PlayView(private val game: Game = GameBuilder.defaultGame()) : BaseView() 
         }
 
         val gameComponent = GameComponents.newGameComponentBuilder<Tile, GameBlock>()
-                .withGameArea(game.world)
-                .withVisibleSize(game.world.visibleSize())
-                .withProjectionMode(ProjectionMode.TOP_DOWN)
-                .withAlignmentWithin(screen, ComponentAlignment.TOP_RIGHT)
-                .build()
+            .withGameArea(game.world)
+            .withVisibleSize(game.world.visibleSize())
+            .withProjectionMode(ProjectionMode.TOP_DOWN)
+            .withAlignmentWithin(screen, ComponentAlignment.TOP_RIGHT)
+            .build()
 
         screen.addComponent(gameComponent)
     }
