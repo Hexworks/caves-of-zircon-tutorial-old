@@ -6,6 +6,7 @@ import norn.attributes.types.Player
 import norn.builders.EntityFactory.newPlaceholder
 import norn.commands.*
 import norn.commands.spells.CombatantTargetedSpellAction
+import norn.commands.spells.Fireball
 import norn.commands.spells.Heal
 import norn.commands.spells.Zap
 import norn.functions.logDevGameEvent
@@ -58,10 +59,18 @@ fun GameEntity<Player>.zap(context: GameContext) {
     MetaContext.suspendedAction = Zap(context, this, newPlaceholder())
 }
 
+fun GameEntity<Player>.fireball(context: GameContext) {
+    logDevGameEvent("Firing fireball executeCommand")
+    // set context, then let inputreceiver handle the click and cancelling
+    MetaContext.gameState = GameState.TARGETING
+    MetaContext.suspendedAction = Fireball(context, this, newPlaceholder())
+}
+
 fun GameEntity<Player>.doTargetedAction(context: GameContext,
                                         action: CombatantTargetedSpellAction<EnergyUser, Combatant>,
                                         target: GameEntity<Combatant>) {
     logDevGameEvent("Firing targeted action executeCommand with action $action and target $target")
     // TODO: make this do the action passed in
-    executeCommand(Zap(context, this, target))
+    action.target = target
+    executeCommand(action)
 }
