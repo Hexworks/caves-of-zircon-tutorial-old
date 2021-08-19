@@ -1,8 +1,11 @@
 package norn.extensions
 
+import norn.attributes.types.Combatant
+import norn.attributes.types.EnergyUser
 import norn.attributes.types.Player
 import norn.builders.EntityFactory.newPlaceholder
 import norn.commands.*
+import norn.commands.spells.CombatantTargetedSpellAction
 import norn.commands.spells.Heal
 import norn.commands.spells.Zap
 import norn.functions.logDevGameEvent
@@ -41,15 +44,24 @@ fun GameEntity<Player>.healSelf(
     executeCommand(Heal(context, this, this))
 }
 
-fun GameEntity<Player>.zapSelf(context: GameContext) {
-    logDevGameEvent("Firing zap executeCommand at the player")
+fun GameEntity<Player>.zapSelf(
+    context: GameContext
+) {
+    logDevGameEvent("Firing zapSelf executeCommand")
+    executeCommand(Zap(context, this, this))
+}
+
+fun GameEntity<Player>.zap(context: GameContext) {
+    logDevGameEvent("Firing zap executeCommand")
     // set context, then let inputreceiver handle the click and cancelling
     MetaContext.gameState = GameState.TARGETING
     MetaContext.suspendedAction = Zap(context, this, newPlaceholder())
 }
 
-//fun GameEntity<Player>.doTargetedAction(context: GameContext, action: EntityAction<GameEntity<Combatant>, GameEntity<Combatant>>,
-//                                        target: GameEntity<Combatant>) {
-//    logDevGameEvent("Firing heal executeCommand")
-//    executeCommand(action(context, this, target))
-//}
+fun GameEntity<Player>.doTargetedAction(context: GameContext,
+                                        action: CombatantTargetedSpellAction<EnergyUser, Combatant>,
+                                        target: GameEntity<Combatant>) {
+    logDevGameEvent("Firing targeted action executeCommand with action $action and target $target")
+    // TODO: make this do the action passed in
+    executeCommand(Zap(context, this, target))
+}

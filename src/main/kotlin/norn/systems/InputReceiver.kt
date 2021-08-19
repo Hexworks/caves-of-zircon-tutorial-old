@@ -1,6 +1,9 @@
 package norn.systems
 
 import norn.GameConfig
+import norn.attributes.types.Combatant
+import norn.attributes.types.EnergyUser
+import norn.commands.spells.CombatantTargetedSpellAction
 import norn.extensions.*
 import norn.functions.logDevGameEvent
 import norn.functions.logGameEvent
@@ -41,7 +44,7 @@ object InputReceiver : BaseBehavior<GameContext>() {
                     KeyCode.KEY_I -> player.inspectInventory(currentPos, context)
                     KeyCode.KEY_H -> showHelp(context.screen)
                     KeyCode.KEY_G -> player.healSelf(context)// TODO heal amount
-                    KeyCode.KEY_Z -> player.zapSelf(context)
+                    KeyCode.KEY_Z -> player.zap(context)
                     else -> {
                         logger.debug("UI Event ($uiEvent) does not have a corresponding command, it is ignored.")
                     }
@@ -54,10 +57,10 @@ object InputReceiver : BaseBehavior<GameContext>() {
 
         if (MetaContext.gameState == GameState.TARGETING) {
             if (uiEvent is MouseEvent && uiEvent.type == MouseEventType.MOUSE_CLICKED) {
-                logGameEvent("ui mouse event while targeting: $uiEvent")
-                logGameEvent("player position is $currentPos")
-                logGameEvent("click position ${uiEvent.position}")
-                var maybeCombatant = world.findTopCombatant(
+//                logGameEvent("ui mouse event while targeting: $uiEvent")
+//                logGameEvent("player position is $currentPos")
+//                logGameEvent("click position ${uiEvent.position}")
+                  var maybeCombatant = world.findTopCombatant(
                     Position3D.create(
                         uiEvent.position.x - GameConfig.SIDEBAR_WIDTH,
                         uiEvent.position.y, currentPos.z
@@ -69,12 +72,8 @@ object InputReceiver : BaseBehavior<GameContext>() {
                 }
                 var combatantEntity = maybeCombatant.get()
                 logDevGameEvent("found combatant: $combatantEntity")
-                //MetaContext.suspendedAction?.target ?: combatantEntity
-                //player.executeCommand(MetaContext.suspendedAction)
-
-                //when (uiEvent.code) {
-                // add handling for each targeting button? probably not needed if I get the above "executCommand" to work
-                //}
+                player.doTargetedAction(context,
+                    MetaContext.suspendedAction as CombatantTargetedSpellAction<EnergyUser, Combatant>, combatantEntity)
             }
             if (uiEvent is KeyboardEvent) {
                 when (uiEvent.code) {

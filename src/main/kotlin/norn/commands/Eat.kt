@@ -8,5 +8,5 @@ import norn.world.GameContext
 data class Eat(
     override val context: GameContext,
     override val source: GameEntity<EnergyUser>,
-    override val target: GameEntity<Food>
+    override var target: GameEntity<Food>
 ) : EntityAction<EnergyUser, Food>

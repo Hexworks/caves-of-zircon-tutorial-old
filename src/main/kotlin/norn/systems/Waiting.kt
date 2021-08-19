@@ -10,7 +10,7 @@ import org.hexworks.amethyst.api.entity.EntityType
 // Take a turn off
 object Waiting : BaseFacet<GameContext>() {
     override fun executeCommand(command: GameCommand<out EntityType>) =
-        command.responseWhenCommandIs(Wait::class) { (context, _, target) ->
+        command.responseWhenCommandIs(Wait::class) { (_, _, _) -> // context, world, target I think?
             Consumed
         }
 }

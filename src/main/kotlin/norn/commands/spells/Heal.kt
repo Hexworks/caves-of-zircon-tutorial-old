@@ -10,7 +10,7 @@ import norn.world.GameContext
 class Heal(
     override val context: GameContext,
     override val source: GameEntity<EnergyUser>,
-    override val target: GameEntity<Combatant>
+    override var target: GameEntity<Combatant>
 ) : CombatantTargetedSpellAction<EnergyUser, Combatant>(context, source, target) {
 
     override fun visitCombatant(combatant: GameEntity<Combatant>) {

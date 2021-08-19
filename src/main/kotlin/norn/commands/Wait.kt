@@ -7,5 +7,5 @@ import org.hexworks.amethyst.api.entity.EntityType
 data class Wait(
     override val context: GameContext,
     override val source: GameEntity<EntityType>,
-    override val target: GameEntity<EntityType>
+    override var target: GameEntity<EntityType>
 ) : EntityAction<EntityType, EntityType>
