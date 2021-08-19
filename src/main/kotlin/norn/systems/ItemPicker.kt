@@ -9,6 +9,7 @@ import norn.commands.PickItemUp
 import norn.extensions.GameCommand
 import norn.extensions.filterType
 import norn.extensions.isPlayer
+import norn.functions.logDevGameEvent
 import norn.functions.logGameEvent
 import norn.world.GameContext
 import norn.world.World
@@ -22,6 +23,7 @@ object ItemPicker : BaseFacet<GameContext>() {
     override fun executeCommand(command: GameCommand<out EntityType>) = command.responseWhenCommandIs(PickItemUp::class) { (context, itemHolder, position) ->
         val world = context.world
         world.findTopItem(position).map { item ->
+            logDevGameEvent("looking for item at $position")
             if (itemHolder.addItem(item)) {
                 world.removeEntity(item)
                 val subject = if (itemHolder.isPlayer) "You" else "The $itemHolder"

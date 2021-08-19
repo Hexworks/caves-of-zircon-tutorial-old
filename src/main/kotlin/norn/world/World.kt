@@ -20,10 +20,12 @@ import org.hexworks.zircon.api.game.GameArea
 import org.hexworks.zircon.api.screen.Screen
 import org.hexworks.zircon.api.uievent.UIEvent
 import norn.attributes.Vision
+import norn.attributes.types.Combatant
 import norn.attributes.types.Item
 import norn.extensions.blocksVision
 import norn.extensions.filterType
 import norn.functions.logDevGameEvent
+import norn.functions.logGameEvent
 import org.hexworks.cobalt.datatypes.extensions.flatMap
 import org.hexworks.zircon.api.data.Position
 import org.hexworks.zircon.api.shape.EllipseFactory
@@ -179,10 +181,18 @@ class World(startingBlocks: Map<Position3D, GameBlock>,
         engine.addEntity(entity)
     }
 
+    // TODO: abstract these to take a type to look for, if possible
      fun findTopItem(position: Position3D) =
             fetchBlockAt(position).flatMap { block ->
                 Maybe.ofNullable(block.entities.filterType<Item>().firstOrNull())
             }
+
+    fun findTopCombatant(position: Position3D) : Maybe<Entity<Combatant, GameContext>> {
+        logGameEvent("Finding at position $position")
+        return fetchBlockAt(position).flatMap { block ->
+            Maybe.ofNullable(block.entities.filterType<Combatant>().firstOrNull())
+        }
+    }
 
     companion object {
         private val DEFAULT_BLOCK = GameBlockFactory.floor()

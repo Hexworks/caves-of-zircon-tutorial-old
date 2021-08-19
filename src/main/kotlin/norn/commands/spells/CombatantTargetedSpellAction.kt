@@ -12,7 +12,7 @@ import org.hexworks.amethyst.api.entity.EntityType
 abstract class CombatantTargetedSpellAction<S : EnergyUser, T : Combatant>(
         context: GameContext,
         override val source: GameEntity<S>,
-        override val target: GameEntity<T>
+        override var target: GameEntity<T>
 ) : EntityAction<S, T> {
 
     open fun visitCombatant(combatant: GameEntity<Combatant>) {}

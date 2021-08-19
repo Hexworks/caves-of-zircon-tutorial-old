@@ -1,5 +1,6 @@
 package norn.extensions
 
+import norn.attributes.types.Combatant
 import norn.attributes.types.Player
 import norn.builders.EntityFactory.newPlaceholder
 import norn.commands.*
@@ -31,6 +32,7 @@ fun GameEntity<Player>.inspectInventory(position: Position3D, context: GameConte
     executeCommand(InspectInventory(context, this, position))
 }
 
+// TODO: abstract away self targeting spells
 fun GameEntity<Player>.healSelf(context: GameContext
         //source: GameEntity<EnergyUser>,
         //target: GameEntity<Combatant>,
@@ -39,14 +41,14 @@ fun GameEntity<Player>.healSelf(context: GameContext
     executeCommand(Heal(context, this, this))
 }
 
-fun GameEntity<Player>.zap(context: GameContext) {
-    logDevGameEvent("Firing zap executeCommand")
+fun GameEntity<Player>.zapSelf(context: GameContext) {
+    logDevGameEvent("Firing zap executeCommand at the player")
     // set context, then let inputreceiver handle the click and cancelling
     MetaContext.gameState = GameState.TARGETING
     MetaContext.suspendedAction = Zap(context, this, newPlaceholder())
 }
 
-fun GameEntity<Player>.doTargetedAction(context: GameContext, action: EntityAction<GameEntity, GameEntity>) {
+fun GameEntity<Player>.doTargetedAction(context: GameContext, action: EntityAction<GameEntity, GameEntity>, target: GameEntity<Combatant>) {
     logDevGameEvent("Firing heal executeCommand")
-    executeCommand(Heal(context, this, this))
+    executeCommand(action(context, this, target))
 }
