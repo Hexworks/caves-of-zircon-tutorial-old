@@ -15,6 +15,7 @@ fun main(args: Array<String>) {
     GameConfig.runMode = mode
     MetaContext.runMode = mode
 
+
     val application = SwingApplications.startApplication(GameConfig.buildAppConfig())
 
     application.dock(StartView())

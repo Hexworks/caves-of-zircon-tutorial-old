@@ -1,5 +1,6 @@
 package norn.builders
 
+import jdk.nashorn.internal.ir.Block
 import norn.attributes.*
 import norn.attributes.flags.BlockOccupier
 import norn.attributes.flags.VisionBlocker
@@ -9,6 +10,7 @@ import norn.commands.Dig
 import norn.entities.FogOfWar
 import norn.extensions.GameEntity
 import norn.systems.*
+import norn.systems.Interactable
 import norn.systems.npc.FungusGrowth
 import norn.systems.npc.HunterSeeker
 import norn.systems.npc.Wanderer
@@ -16,6 +18,7 @@ import norn.world.Game
 import norn.world.GameContext
 import org.hexworks.amethyst.api.Entities
 import org.hexworks.amethyst.api.builder.EntityBuilder
+import org.hexworks.amethyst.api.entity.Entity
 import org.hexworks.amethyst.api.entity.EntityType
 import org.hexworks.zircon.api.GraphicalTilesetResources
 import org.hexworks.zircon.api.Tiles
@@ -48,7 +51,7 @@ object EntityFactory {
         behaviors(InputReceiver, EnergyExpender)
         facets(
             Movable, CameraMover, StairClimber, StairDescender, Attackable, Spellcaster, Destructible, ZirconGatherer,
-            ItemPicker, InventoryInspector, ItemDropper, EnergyExpender, DigestiveSystem, ExperienceAccumulator, Waiting
+            ItemPicker, InventoryInspector, ItemDropper, EnergyExpender, DigestiveSystem, ExperienceAccumulator, Waiting, Interactable
         )
     }
 
@@ -106,6 +109,14 @@ object EntityFactory {
     }
 
     fun newFogOfWar(game: Game) = FogOfWar(game)
+
+    fun newRunestone() = newGameEntityOfType(Runestone) {
+        attributes(BlockOccupier,
+            EntityPosition(),
+            EntityTile(GameTileRepository.RUNESTONE))
+        facets(Interactable)
+
+    }
 
     fun newBat() = newGameEntityOfType(Bat) {
         attributes(BlockOccupier,

@@ -26,11 +26,12 @@ object GameConfig {
     val WORLD_SIZE = Sizes.create3DSize(WINDOW_WIDTH * 2, WINDOW_HEIGHT * 2, DUNGEON_LEVELS)
 
     // entities
-    const val FUNGI_PER_LEVEL = 15
-    const val BATS_PER_LEVEL = 10
+    const val FUNGI_PER_LEVEL = 0 //15
+    const val BATS_PER_LEVEL = 0 //10
     const val ZIRCONS_PER_LEVEL = 20
     const val MAXIMUM_FUNGUS_SPREAD = 20
-    const val ZOMBIES_PER_LEVEL = 10
+    const val ZOMBIES_PER_LEVEL = 0 //10
+    const val RUNESTONES_PER_LEVEL = 70
 
     fun buildAppConfig() = AppConfigs.newConfig()
         .enableBetaFeatures()

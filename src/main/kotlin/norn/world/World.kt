@@ -2,6 +2,7 @@ package norn.world
 
 import norn.attributes.Vision
 import norn.attributes.types.Combatant
+import norn.attributes.types.InteractableEntityType
 import norn.attributes.types.Item
 import norn.blocks.GameBlock
 import norn.builders.GameBlockFactory
@@ -13,6 +14,7 @@ import norn.functions.logDevGameEvent
 import norn.functions.logGameEvent
 import org.hexworks.amethyst.api.Engine
 import org.hexworks.amethyst.api.Engines
+import org.hexworks.amethyst.api.base.BaseEntityType
 import org.hexworks.amethyst.api.entity.Entity
 import org.hexworks.amethyst.api.entity.EntityType
 import org.hexworks.cobalt.datatypes.Maybe
@@ -21,6 +23,7 @@ import org.hexworks.cobalt.datatypes.extensions.fold
 import org.hexworks.cobalt.datatypes.extensions.map
 import org.hexworks.zircon.api.Positions
 import org.hexworks.zircon.api.builder.game.GameAreaBuilder
+import org.hexworks.zircon.api.data.Block
 import org.hexworks.zircon.api.data.Position
 import org.hexworks.zircon.api.data.Tile
 import org.hexworks.zircon.api.data.impl.Position3D
@@ -202,6 +205,27 @@ class World(
         return fetchBlockAt(position).flatMap { block ->
             Maybe.ofNullable(block.entities.filterType<Combatant>().firstOrNull())
         }
+    }
+
+     inline fun <reified T : EntityType> getMaybeEntityFromBlock(inBlock: Maybe<GameBlock>) : Maybe<Entity<T, GameContext>> {
+        return inBlock.flatMap { block ->
+            Maybe.ofNullable(block.entities.filterType<T>().firstOrNull())
+        }
+    }
+
+    inline fun <reified T : EntityType> findEntityNear(position: Position3D): Maybe<Entity<T, GameContext>> {
+        logDevGameEvent("searching for entity near $position")
+        val leftBlock = fetchBlockAt(Position3D.create(position.x -1, position.y, position.z))
+        val leftMaybe = getMaybeEntityFromBlock<T>(leftBlock)
+        if (leftMaybe.isPresent) return leftMaybe
+        val rightBlock = fetchBlockAt(Position3D.create(position.x + 1, position.y, position.z))
+        val rightMaybe = getMaybeEntityFromBlock<T>(rightBlock)
+        if (rightMaybe.isPresent) return rightMaybe
+        val upBlock = fetchBlockAt(Position3D.create(position.x, position.y + 1, position.z))
+        val upMaybe = getMaybeEntityFromBlock<T>(upBlock)
+        if (upMaybe.isPresent) return upMaybe
+        val downBlock = fetchBlockAt(Position3D.create(position.x, position.y - 1, position.z))
+        return getMaybeEntityFromBlock(downBlock)
     }
 
     companion object {

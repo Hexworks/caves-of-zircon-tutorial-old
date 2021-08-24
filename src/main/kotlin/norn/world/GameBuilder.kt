@@ -3,6 +3,7 @@ package norn.world
 import norn.GameConfig
 import norn.GameConfig.BATS_PER_LEVEL
 import norn.GameConfig.FUNGI_PER_LEVEL
+import norn.GameConfig.RUNESTONES_PER_LEVEL
 import norn.GameConfig.WORLD_SIZE
 import norn.GameConfig.ZOMBIES_PER_LEVEL
 import norn.RunMode
@@ -36,6 +37,7 @@ class GameBuilder(val worldSize: Size3D = WORLD_SIZE) {
         addBats()
         addZircons()
         addZombies()
+        addRunestones()
         addExit()
 
         val game = Game.create(
@@ -118,6 +120,14 @@ class GameBuilder(val worldSize: Size3D = WORLD_SIZE) {
         repeat(world.actualSize().zLength) { level ->
             repeat(ZOMBIES_PER_LEVEL) {
                 EntityFactory.newZombie().addToWorld(level)
+            }
+        }
+    }
+
+    private fun addRunestones() = also {
+        repeat(world.actualSize().zLength) { level ->
+            repeat(RUNESTONES_PER_LEVEL) {
+                EntityFactory.newRunestone().addToWorld(level)
             }
         }
     }

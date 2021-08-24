@@ -46,6 +46,7 @@ object InputReceiver : BaseBehavior<GameContext>() {
                     KeyCode.KEY_G -> player.healSelf(context)// TODO heal amount
                     KeyCode.KEY_Z -> player.zap(context)
                     KeyCode.KEY_U -> player.fireball(context)
+                    KeyCode.SPACE -> player.interact(context)
                     else -> {
                         logger.debug("UI Event ($uiEvent) does not have a corresponding command, it is ignored.")
                     }

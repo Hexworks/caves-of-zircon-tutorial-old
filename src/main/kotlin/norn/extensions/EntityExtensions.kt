@@ -3,9 +3,9 @@ package norn.extensions
 import norn.attributes.*
 import norn.attributes.flags.BlockOccupier
 import norn.attributes.flags.VisionBlocker
-import norn.attributes.types.Combatant
-import norn.attributes.types.Player
-import norn.attributes.types.combatStats
+import norn.attributes.types.*
+import norn.commands.Interact
+import norn.functions.logGameEvent
 import norn.world.GameContext
 import org.hexworks.amethyst.api.Attribute
 import org.hexworks.amethyst.api.Consumed
@@ -88,3 +88,4 @@ inline fun <reified T : EntityType> AnyGameEntity.whenTypeIs(fn: (Entity<T, Game
         fn(this as Entity<T, GameContext>)
     }
 }
+

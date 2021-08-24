@@ -27,6 +27,12 @@ object GameTileRepository {
         .withForegroundColor(GameColors.ACCENT_COLOR)
         .buildCharacterTile()
 
+    val RUNESTONE: CharacterTile = Tiles.newBuilder()
+        .withCharacter('*')
+        .withBackgroundColor(GameColors.FLOOR_BACKGROUND)
+        .withForegroundColor(GameColors.RUNESTONE_COLOR)
+        .buildCharacterTile()
+
     val FUNGUS = Tiles.newBuilder()
         .withCharacter('f')
         .withBackgroundColor(GameColors.FLOOR_BACKGROUND)
@@ -95,6 +101,7 @@ object GameTileRepository {
     val JACKET = Tiles.newBuilder()
         .withCharacter('[')
         .withForegroundColor(ANSITileColor.GRAY)
+        .withBackgroundColor(GameColors.FLOOR_BACKGROUND)
         .withBackgroundColor(GameColors.FLOOR_BACKGROUND)
         .buildCharacterTile()
 

@@ -1,9 +1,21 @@
 package norn.attributes.types
 
+import norn.commands.Interact
 import org.hexworks.amethyst.api.base.BaseEntityType
 
+
+abstract class InteractableEntityType(
+    override val name: String = "unknown",
+    override val description: String = ""
+) : BaseEntityType() {
+    open fun doInteraction(interaction: Interact) {}
+                     }
+
+abstract class Actor(override val name: String = "unknown",
+                     override val description: String = "") : InteractableEntityType()
+
 // TODO revamp stats
-object Player : BaseEntityType(
+object Player : Actor(
     name = "player"
 ), Combatant, ItemHolder, EnergyUser, EquipmentHolder, ExperienceGainer, ZirconHolder
 
@@ -13,7 +25,7 @@ object Wall : BaseEntityType(
     name = "wall"
 )
 
-object Fungus : BaseEntityType(
+object Fungus : Actor(
     name = "fungus"
 ), Combatant
 
@@ -27,13 +39,18 @@ object StairsUp : BaseEntityType(
 
 object FogOfWarType : BaseEntityType()
 
-object Bat : BaseEntityType(
+object Bat : Actor(
     name = "bat"
 ), Combatant, ItemHolder
 
-object Zombie : BaseEntityType(
+object Zombie : Actor(
     name = "zombie"
 ), Combatant, ItemHolder
+
+object Runestone : InteractableEntityType (
+    name = "runestone",
+    description = "A carving of ancient knowledge."
+), InteractableEntity
 
 object Zircon : BaseEntityType(
     name = "Zircon",

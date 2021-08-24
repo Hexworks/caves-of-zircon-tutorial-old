@@ -1,8 +1,6 @@
 package norn.extensions
 
-import norn.attributes.types.Combatant
-import norn.attributes.types.EnergyUser
-import norn.attributes.types.Player
+import norn.attributes.types.*
 import norn.builders.EntityFactory.newPlaceholder
 import norn.commands.*
 import norn.commands.spells.CombatantTargetedSpellAction
@@ -10,6 +8,7 @@ import norn.commands.spells.Fireball
 import norn.commands.spells.Heal
 import norn.commands.spells.Zap
 import norn.functions.logDevGameEvent
+import norn.functions.logGameEvent
 import norn.world.GameContext
 import norn.world.GameState
 import norn.world.MetaContext
@@ -38,18 +37,9 @@ fun GameEntity<Player>.inspectInventory(position: Position3D, context: GameConte
 // TODO: abstract away self targeting spells
 fun GameEntity<Player>.healSelf(
     context: GameContext
-    //source: GameEntity<EnergyUser>,
-    //target: GameEntity<Combatant>,
 ) {
     logDevGameEvent("Firing heal executeCommand")
     executeCommand(Heal(context, this, this))
-}
-
-fun GameEntity<Player>.zapSelf(
-    context: GameContext
-) {
-    logDevGameEvent("Firing zapSelf executeCommand")
-    executeCommand(Zap(context, this, this))
 }
 
 fun GameEntity<Player>.zap(context: GameContext) {
@@ -73,4 +63,13 @@ fun GameEntity<Player>.doTargetedAction(context: GameContext,
     // TODO: make this do the action passed in
     action.target = target
     executeCommand(action)
+}
+
+fun GameEntity<Player>.interact(context: GameContext) {
+    val maybeEntity = context.world.findEntityNear<InteractableEntity>(context.player.position)
+    if (maybeEntity.isEmpty() ){
+        logGameEvent("There is no interactable entity there.")
+        return
+    }
+    executeCommand(Interact(context, this, maybeEntity.get()))
 }
