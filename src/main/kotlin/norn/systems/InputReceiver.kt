@@ -59,9 +59,6 @@ object InputReceiver : BaseBehavior<GameContext>() {
 
         if (MetaContext.gameState == GameState.TARGETING) {
             if (uiEvent is MouseEvent && uiEvent.type == MouseEventType.MOUSE_CLICKED) {
-//                logGameEvent("ui mouse event while targeting: $uiEvent")
-//                logGameEvent("player position is $currentPos")
-//                logGameEvent("click position ${uiEvent.position}")
                   var maybeCombatant = world.findTopCombatant(
                     Position3D.create(
                         uiEvent.position.x - GameConfig.SIDEBAR_WIDTH,

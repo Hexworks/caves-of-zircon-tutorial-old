@@ -66,7 +66,7 @@ fun GameEntity<Player>.doTargetedAction(context: GameContext,
 }
 
 fun GameEntity<Player>.interact(context: GameContext) {
-    val maybeEntity = context.world.findEntityNear<InteractableEntity>(context.player.position)
+    val maybeEntity = context.world.findEntityNear<Interactable>(context.player.position)
     if (maybeEntity.isEmpty() ){
         logGameEvent("There is no interactable entity there.")
         return

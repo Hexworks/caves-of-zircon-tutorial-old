@@ -4,8 +4,6 @@ import norn.attributes.*
 import norn.attributes.flags.BlockOccupier
 import norn.attributes.flags.VisionBlocker
 import norn.attributes.types.*
-import norn.commands.Interact
-import norn.functions.logGameEvent
 import norn.world.GameContext
 import org.hexworks.amethyst.api.Attribute
 import org.hexworks.amethyst.api.Consumed

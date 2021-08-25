@@ -1,7 +1,12 @@
 package norn.attributes.types
 
 import norn.commands.Interact
+import norn.entities.LoreHolder
+import norn.extensions.GameEntity
+import norn.functions.logGameEvent
+import norn.world.GameContext
 import org.hexworks.amethyst.api.base.BaseEntityType
+import org.hexworks.amethyst.api.entity.EntityType
 
 
 abstract class InteractableEntityType(
@@ -25,6 +30,12 @@ object Wall : BaseEntityType(
     name = "wall"
 )
 
+object Runestone: ContainerEntity<LoreHolder> (
+    name = "Runestone",
+    description = "An ancient carving set in stone",
+    contained = LoreHolder(description = "A weathered carving of runes",
+                            name = "runestone"))
+
 object Fungus : Actor(
     name = "fungus"
 ), Combatant
@@ -46,11 +57,6 @@ object Bat : Actor(
 object Zombie : Actor(
     name = "zombie"
 ), Combatant, ItemHolder
-
-object Runestone : InteractableEntityType (
-    name = "runestone",
-    description = "A carving of ancient knowledge."
-), InteractableEntity
 
 object Zircon : BaseEntityType(
     name = "Zircon",

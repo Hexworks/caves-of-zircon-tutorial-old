@@ -16,6 +16,8 @@ typealias AnyGameEntity = Entity<EntityType, GameContext>
  */
 typealias GameEntity<T> = Entity<T, GameContext>
 
+typealias GameEntityContainer<T> = GameEntity<ContainerEntity<T>>
+
 /**
  * Specializes [Command] with our [GameContext] type.
  */

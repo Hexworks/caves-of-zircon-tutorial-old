@@ -2,7 +2,6 @@ package norn.world
 
 import norn.attributes.Vision
 import norn.attributes.types.Combatant
-import norn.attributes.types.InteractableEntityType
 import norn.attributes.types.Item
 import norn.blocks.GameBlock
 import norn.builders.GameBlockFactory
@@ -14,7 +13,6 @@ import norn.functions.logDevGameEvent
 import norn.functions.logGameEvent
 import org.hexworks.amethyst.api.Engine
 import org.hexworks.amethyst.api.Engines
-import org.hexworks.amethyst.api.base.BaseEntityType
 import org.hexworks.amethyst.api.entity.Entity
 import org.hexworks.amethyst.api.entity.EntityType
 import org.hexworks.cobalt.datatypes.Maybe
@@ -23,7 +21,6 @@ import org.hexworks.cobalt.datatypes.extensions.fold
 import org.hexworks.cobalt.datatypes.extensions.map
 import org.hexworks.zircon.api.Positions
 import org.hexworks.zircon.api.builder.game.GameAreaBuilder
-import org.hexworks.zircon.api.data.Block
 import org.hexworks.zircon.api.data.Position
 import org.hexworks.zircon.api.data.Tile
 import org.hexworks.zircon.api.data.impl.Position3D
