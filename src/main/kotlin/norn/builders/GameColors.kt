@@ -24,4 +24,6 @@ object GameColors {
     val ZOMBIE_COLOR = TileColors.fromString("#618358")
 
     val RUNESTONE_COLOR = TileColors.fromString("#867530")
+
+    val HEALSTONE_COLOR = TileColors.fromString("#0B6324")
 }

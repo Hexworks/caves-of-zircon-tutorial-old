@@ -1,9 +1,9 @@
 package norn.attributes.types
 
 import norn.commands.Interact
-import norn.entities.LoreHolder
+import norn.entities.HealingInteractable
+import norn.entities.LoreInteractable
 import norn.extensions.GameEntity
-import norn.functions.logGameEvent
 import norn.world.GameContext
 import org.hexworks.amethyst.api.base.BaseEntityType
 import org.hexworks.amethyst.api.entity.EntityType
@@ -30,11 +30,25 @@ object Wall : BaseEntityType(
     name = "wall"
 )
 
-object Runestone: ContainerEntity<LoreHolder> (
+object Runestone: ContainerEntity<LoreInteractable> (
     name = "Runestone",
-    description = "An ancient carving set in stone",
-    contained = LoreHolder(description = "A weathered carving of runes",
-                            name = "runestone"))
+    description = "An ancient carving set in stone.",
+    contained = LoreInteractable(description = "An ancient carving set in stone.",
+                            name = "runestone")), Interactable {
+    override fun interact(context: GameContext, source: GameEntity<EntityType>) {
+        contained.interact(context, source)
+    }
+}
+
+object HealingStone: ContainerEntity<HealingInteractable> (
+    name = "HealingStone",
+    description = "A stone pulsing with green light.",
+    contained = HealingInteractable(description = "A stone pulsing with green light.",
+        name = "HealingStone")), Interactable {
+    override fun interact(context: GameContext, source: GameEntity<EntityType>) {
+        contained.interact(context, source)
+    }
+}
 
 object Fungus : Actor(
     name = "fungus"

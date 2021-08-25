@@ -37,14 +37,12 @@ class PlayView(private val game: Game = GameBuilder.defaultGame()) : BaseView() 
 
         screen.onKeyboardEvent(KeyboardEventType.KEY_PRESSED) { event, _ ->
             if (MetaContext.gameState == GameState.PLAYER_TURN) {
-                logDevGameEvent("Firing keyboard event")
                 game.world.update(screen, event, game)
             }
             Processed
         }
 
         screen.onMouseEvent(MouseEventType.MOUSE_CLICKED) { event, _ ->
-            logDevGameEvent("Firing mouse event with game state ${MetaContext.gameState}")
             if (MetaContext.gameState == GameState.TARGETING) {
                 game.world.update(screen, event, game)
             }

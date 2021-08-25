@@ -1,15 +1,16 @@
 package norn.builders
 
+
 import norn.attributes.*
 import norn.attributes.flags.BlockOccupier
 import norn.attributes.flags.VisionBlocker
 import norn.attributes.types.*
+import norn.attributes.types.Interactable
 import norn.commands.Attack
 import norn.commands.Dig
 import norn.entities.FogOfWar
 import norn.extensions.GameEntity
 import norn.systems.*
-import norn.systems.Interactor
 import norn.systems.npc.FungusGrowth
 import norn.systems.npc.HunterSeeker
 import norn.systems.npc.Wanderer
@@ -51,17 +52,6 @@ object EntityFactory {
             Movable, CameraMover, StairClimber, StairDescender, Attackable, Spellcaster, Destructible, ZirconGatherer,
             ItemPicker, InventoryInspector, ItemDropper, EnergyExpender, DigestiveSystem, ExperienceAccumulator, Waiting, Interactor
         )
-    }
-
-    fun newRunestone() = newGameEntityOfType(Runestone) {
-        attributes(
-            VisionBlocker,
-            EntityPosition(),
-            BlockOccupier,
-            EntityTile(GameTileRepository.RUNESTONE)
-        )
-        behaviors()
-        facets(Interactor)
     }
 
     fun newPlaceholder() = newGameEntityOfType(Placeholder) {
@@ -118,6 +108,22 @@ object EntityFactory {
     }
 
     fun newFogOfWar(game: Game) = FogOfWar(game)
+
+    fun newRunestone() = newGameEntityOfType(Runestone) {
+        attributes(BlockOccupier,
+            EntityPosition(),
+            EntityTile(GameTileRepository.RUNESTONE))
+        facets(Interactor)
+
+    }
+
+    fun newHealstone() = newGameEntityOfType(HealingStone) {
+        attributes(BlockOccupier,
+            EntityPosition(),
+            EntityTile(GameTileRepository.HEALSTONE))
+        facets(Interactor)
+
+    }
 
     fun newBat() = newGameEntityOfType(Bat) {
         attributes(BlockOccupier,

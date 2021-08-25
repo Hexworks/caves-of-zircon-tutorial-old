@@ -32,6 +32,7 @@ object GameConfig {
     const val MAXIMUM_FUNGUS_SPREAD = 20
     const val ZOMBIES_PER_LEVEL = 0 //10
     const val RUNESTONES_PER_LEVEL = 70
+    const val HEALSTONES_PER_LEVEL = 70
 
     fun buildAppConfig() = AppConfigs.newConfig()
         .enableBetaFeatures()

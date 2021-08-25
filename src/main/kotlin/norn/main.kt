@@ -1,5 +1,6 @@
 package norn
 
+import norn.view.PlayView
 import norn.view.StartView
 import norn.world.MetaContext
 import org.hexworks.zircon.api.SwingApplications
@@ -18,6 +19,6 @@ fun main(args: Array<String>) {
 
     val application = SwingApplications.startApplication(GameConfig.buildAppConfig())
 
-    application.dock(StartView())
+    application.dock(PlayView())
 
 }

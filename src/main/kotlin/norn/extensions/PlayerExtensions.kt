@@ -9,6 +9,7 @@ import norn.commands.spells.Heal
 import norn.commands.spells.Zap
 import norn.functions.logDevGameEvent
 import norn.functions.logGameEvent
+import norn.systems.Interactor
 import norn.world.GameContext
 import norn.world.GameState
 import norn.world.MetaContext
@@ -38,19 +39,16 @@ fun GameEntity<Player>.inspectInventory(position: Position3D, context: GameConte
 fun GameEntity<Player>.healSelf(
     context: GameContext
 ) {
-    logDevGameEvent("Firing heal executeCommand")
     executeCommand(Heal(context, this, this))
 }
 
 fun GameEntity<Player>.zap(context: GameContext) {
-    logDevGameEvent("Firing zap executeCommand")
     // set context, then let inputreceiver handle the click and cancelling
     MetaContext.gameState = GameState.TARGETING
     MetaContext.suspendedAction = Zap(context, this, newPlaceholder())
 }
 
 fun GameEntity<Player>.fireball(context: GameContext) {
-    logDevGameEvent("Firing fireball executeCommand")
     // set context, then let inputreceiver handle the click and cancelling
     MetaContext.gameState = GameState.TARGETING
     MetaContext.suspendedAction = Fireball(context, this, newPlaceholder())
@@ -59,8 +57,6 @@ fun GameEntity<Player>.fireball(context: GameContext) {
 fun GameEntity<Player>.doTargetedAction(context: GameContext,
                                         action: CombatantTargetedSpellAction<EnergyUser, Combatant>,
                                         target: GameEntity<Combatant>) {
-    logDevGameEvent("Firing targeted action executeCommand with action $action and target $target")
-    // TODO: make this do the action passed in
     action.target = target
     executeCommand(action)
 }

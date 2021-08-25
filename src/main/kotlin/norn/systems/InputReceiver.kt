@@ -28,11 +28,8 @@ object InputReceiver : BaseBehavior<GameContext>() {
     override fun update(entity: GameEntity<out EntityType>, context: GameContext): Boolean {
         val (world, _, uiEvent, player) = context //screen ignored
         val currentPos = player.position
-        logDevGameEvent("incoming uievent: $uiEvent with game state ${MetaContext.gameState}")
         if (MetaContext.gameState == GameState.PLAYER_TURN) {
-            logDevGameEvent("player turn input handling")
             if (uiEvent is KeyboardEvent) {
-                logDevGameEvent("player turn keyboard event")
                 when (uiEvent.code) {
                     KeyCode.KEY_W -> player.moveTo(currentPos.withRelativeY(-1), context)
                     KeyCode.KEY_A -> player.moveTo(currentPos.withRelativeX(-1), context)
@@ -70,7 +67,6 @@ object InputReceiver : BaseBehavior<GameContext>() {
                     return true
                 }
                 var combatantEntity = maybeCombatant.get()
-                logDevGameEvent("found combatant: $combatantEntity")
                 player.doTargetedAction(context,
                     MetaContext.suspendedAction as CombatantTargetedSpellAction<EnergyUser, Combatant>, combatantEntity)
             }

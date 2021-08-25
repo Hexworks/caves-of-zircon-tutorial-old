@@ -33,6 +33,12 @@ object GameTileRepository {
         .withForegroundColor(GameColors.RUNESTONE_COLOR)
         .buildCharacterTile()
 
+    val HEALSTONE: CharacterTile = Tiles.newBuilder()
+        .withCharacter('#')
+        .withBackgroundColor(GameColors.FLOOR_BACKGROUND)
+        .withForegroundColor(GameColors.HEALSTONE_COLOR)
+        .buildCharacterTile()
+
     val FUNGUS = Tiles.newBuilder()
         .withCharacter('f')
         .withBackgroundColor(GameColors.FLOOR_BACKGROUND)

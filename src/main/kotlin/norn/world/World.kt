@@ -56,7 +56,6 @@ class World(
     }
 
     fun update(screen: Screen, uiEvent: UIEvent, game: Game) {
-        logDevGameEvent("world update $uiEvent")
         engine.update(
             GameContext(
                 world = this,
@@ -66,7 +65,6 @@ class World(
             )
         )
         if (MetaContext.gameState != GameState.TARGETING) {
-            logDevGameEvent("Reseting to player turn")
             MetaContext.gameState = GameState.PLAYER_TURN
         }
     }
@@ -211,7 +209,6 @@ class World(
     }
 
     inline fun <reified T : EntityType> findEntityNear(position: Position3D): Maybe<Entity<T, GameContext>> {
-        logDevGameEvent("searching for entity near $position")
         val leftBlock = fetchBlockAt(Position3D.create(position.x -1, position.y, position.z))
         val leftMaybe = getMaybeEntityFromBlock<T>(leftBlock)
         if (leftMaybe.isPresent) return leftMaybe

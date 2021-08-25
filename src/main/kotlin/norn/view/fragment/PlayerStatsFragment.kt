@@ -47,7 +47,6 @@ class PlayerStatsFragment(
                 )
 
                 gameStateProperty.onChange {
-                    logDevGameEvent("sidebar heard game state change")
                     gameStateLabel.textProperty.value = gameState.toString()
                 }
 
