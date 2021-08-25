@@ -5,7 +5,6 @@ import norn.RunMode
 import norn.attributes.DisplayableAttribute
 import norn.attributes.types.Player
 import norn.extensions.GameEntity
-import norn.functions.logDevGameEvent
 import norn.world.GameState
 import norn.world.MetaContext
 import org.hexworks.cobalt.databinding.api.createPropertyFrom

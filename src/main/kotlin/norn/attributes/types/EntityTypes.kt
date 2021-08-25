@@ -14,10 +14,12 @@ abstract class InteractableEntityType(
     override val description: String = ""
 ) : BaseEntityType() {
     open fun doInteraction(interaction: Interact) {}
-                     }
+}
 
-abstract class Actor(override val name: String = "unknown",
-                     override val description: String = "") : InteractableEntityType()
+abstract class Actor(
+    override val name: String = "unknown",
+    override val description: String = ""
+) : InteractableEntityType()
 
 // TODO revamp stats
 object Player : Actor(
@@ -30,21 +32,27 @@ object Wall : BaseEntityType(
     name = "wall"
 )
 
-object Runestone: ContainerEntity<LoreInteractable> (
+object Runestone : ContainerEntity<LoreInteractable>(
     name = "Runestone",
     description = "An ancient carving set in stone.",
-    contained = LoreInteractable(description = "An ancient carving set in stone.",
-                            name = "runestone")), Interactable {
+    contained = LoreInteractable(
+        description = "An ancient carving set in stone.",
+        name = "runestone"
+    )
+), Interactable {
     override fun interact(context: GameContext, source: GameEntity<EntityType>) {
         contained.interact(context, source)
     }
 }
 
-object HealingStone: ContainerEntity<HealingInteractable> (
+object HealingStone : ContainerEntity<HealingInteractable>(
     name = "HealingStone",
     description = "A stone pulsing with green light.",
-    contained = HealingInteractable(description = "A stone pulsing with green light.",
-        name = "HealingStone")), Interactable {
+    contained = HealingInteractable(
+        description = "A stone pulsing with green light.",
+        name = "HealingStone"
+    )
+), Interactable {
     override fun interact(context: GameContext, source: GameEntity<EntityType>) {
         contained.interact(context, source)
     }

@@ -1,15 +1,16 @@
 package norn.extensions
 
-import norn.attributes.types.*
+import norn.attributes.types.Combatant
+import norn.attributes.types.EnergyUser
+import norn.attributes.types.Interactable
+import norn.attributes.types.Player
 import norn.builders.EntityFactory.newPlaceholder
 import norn.commands.*
 import norn.commands.spells.CombatantTargetedSpellAction
 import norn.commands.spells.Fireball
 import norn.commands.spells.Heal
 import norn.commands.spells.Zap
-import norn.functions.logDevGameEvent
 import norn.functions.logGameEvent
-import norn.systems.Interactor
 import norn.world.GameContext
 import norn.world.GameState
 import norn.world.MetaContext
@@ -54,16 +55,18 @@ fun GameEntity<Player>.fireball(context: GameContext) {
     MetaContext.suspendedAction = Fireball(context, this, newPlaceholder())
 }
 
-fun GameEntity<Player>.doTargetedAction(context: GameContext,
-                                        action: CombatantTargetedSpellAction<EnergyUser, Combatant>,
-                                        target: GameEntity<Combatant>) {
+fun GameEntity<Player>.doTargetedAction(
+    context: GameContext,
+    action: CombatantTargetedSpellAction<EnergyUser, Combatant>,
+    target: GameEntity<Combatant>
+) {
     action.target = target
     executeCommand(action)
 }
 
 fun GameEntity<Player>.interact(context: GameContext) {
     val maybeEntity = context.world.findEntityNear<Interactable>(context.player.position)
-    if (maybeEntity.isEmpty() ){
+    if (maybeEntity.isEmpty()) {
         logGameEvent("There is no interactable entity there.")
         return
     }

@@ -1,9 +1,9 @@
 package norn.systems
 
-import norn.attributes.types.*
+import norn.attributes.types.ContainerEntity
+import norn.attributes.types.Interactable
 import norn.commands.Interact
 import norn.extensions.GameCommand
-import norn.functions.asInteractableEntity
 import norn.world.GameContext
 import org.hexworks.amethyst.api.Consumed
 import org.hexworks.amethyst.api.Pass

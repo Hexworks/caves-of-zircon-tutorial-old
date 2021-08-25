@@ -1,7 +1,6 @@
 package norn.entities
 
 import norn.attributes.types.Interactable
-import norn.commands.spells.Heal
 import norn.extensions.GameEntity
 import norn.functions.logGameEvent
 import norn.world.GameContext

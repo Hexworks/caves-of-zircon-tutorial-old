@@ -1,7 +1,6 @@
 package norn
 
 import norn.view.PlayView
-import norn.view.StartView
 import norn.world.MetaContext
 import org.hexworks.zircon.api.SwingApplications
 

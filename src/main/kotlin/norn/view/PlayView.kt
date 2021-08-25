@@ -6,7 +6,6 @@ import norn.events.GameLogEvent
 import norn.events.PlayerDied
 import norn.events.PlayerGainedLevel
 import norn.events.PlayerWonTheGame
-import norn.functions.logDevGameEvent
 import norn.view.dialog.LevelUpDialog
 import norn.view.fragment.PlayerStatsFragment
 import norn.world.Game

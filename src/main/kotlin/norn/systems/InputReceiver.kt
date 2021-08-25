@@ -56,7 +56,7 @@ object InputReceiver : BaseBehavior<GameContext>() {
 
         if (MetaContext.gameState == GameState.TARGETING) {
             if (uiEvent is MouseEvent && uiEvent.type == MouseEventType.MOUSE_CLICKED) {
-                  var maybeCombatant = world.findTopCombatant(
+                var maybeCombatant = world.findTopCombatant(
                     Position3D.create(
                         uiEvent.position.x - GameConfig.SIDEBAR_WIDTH,
                         uiEvent.position.y, currentPos.z
@@ -67,8 +67,10 @@ object InputReceiver : BaseBehavior<GameContext>() {
                     return true
                 }
                 var combatantEntity = maybeCombatant.get()
-                player.doTargetedAction(context,
-                    MetaContext.suspendedAction as CombatantTargetedSpellAction<EnergyUser, Combatant>, combatantEntity)
+                player.doTargetedAction(
+                    context,
+                    MetaContext.suspendedAction as CombatantTargetedSpellAction<EnergyUser, Combatant>, combatantEntity
+                )
             }
             if (uiEvent is KeyboardEvent) {
                 when (uiEvent.code) {

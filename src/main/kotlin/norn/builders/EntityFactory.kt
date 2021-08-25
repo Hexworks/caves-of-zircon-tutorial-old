@@ -5,7 +5,6 @@ import norn.attributes.*
 import norn.attributes.flags.BlockOccupier
 import norn.attributes.flags.VisionBlocker
 import norn.attributes.types.*
-import norn.attributes.types.Interactable
 import norn.commands.Attack
 import norn.commands.Dig
 import norn.entities.FogOfWar
@@ -49,8 +48,22 @@ object EntityFactory {
         )
         behaviors(InputReceiver, EnergyExpender)
         facets(
-            Movable, CameraMover, StairClimber, StairDescender, Attackable, Spellcaster, Destructible, ZirconGatherer,
-            ItemPicker, InventoryInspector, ItemDropper, EnergyExpender, DigestiveSystem, ExperienceAccumulator, Waiting, Interactor
+            Movable,
+            CameraMover,
+            StairClimber,
+            StairDescender,
+            Attackable,
+            Spellcaster,
+            Destructible,
+            ZirconGatherer,
+            ItemPicker,
+            InventoryInspector,
+            ItemDropper,
+            EnergyExpender,
+            DigestiveSystem,
+            ExperienceAccumulator,
+            Waiting,
+            Interactor
         )
     }
 
@@ -110,17 +123,21 @@ object EntityFactory {
     fun newFogOfWar(game: Game) = FogOfWar(game)
 
     fun newRunestone() = newGameEntityOfType(Runestone) {
-        attributes(BlockOccupier,
+        attributes(
+            BlockOccupier,
             EntityPosition(),
-            EntityTile(GameTileRepository.RUNESTONE))
+            EntityTile(GameTileRepository.RUNESTONE)
+        )
         facets(Interactor)
 
     }
 
     fun newHealstone() = newGameEntityOfType(HealingStone) {
-        attributes(BlockOccupier,
+        attributes(
+            BlockOccupier,
             EntityPosition(),
-            EntityTile(GameTileRepository.HEALSTONE))
+            EntityTile(GameTileRepository.HEALSTONE)
+        )
         facets(Interactor)
 
     }

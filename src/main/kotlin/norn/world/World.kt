@@ -9,7 +9,6 @@ import norn.extensions.GameEntity
 import norn.extensions.blocksVision
 import norn.extensions.filterType
 import norn.extensions.position
-import norn.functions.logDevGameEvent
 import norn.functions.logGameEvent
 import org.hexworks.amethyst.api.Engine
 import org.hexworks.amethyst.api.Engines
@@ -202,14 +201,14 @@ class World(
         }
     }
 
-     inline fun <reified T : EntityType> getMaybeEntityFromBlock(inBlock: Maybe<GameBlock>) : Maybe<Entity<T, GameContext>> {
+    inline fun <reified T : EntityType> getMaybeEntityFromBlock(inBlock: Maybe<GameBlock>): Maybe<Entity<T, GameContext>> {
         return inBlock.flatMap { block ->
             Maybe.ofNullable(block.entities.filterType<T>().firstOrNull())
         }
     }
 
     inline fun <reified T : EntityType> findEntityNear(position: Position3D): Maybe<Entity<T, GameContext>> {
-        val leftBlock = fetchBlockAt(Position3D.create(position.x -1, position.y, position.z))
+        val leftBlock = fetchBlockAt(Position3D.create(position.x - 1, position.y, position.z))
         val leftMaybe = getMaybeEntityFromBlock<T>(leftBlock)
         if (leftMaybe.isPresent) return leftMaybe
         val rightBlock = fetchBlockAt(Position3D.create(position.x + 1, position.y, position.z))

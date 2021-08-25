@@ -3,7 +3,9 @@ package norn.extensions
 import norn.attributes.*
 import norn.attributes.flags.BlockOccupier
 import norn.attributes.flags.VisionBlocker
-import norn.attributes.types.*
+import norn.attributes.types.Combatant
+import norn.attributes.types.Player
+import norn.attributes.types.combatStats
 import norn.world.GameContext
 import org.hexworks.amethyst.api.Attribute
 import org.hexworks.amethyst.api.Consumed
