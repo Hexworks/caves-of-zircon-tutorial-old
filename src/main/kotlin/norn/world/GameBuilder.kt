@@ -38,8 +38,6 @@ class GameBuilder(val worldSize: Size3D = WORLD_SIZE) {
         addBats()
         addZircons()
         addZombies()
-        addRunestones()
-        addHealstones()
         addExit()
 
         val game = Game.create(
@@ -122,22 +120,6 @@ class GameBuilder(val worldSize: Size3D = WORLD_SIZE) {
         repeat(world.actualSize().zLength) { level ->
             repeat(ZOMBIES_PER_LEVEL) {
                 EntityFactory.newZombie().addToWorld(level)
-            }
-        }
-    }
-
-    private fun addRunestones() = also {
-        repeat(world.actualSize().zLength) { level ->
-            repeat(RUNESTONES_PER_LEVEL) {
-                EntityFactory.newRunestone().addToWorld(level)
-            }
-        }
-    }
-
-    private fun addHealstones() = also {
-        repeat(world.actualSize().zLength) { level ->
-            repeat(HEALSTONES_PER_LEVEL) {
-                EntityFactory.newHealstone().addToWorld(level)
             }
         }
     }

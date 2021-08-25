@@ -13,3 +13,8 @@ Upcoming TODOs:
 Useful notes:
 * Event subscription happens in Views
 * Logging functions are in Functions
+* Systems: behaviors update internal state, facets let the world interact with you. Should never hold state
+* Attributes for metadata / state. Dumb data structure - should never have behavior
+* Entity: collection of systems and attributes
+* Each entity must have an entity type
+* 

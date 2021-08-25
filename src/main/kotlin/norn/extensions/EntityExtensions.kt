@@ -2,10 +2,12 @@ package norn.extensions
 
 import norn.attributes.*
 import norn.attributes.flags.BlockOccupier
+import norn.attributes.flags.InteractableObject
 import norn.attributes.flags.VisionBlocker
 import norn.attributes.types.Combatant
 import norn.attributes.types.Player
 import norn.attributes.types.combatStats
+import norn.functions.logGameEvent
 import norn.world.GameContext
 import org.hexworks.amethyst.api.Attribute
 import org.hexworks.amethyst.api.Consumed
@@ -38,8 +40,15 @@ fun <T : Attribute> AnyGameEntity.tryToFindAttribute(klass: KClass<T>): T = find
 val AnyGameEntity.occupiesBlock: Boolean
     get() = findAttribute(BlockOccupier::class).isPresent
 
+val AnyGameEntity.isInteractable: Boolean
+    get() = findAttribute(InteractableObject::class).isPresent
+
 val AnyGameEntity.isPlayer: Boolean
     get() = this.type == Player
+
+fun AnyGameEntity.readDescription() {
+    logGameEvent(description)
+}
 
 fun GameEntity<Combatant>.whenHasNoHealthLeft(fn: () -> Unit) {
     if (combatStats.hp <= 0) {

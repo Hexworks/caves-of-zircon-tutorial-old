@@ -3,10 +3,12 @@ package norn.builders
 
 import norn.attributes.*
 import norn.attributes.flags.BlockOccupier
+import norn.attributes.flags.InteractableObject
 import norn.attributes.flags.VisionBlocker
 import norn.attributes.types.*
 import norn.commands.Attack
 import norn.commands.Dig
+import norn.commands.Interact
 import norn.entities.FogOfWar
 import norn.extensions.GameEntity
 import norn.systems.*
@@ -38,7 +40,7 @@ object EntityFactory {
                 defenseValue = 5
             ),
             EntityTile(GameTileRepository.PLAYER),
-            EntityActions(Dig::class, Attack::class),
+            EntityActions(Dig::class, Attack::class, Interact::class),
             Inventory(10),
             SpellBook(10),
             EnergyLevel(1000, 1000),
@@ -63,8 +65,7 @@ object EntityFactory {
             DigestiveSystem,
             ExperienceAccumulator,
             Waiting,
-            Interactor
-        )
+            Interactable)
     }
 
     fun newPlaceholder() = newGameEntityOfType(Placeholder) {
@@ -78,6 +79,7 @@ object EntityFactory {
             VisionBlocker,
             EntityPosition(),
             BlockOccupier,
+            InteractableObject,
             EntityTile(GameTileRepository.WALL)
         )
         facets(Diggable)
@@ -95,7 +97,7 @@ object EntityFactory {
                 defenseValue = 0
             )
         )
-        facets(Attackable, Destructible)
+        facets(Attackable, Destructible, Interactable)
         behaviors(FungusGrowth)
     }
 
@@ -104,6 +106,7 @@ object EntityFactory {
             EntityTile(GameTileRepository.STAIRS_DOWN),
             EntityPosition()
         )
+        facets(Interactable)
     }
 
     fun newStairsUp() = newGameEntityOfType(StairsUp) {
@@ -111,6 +114,7 @@ object EntityFactory {
             EntityTile(GameTileRepository.STAIRS_UP),
             EntityPosition()
         )
+        facets(Interactable)
     }
 
     fun newExit() = newGameEntityOfType(Exit) {
@@ -121,26 +125,6 @@ object EntityFactory {
     }
 
     fun newFogOfWar(game: Game) = FogOfWar(game)
-
-    fun newRunestone() = newGameEntityOfType(Runestone) {
-        attributes(
-            BlockOccupier,
-            EntityPosition(),
-            EntityTile(GameTileRepository.RUNESTONE)
-        )
-        facets(Interactor)
-
-    }
-
-    fun newHealstone() = newGameEntityOfType(HealingStone) {
-        attributes(
-            BlockOccupier,
-            EntityPosition(),
-            EntityTile(GameTileRepository.HEALSTONE)
-        )
-        facets(Interactor)
-
-    }
 
     fun newBat() = newGameEntityOfType(Bat) {
         attributes(BlockOccupier,
@@ -155,7 +139,7 @@ object EntityFactory {
             Inventory(1).apply {
                 addItem(newBatMeat())
             })
-        facets(Movable, Attackable, ItemDropper, LootDropper, Destructible)
+        facets(Movable, Attackable, ItemDropper, LootDropper, Destructible, Interactable)
         behaviors(Wanderer)
     }
 
@@ -176,7 +160,7 @@ object EntityFactory {
             },
             EntityActions(Attack::class)
         )
-        facets(Movable, Attackable, ItemDropper, LootDropper, Destructible)
+        facets(Movable, Attackable, ItemDropper, LootDropper, Destructible, Interactable)
         behaviors(HunterSeeker or Wanderer)
     }
 
@@ -191,6 +175,7 @@ object EntityFactory {
             EntityPosition(),
             EntityTile(GameTileRepository.ZIRCON)
         )
+        facets(Interactable)
     }
 
 

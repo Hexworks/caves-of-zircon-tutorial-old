@@ -2,8 +2,6 @@ package norn.functions
 
 import norn.GameConfig
 import norn.RunMode
-import norn.attributes.types.Interactable
-import norn.attributes.types.InteractableEntity
 import norn.events.GameLogEvent
 import norn.extensions.AnyGameEntity
 import org.hexworks.amethyst.api.entity.EntityType
@@ -47,6 +45,6 @@ internal inline fun <E : AnyGameEntity, reified T : EntityType, R> AnyGameEntity
     } else {
         Maybe.empty()
     }
-
-fun <R> AnyGameEntity.asInteractableEntity(whenInteracting: (InteractableEntity) -> R): Maybe<R> =
-    tryCastTo<InteractableEntity, Interactable, R>(whenInteracting)
+//
+//fun <R> AnyGameEntity.asInteractableEntity(whenInteracting: (InteractableEntity) -> R): Maybe<R> =
+  //  tryCastTo<InteractableEntity, Interactable, R>(whenInteracting)

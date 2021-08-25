@@ -2,7 +2,7 @@ package norn.extensions
 
 import norn.attributes.types.Combatant
 import norn.attributes.types.EnergyUser
-import norn.attributes.types.Interactable
+import norn.attributes.types.Interactor
 import norn.attributes.types.Player
 import norn.builders.EntityFactory.newPlaceholder
 import norn.commands.*
@@ -65,7 +65,7 @@ fun GameEntity<Player>.doTargetedAction(
 }
 
 fun GameEntity<Player>.interact(context: GameContext) {
-    val maybeEntity = context.world.findEntityNear<Interactable>(context.player.position)
+    val maybeEntity = context.world.findEntityNear<Interactor>(context.player.position)
     if (maybeEntity.isEmpty()) {
         logGameEvent("There is no interactable entity there.")
         return

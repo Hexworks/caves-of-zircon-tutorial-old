@@ -1,89 +1,50 @@
 package norn.attributes.types
 
-import norn.commands.Interact
-import norn.entities.HealingInteractable
-import norn.entities.LoreInteractable
-import norn.extensions.GameEntity
-import norn.world.GameContext
 import org.hexworks.amethyst.api.base.BaseEntityType
-import org.hexworks.amethyst.api.entity.EntityType
-
-
-abstract class InteractableEntityType(
-    override val name: String = "unknown",
-    override val description: String = ""
-) : BaseEntityType() {
-    open fun doInteraction(interaction: Interact) {}
-}
-
-abstract class Actor(
-    override val name: String = "unknown",
-    override val description: String = ""
-) : InteractableEntityType()
 
 // TODO revamp stats
-object Player : Actor(
+object Player : BaseEntityType(
     name = "player"
-), Combatant, ItemHolder, EnergyUser, EquipmentHolder, ExperienceGainer, ZirconHolder
+), Interactor, Combatant, ItemHolder, EnergyUser, EquipmentHolder, ExperienceGainer, ZirconHolder
 
 object Placeholder : BaseEntityType(name = "Placeholder"), Combatant
 
 object Wall : BaseEntityType(
-    name = "wall"
-)
+    name = "wall",
+    description = "It's a wall."
+), Interactor
 
-object Runestone : ContainerEntity<LoreInteractable>(
-    name = "Runestone",
-    description = "An ancient carving set in stone.",
-    contained = LoreInteractable(
-        description = "An ancient carving set in stone.",
-        name = "runestone"
-    )
-), Interactable {
-    override fun interact(context: GameContext, source: GameEntity<EntityType>) {
-        contained.interact(context, source)
-    }
-}
-
-object HealingStone : ContainerEntity<HealingInteractable>(
-    name = "HealingStone",
-    description = "A stone pulsing with green light.",
-    contained = HealingInteractable(
-        description = "A stone pulsing with green light.",
-        name = "HealingStone"
-    )
-), Interactable {
-    override fun interact(context: GameContext, source: GameEntity<EntityType>) {
-        contained.interact(context, source)
-    }
-}
-
-object Fungus : Actor(
-    name = "fungus"
-), Combatant
+object Fungus : BaseEntityType(
+    name = "fungus",
+    description = "This fungus  grows a lot."
+), Combatant, Interactor
 
 object StairsDown : BaseEntityType(
-    name = "stairs down"
-)
+    name = "stairs down",
+    description = "One step closer."
+), Interactor
 
 object StairsUp : BaseEntityType(
-    name = "stairs up"
-)
+    name = "stairs up",
+    description = "Backtracking, eh?"
+), Interactor
 
 object FogOfWarType : BaseEntityType()
 
-object Bat : Actor(
-    name = "bat"
-), Combatant, ItemHolder
+object Bat : BaseEntityType(
+    name = "bat",
+    description = "Why is it always bats?"
+), Combatant, ItemHolder, Interactor
 
-object Zombie : Actor(
-    name = "zombie"
-), Combatant, ItemHolder
+object Zombie : BaseEntityType(
+    name = "zombie",
+    description = "Kill it! Kill it!"
+), Combatant, ItemHolder, Interactor
 
 object Zircon : BaseEntityType(
     name = "Zircon",
     description = "A small piece of Zircon. Its value is unfathomable."
-), Item
+), Item, Interactor
 
 object BatMeat : BaseEntityType(
     name = "Bat meat",
@@ -132,4 +93,9 @@ object Jacket : BaseEntityType(
 
 object Exit : BaseEntityType(
     name = "exit"
+)
+
+object Lorestone : BaseEntityType(
+    name = "Lorestone",
+    description = "It has lore"
 )
